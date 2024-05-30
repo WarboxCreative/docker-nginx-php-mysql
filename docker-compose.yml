@@ -26,8 +26,8 @@ services:
     composer:
         image: "composer"
         volumes:
-            - "./web/app:/app"
-        command: install
+            - "./web:/app"
+        command: install --ignore-platform-reqs
     myadmin:
         image: phpmyadmin/phpmyadmin
         container_name: phpmyadmin

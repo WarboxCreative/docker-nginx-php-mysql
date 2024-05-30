@@ -44,10 +44,13 @@ code-sniff:
 	@docker-compose exec -T php ./app/vendor/bin/phpcs -v --standard=PSR2 app/src
 
 composer-up:
-	@docker run --rm -v $(shell pwd)/web/app:/app composer update
+	@docker run --rm -v $(shell pwd)/web:/app composer update
 
 docker-start: init
 	docker-compose up -d
+
+docker-rebuild:
+	docker-compose up --build
 
 docker-stop:
 	@docker-compose down -v
