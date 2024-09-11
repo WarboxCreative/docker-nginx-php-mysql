@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd" extends="pagebuilder_base_form_with_background_attributes">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">pagebuilder_warbox_faqs_form.pagebuilder_warbox_faqs_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">FAQs</item>
+    </argument>
+    <settings>
+        <namespace>pagebuilder_warbox_faqs_form</namespace>
+        <deps>
+            <dep>pagebuilder_warbox_faqs_form.pagebuilder_warbox_faqs_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="pagebuilder_warbox_faqs_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_PageBuilder/js/form/provider</item>
+            </item>
+        </argument>
+        <dataProvider name="pagebuilder_warbox_faqs_form_data_source" class="Magento\PageBuilder\Model\ContentType\DataProvider">
+            <settings>
+                <requestFieldName/>
+                <primaryFieldName/>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="appearance_fieldset" sortOrder="10" component="Magento_PageBuilder/js/form/element/dependent-fieldset">
+        <settings>
+            <label translate="true">Appearance</label>
+            <additionalClasses>
+                <class name="admin__fieldset-visual-select-large">true</class>
+            </additionalClasses>
+            <collapsible>false</collapsible>
+            <opened>true</opened>
+            <imports>
+                <link name="hideFieldset">${$.name}.appearance:options</link>
+                <link name="hideLabel">${$.name}.appearance:options</link>
+            </imports>
+        </settings>
+        <field name="appearance" formElement="select" sortOrder="10" component="Magento_PageBuilder/js/form/element/dependent-visual-select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">default</item>
+                </item>
+            </argument>
+            <settings>
+                <additionalClasses>
+                    <class name="admin__field-wide">true</class>
+                    <class name="admin__field-visual-select-container">true</class>
+                </additionalClasses>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <elementTmpl>Magento_PageBuilder/form/element/visual-select</elementTmpl>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="AppearanceSourceFaqs"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="title" sortOrder="20">
+        <settings>
+            <label translate="true">Title</label>
+            <collapsible>false</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="faqs_heading" sortOrder="10" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_heading</dataScope>
+                <dataType>text</dataType>
+                <label translate="true">Heading</label>
+                <validation>
+                    <rule name="validate-string" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="question_one" sortOrder="30">
+        <settings>
+            <label translate="true">FAQ one</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="faqs_question" sortOrder="20" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_question</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Question 1</label>
+            </settings>
+        </field>
+        <field name="faqs_answer" sortOrder="30" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_answer</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Answer 1</label>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="question_two" sortOrder="40">
+        <settings>
+            <label translate="true">FAQ two</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="faqs_question_two" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_question_two</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Question 2</label>
+            </settings>
+        </field>
+        <field name="faqs_answer_two" sortOrder="50" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_answer_two</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Answer 2</label>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="question_three" sortOrder="50">
+        <settings>
+            <label translate="true">FAQ three</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="faqs_question_three" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_question_three</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Question 3</label>
+            </settings>
+        </field>
+        <field name="faqs_answer_three" sortOrder="50" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_answer_three</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Answer 3</label>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="question_four" sortOrder="60">
+        <settings>
+            <label translate="true">FAQ four</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="faqs_question_four" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_question_four</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Question 4</label>
+            </settings>
+        </field>
+        <field name="faqs_answer_four" sortOrder="50" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_answer_four</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Answer 4</label>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="question_five" sortOrder="70">
+        <settings>
+            <label translate="true">FAQ five</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="faqs_question_five" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_question_five</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Question 5</label>
+            </settings>
+        </field>
+        <field name="faqs_answer_five" sortOrder="50" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_answer_five</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Answer 5</label>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="question_six" sortOrder="80">
+        <settings>
+            <label translate="true">FAQ six</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="faqs_question_six" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_question_six</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Question 6</label>
+            </settings>
+        </field>
+        <field name="faqs_answer_six" sortOrder="50" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                </item>
+            </argument>
+            <settings>
+                <dataScope>faqs_answer_six</dataScope>
+                <dataType>text</dataType>
+                <label translate="false">Answer 6</label>
+            </settings>
+        </field>
+    </fieldset>
+</form>

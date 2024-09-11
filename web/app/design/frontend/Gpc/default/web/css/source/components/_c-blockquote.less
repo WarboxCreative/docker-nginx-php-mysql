@@ -1,0 +1,72 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .js-quote-carousel {
+        opacity: 0;
+        padding: 0;
+        transition: opacity @global-transition*1.8 @ease-in;
+        visibility: hidden;
+
+        > *:not(:first-child) {
+            display: none;
+        }
+    }
+
+    .c-blockquote {
+        font-style: normal;
+        margin: 0;
+        text-align: center;
+
+        &__quote {
+            .lib-font-size(14);
+            color: @color-white;
+            margin: 0 0 2rem;
+        }
+
+        &__cite {
+            .lib-font-size(14);
+            color: @color-white;
+
+            &:before {
+                display: none;
+            }
+        }
+
+        &__arrow {
+            &:before {
+                .lib-font-size(24);
+                color: @color-white;
+                padding: 0 1rem;
+                position: absolute;
+                top: calc(~'50% - 1rem');
+            }
+
+            &--prev:before {
+                .lib-fa-regular(@_font-awesome-icon: @fa-var-chevron-left);
+                left: 0;
+            }
+
+            &--next:before {
+                .lib-fa-regular(@_font-awesome-icon: @fa-var-chevron-right);
+                right: 0;
+            }
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-blockquote {
+        &__quote {
+            .lib-font-size(18);
+            margin: 0 0 3rem 0;
+        }
+
+        &__cite {
+            .lib-font-size(18);
+        }
+    }
+}

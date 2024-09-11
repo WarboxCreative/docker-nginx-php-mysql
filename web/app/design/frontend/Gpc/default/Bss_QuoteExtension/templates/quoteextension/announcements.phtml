@@ -1,0 +1,8 @@
+<?php /** @var Magento\Framework\View\Element\Template $block */ ?>
+<div class="c-quoteAnnouncements">
+    <span class="c-quoteAnnouncements__icon"></span>
+    <?= $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('quote-announcement')
+        ->toHtml(); ?>
+</div>

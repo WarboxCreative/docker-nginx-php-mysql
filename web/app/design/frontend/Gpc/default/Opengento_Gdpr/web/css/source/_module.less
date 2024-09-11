@@ -1,0 +1,86 @@
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    &.action {
+        &.action-danger {
+            color: @color-red9;
+        }
+
+        &.primary.primary-danger {
+            background: @color-red9;
+            border: 1px solid @color-red9;
+
+            &:hover {
+                background: @color-red11;
+                border: 1px solid @color-red11;
+            }
+        }
+    }
+
+    body {
+        .message.global.cookie {
+            background: @color-white;
+            box-shadow: 2px 0 5px 0 rgba(0, 0, 0, .4);
+
+            .content {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+
+                .details p {
+                    font-size: @font-size__base;
+                    color: @color-text;
+                }
+
+                .actions {
+                    margin-top: 0;
+
+                    a.action.allow {
+                        color: @color-white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet < 992px
+//  _____________________________________________
+@media screen and (max-width: @screen__l) {
+    body {
+        .message.global.cookie {
+            .content {
+                flex-direction: column;
+
+                .details {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile < 767
+//  _____________________________________________
+@media screen and (max-width: @screen__m) {
+    body {
+        .message.global.cookie {
+            .content {
+                .details p {
+                    font-size: @font-size__s;
+                }
+            }
+        }
+    }
+}

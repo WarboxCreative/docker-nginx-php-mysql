@@ -1,0 +1,27 @@
+//
+//  Form Variables
+//  _____________________________________________
+@form-stripped-row__border-color: @color-white;
+@form-stripped-row__odd-color: @color-primary;
+@form-stripped-row__even-color: @color-secondary;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .table {
+        &--stripped {
+            tr {
+                border-bottom: .1rem solid @form-stripped-row__border-color;
+
+                &:nth-child(odd) {
+                    background-color: @form-stripped-row__odd-color;
+                }
+
+                &:nth-child(even) {
+                    background-color: @form-stripped-row__even-color;
+                }
+            }
+        }
+    }
+}

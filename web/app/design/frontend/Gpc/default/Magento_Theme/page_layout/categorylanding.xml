@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="1column"/>
+    <referenceContainer name="content">
+        <block class="Warbox\Category\Block\Landing" name="category_landing" template="Magento_Catalog::category-landing.phtml" before="-" />
+        <block class="Magento\Framework\View\Element\Template" name="new-arrivals" template="Magento_Theme::html/blocks/c-newArrivals.phtml" />
+        <block class="Warbox\Category\Block\Landing" name="category_seo" template="Magento_Catalog::category-seo.phtml" />
+    </referenceContainer>
+
+    <referenceBlock name="page.top" remove="true"/>
+    <referenceBlock name="category.details" remove="true"/>
+    <referenceBlock name="category.image" remove="true"/>
+    <referenceBlock name="page.main.title" remove="true"/>
+    <referenceBlock name="category.description" remove="true"/>
+    <referenceBlock name="category.products.list" remove="true"/>
+    <referenceBlock name="product_list_toolbar" remove="true"/>
+</layout>

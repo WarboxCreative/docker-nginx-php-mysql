@@ -1,0 +1,102 @@
+//
+//  Variables
+//  _____________________________________________
+@accordion__border: .1rem solid @color-black;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .js-product-details {
+        display: none;
+    }
+
+    .c-accordion {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-top: @accordion__border;
+
+        &__item {
+            border-bottom: @accordion__border;
+            margin: 0;
+
+            p {
+                &:last-child {
+                    margin: 0;
+                }
+            }
+        }
+
+        &__link {
+            .lib-font-size(14);
+            color: @color-black;
+            display: block;
+            padding: 1rem 1rem 1rem 0;
+            padding-left: 0;
+            position: relative;
+            font-weight: @font-weight__semibold;
+            text-transform: uppercase;
+
+            .hocus({
+                color: darken(@color-black, 10%);
+                text-decoration: none;
+            });
+
+            &:after {
+                .lib-font-size(15);
+                .lib-fa-light(@_font-awesome-icon: @fa-var-plus);
+                position: absolute;
+                right: 2rem;
+                top: 1.3rem;
+                transition: transform @global-transition @ease-in-out;
+            }
+
+            &.--active:after {
+                transform: rotate(45deg);
+            }
+        }
+
+        &__content {
+            display: none;
+            padding: 0 1.5rem 1rem 0;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-accordion {
+        &__content {
+            padding: 2rem 1.5rem 4rem 0;
+        }
+
+        &__link {
+            padding: 1.75rem 1rem 1.75rem 0;
+
+            &:after {
+                top: 2rem;
+            }
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

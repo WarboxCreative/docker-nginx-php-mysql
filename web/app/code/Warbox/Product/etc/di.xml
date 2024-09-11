@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\ConfigurableProduct\Model\AttributeOptionProvider" type="Warbox\Product\Model\AttributeOptionProvider"/>
+    <preference for="Bss\QuoteExtension\Model\QuoteExtension" type="Warbox\Product\Model\QuoteExtension"/>
+    <preference for="Magento\Checkout\Controller\Cart\Add" type="Warbox\Product\Controller\Cart\Add"/>
+
+    <type name="Magento\Checkout\CustomerData\DefaultItem">
+        <plugin name="AddAttPlug" type="Warbox\Product\Plugin\DefaultItem" />
+    </type>
+    <type name="Bss\QuoteExtension\CustomerData\DefaultItem">
+        <plugin name="AddAttPlugQuote" type="Warbox\Product\Plugin\Quote\DefaultItem" />
+    </type>
+</config>

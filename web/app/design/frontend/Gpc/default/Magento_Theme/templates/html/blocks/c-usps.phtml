@@ -1,0 +1,53 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<div class="c-usps">
+    <ul class="owl-carousel">
+        <li>
+            <img src="<?= $block->getViewFileUrl('images/icons/Icon_Stock.svg'); ?>" alt="1000s of stock lines" loading="eager"/>
+            <span><strong>1000s</strong> of stock lines</span>
+        </li>
+        <li>
+            <img src="<?= $block->getViewFileUrl('images/icons/Icon_Guarantee.svg'); ?>" alt="Guarantee up to 10 years" loading="eager"/>
+            <span><strong>Guarantee up</strong> to 10 years</span>
+        </li>
+        <li>
+            <img src="<?= $block->getViewFileUrl('images/icons/Icon_Certified.svg'); ?>" alt="Certified Manufacturing" loading="eager"/>
+            <span><strong>Certified</strong> Manufacturing</span>
+        </li>
+        <li>
+            <img src="<?= $block->getViewFileUrl('images/icons/Icon_Assembly.svg'); ?>" alt="For Trade customers only" loading="eager"/>
+            <span><strong>For Trade</strong> customers only</span>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    require(['jquery','owl'], function($, owlCarousel) {
+        $(document).ready(function(){
+            $(".c-usps .pagebuilder-column-line").owlCarousel({
+                loop: false,
+                responsiveClass: true,
+                nav: false,
+                dots: false,
+                responsive: {
+                    0: {
+                        items: 1,
+                        loop: true,
+                        autoplay: true
+                    },
+                    768: {
+                        items: 3,
+                        loop: true,
+                        autoplay: true
+                    }
+                    1200: {
+                        items: 4
+                    }
+                }
+            });
+        });
+    });
+</script>

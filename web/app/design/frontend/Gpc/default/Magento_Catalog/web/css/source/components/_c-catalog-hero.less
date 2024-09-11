@@ -1,0 +1,36 @@
+//
+//  Variables
+//  _____________________________________________
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-catalog-hero {
+        text-align: center;
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

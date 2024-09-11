@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <!-- FAQs -->
+    <widget class="Warbox\WidgetCollection\Block\Faqs" id="warbox_widget_faqs">
+        <label>Warbox: FAQs</label>
+        <description>FAQs section. Output in order seen here.</description>
+        <parameters>
+            <parameter name="heading" xsi:type="text" visible="true">
+                <label translate="true">Heading</label>
+            </parameter>
+            <!-- Items -->
+            <parameter name="items_loop.6" xsi:type="conditions" visible="true" class="Warbox\WidgetElements\Block\Adminhtml\Widget\Form\Element\Section">
+                <label translate="true">Column</label>
+            </parameter>
+            <parameter name="items.N:title" xsi:type="text" visible="true">
+                <label translate="true">Question</label>
+            </parameter>
+            <parameter name="items.N:text" xsi:type="block" visible="true">
+                <label translate="true">Answer</label>
+                <block class="Warbox\WidgetElements\Block\Adminhtml\Widget\Form\Element\Editor">
+                    <data>
+                        <item name="rich_text" xsi:type="boolean">1</item>
+                    </data>
+                </block>
+            </parameter>
+            <!-- ! Items -->
+        </parameters>
+    </widget>
+    <!-- End FAQs -->
+
+    <!-- New Arrivals -->
+    <widget class="Warbox\WidgetCollection\Block\Newarrivals" id="warbox_widget_new_arrivals">
+        <label>Warbox: New Arrivals</label>
+        <description>Add New Arrivals block</description>
+        <parameters>
+            <!-- Items -->
+            <parameter name="items_loop.8" xsi:type="conditions" visible="true" class="Warbox\WidgetElements\Block\Adminhtml\Widget\Form\Element\Section">
+                <label translate="true">Column</label>
+            </parameter>
+            <parameter name="items.N:product" xsi:type="block" visible="true">
+                <label translate="true">Product</label>
+                <block class="Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Product...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <!-- ! Items -->
+        </parameters>
+    </widget>
+    <!-- End New Arrivals -->
+
+    <!-- Best Sellers -->
+    <widget class="Warbox\WidgetCollection\Block\Bestsellers" id="warbox_widget_best_sellers">
+        <label>Warbox: Best Sellers</label>
+        <description>Add Best Sellers block</description>
+        <parameters>
+            <!-- Items -->
+            <parameter name="items_loop.8" xsi:type="conditions" visible="true" class="Warbox\WidgetElements\Block\Adminhtml\Widget\Form\Element\Section">
+                <label translate="true">Column</label>
+            </parameter>
+            <parameter name="items.N:product" xsi:type="block" visible="true">
+                <label translate="true">Product</label>
+                <block class="Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Product...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <!-- ! Items -->
+        </parameters>
+    </widget>
+    <!-- End Best Sellers -->
+
+    <!-- Special Offers -->
+    <widget class="Warbox\WidgetCollection\Block\Specialoffers" id="warbox_widget_special_offers">
+        <label>Warbox: Special Offers</label>
+        <description>Add Special Offers block</description>
+        <parameters>
+            <!-- Items -->
+            <parameter name="items_loop.8" xsi:type="conditions" visible="true" class="Warbox\WidgetElements\Block\Adminhtml\Widget\Form\Element\Section">
+                <label translate="true">Column</label>
+            </parameter>
+            <parameter name="items.N:product" xsi:type="block" visible="true">
+                <label translate="true">Product</label>
+                <block class="Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Product...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <!-- ! Items -->
+        </parameters>
+    </widget>
+    <!-- End Special Offers -->
+
+</widgets>

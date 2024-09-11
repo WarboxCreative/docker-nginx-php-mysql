@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <preference for="Mageplaza\BetterMaintenance\Block\Redirect" type="Warbox\BetterMaintenance\Block\Redirect" />
+    <preference for="Mageplaza\BetterMaintenance\Observer\Redirect" type="Warbox\BetterMaintenance\Observer\Redirect" />
+</config>

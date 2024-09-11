@@ -1,0 +1,22 @@
+{
+    "name": "warbox/module-import",
+    "description": "Wyomind Import fixes",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Owen Mumby-Harrison",
+            "email": "owen@warboxcreative.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Warbox\\Import\\": ""
+        }
+    }
+}

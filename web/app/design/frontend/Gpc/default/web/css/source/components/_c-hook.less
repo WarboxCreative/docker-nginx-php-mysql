@@ -1,0 +1,109 @@
+//
+//  Variables
+//  _____________________________________________
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-hook {
+        .lib-font-size(14);
+        display: block;
+        text-align: center;
+
+        .hocus({
+            .c-hook__img-wrapper {
+                &:after {
+                    opacity: .1;
+                }
+            }
+
+            .c-hook__title {
+                text-decoration: none;
+
+                &:after {
+                    content: '';
+                    background: @color-black;
+                    display: block;
+                    height: .1rem;
+                    left: 0;
+                    position: absolute;
+                    width: 100%;
+                }
+            }
+
+            .c-hook__img {
+                -webkit-transform: scale(1.05) translateZ(0);
+                transform: scale(1.05) translateZ(0);
+            }
+        });
+
+        &__img-wrapper {
+            display: block;
+            overflow: hidden;
+            position: relative;
+
+            &:after {
+                content: '';
+                background: @color-black;
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                opacity: 0;
+                -webkit-transition: opacity @global-transition @ease-in;
+                -o-transition: opacity @global-transition @ease-in;
+                transition: opacity @global-transition @ease-in;
+                width: 100%;
+            }
+        }
+
+        &__img {
+            -webkit-transition: transform @global-transition @ease-in;
+            -o-transition: transform @global-transition @ease-in;
+            transition: transform @global-transition @ease-in;
+        }
+
+        &__title {
+            color: @color-black;
+            display: inline-block;
+            margin: 1rem 0 3rem;
+            position: relative;
+            text-transform: uppercase;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-hook {
+        &__title {
+            margin: 1.5rem 0 3rem;
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .c-hook {
+        &__title {
+            margin: 2.5rem 0 3rem;
+        }
+    }
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

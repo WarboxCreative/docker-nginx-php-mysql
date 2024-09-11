@@ -1,0 +1,26 @@
+<?php
+/** @var Magento\Framework\View\Element\Template $block */
+?>
+
+<div class="c-blogSidebarMobile">
+    <span>Filter</span>
+    <div class="c-filterIcon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<script>
+    require(['jquery'], function ($) {
+        $('.c-blogSidebarMobile').on('click', function(){
+            $('.sidebar.sidebar-main').addClass('active');
+            $('body').addClass('sidebar-active');
+        });
+
+        $('.sidebar.sidebar-main .c-closeIcon').on('click', function(){
+            $('.sidebar.sidebar-main').removeClass('active');
+            $('body').removeClass('sidebar-active');
+        });
+    });
+</script>

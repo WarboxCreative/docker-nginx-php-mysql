@@ -1,0 +1,36 @@
+<?php
+/** @var Warbox\Form\Block\Form $block */
+/** @var Magento\Framework\Escaper $escaper */
+?>
+
+<div class="c-becomeADistributor__form">
+    <form action="<?= $block->getFormAction('distributor'); ?>" method="post" data-mage-init='{"validation":{}}'>
+        <fieldset class="c-becomeADistributor__form__heading">
+            <legend>
+                <h2>Interested in becoming a distributor?</h2>
+            </legend>
+            <p>Enter your details, and we will be in touch shortly.</p>
+        </fieldset>
+        <input name="form_key" type="hidden" value="<?= $block->getFormKey(); ?>">
+        <div class="c-inputField c-inputField--text">
+            <label for="full_name">Full Name <em>*</em></label>
+            <input id="full_name" type="text" name="full_name" value="" placeholder="Enter your name" required="required" data-validate="{required:true}"/>
+        </div>
+        <div class="c-inputField c-inputField--text">
+            <label for="company">Company</label>
+            <input id="company" type="text" name="company" value="" placeholder="Company name" data-validate="{required:false}"/>
+        </div>
+        <div class="c-inputField c-inputField--text">
+            <label for="telephone">Telephone <em>*</em></label>
+            <input id="telephone" type="tel" name="telephone" value="" placeholder="Enter your telephone" required="required" data-validate="{required:true}"/>
+        </div>
+        <div class="c-inputField c-inputField--text">
+            <label for="email_address">Email <em>*</em></label>
+            <input id="email_address" type="email" name="email_address" value="" placeholder="Enter your email" required="required" data-validate="{required:true, 'validate-email':true}"/>
+        </div>
+        <div class="c-becomeADistributor__form__actions">
+            <span>*Required Fields</span>
+            <input type="submit" class="c-button c-button--primary" name="submit" value="Submit"/>
+        </div>
+    </form>
+</div>

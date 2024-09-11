@@ -1,0 +1,16 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form method="post" id="shipping-zip-form">
+    <fieldset class="fieldset estimate">
+        <legend class="legend">
+            <span data-bind="text: isVirtual ? $t('Shipping options') : $t('Shipping options') "></span>
+        </legend><br/>
+        <!-- ko foreach: getRegion('address-fieldsets') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    </fieldset>
+</form>

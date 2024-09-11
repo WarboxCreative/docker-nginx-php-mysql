@@ -1,0 +1,13 @@
+<?php /** @var Magento\Framework\View\Element\Template $block */ ?>
+<?php
+$blockHtml = $block->getLayout()
+    ->createBlock('Magento\Cms\Block\Block')
+    ->setBlockId('quote-announcement')
+    ->toHtml();
+?>
+<?php if ($blockHtml) : ?>
+    <div class="c-cartAnnouncements">
+        <span class="c-cartAnnouncements__icon"></span>
+        <?= $blockHtml; ?>
+    </div>
+<?php endif; ?>

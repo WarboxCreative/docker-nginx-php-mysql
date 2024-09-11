@@ -1,0 +1,35 @@
+//
+//  Variables
+//  _____________________________________________
+@overlay__bg: rgba(24, 24, 24, 0.7);
+@overlay__zindex: @zindex-high;
+@overlay__zindex__el: @zindex-higher;
+@overlay__zindex__top: @zindex-highest;
+
+//
+//  Page Overlay
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .o-overlay {
+        background-color: @overlay__bg;
+        display: none;
+        height: 100vh;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: @overlay__zindex;
+
+        &--active {
+            .page-header,
+            .sections.nav-sections {
+                z-index: @overlay__zindex__el;
+            }
+        }
+
+        &--top {
+            z-index: @overlay__zindex__top;
+        }
+    }
+}

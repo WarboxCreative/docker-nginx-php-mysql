@@ -1,0 +1,63 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Bss_LayerNavigation
+ * @author    Extension Team
+ * @copyright Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+
+<?php
+ // @codingStandardsIgnoreFile
+?>
+
+<?php
+/**
+ * Slider Block
+ *
+ * @var $block \Bss\LayerNavigation\Block\Type\Slider
+ */
+?>
+
+<?php
+$filter = $block->getFilter();
+
+$filterModel = $block->getFilterModel();
+
+$attributeCode = $filter->getRequestVar();
+$itemValues = $filter->getSliderConfig()
+?>
+<ol class="items">
+	<li class="item">
+        <div id="bss_slider_container_<?php echo $block->escapeHtml($attributeCode) ?>" class="bss_slider_container">
+            <?php if($filterModel->getFilterType($filter, \Bss\LayerNavigation\Helper\Data::FILTER_TYPE_SLIDER)): ?>
+                <div id="bss_slider_<?php echo $block->escapeHtml($attributeCode) ?>" class="bss_slider_element"></div>
+                <div id="bss_slider_text_<?php echo $block->escapeHtml($attributeCode) ?>"></div>
+            <?php else: ?>
+                <div id="bss_slider_range_<?php echo $block->escapeHtml($attributeCode) ?>">
+                    <div class="bss_slider_from">
+                        <label for="bss_slider_from_<?php echo $block->escapeHtml($attributeCode) ?>"><?php echo __('From') ?></label>
+                        <input id="bss_slider_from_<?php echo $block->escapeHtml($attributeCode) ?>" class="bss_slider_input_from bss_slider_range_input bss_slider_range_input_from" type="text"
+                               value="<?php echo $itemValues ? $block->escapeHtml($itemValues['minValue']) : 0 ?>">
+                    </div>
+                    <div class="bss_slider_to">
+                        <label for="bss_slider_to_<?php echo $attributeCode ?>"><?php echo __('To') ?></label>
+                        <input id="bss_slider_to_<?php echo $attributeCode ?>" class="bss_slider_input_to bss_slider_range_input bss_slider_range_input_to" type="text"
+                               value="<?php echo $itemValues ? $block->escapeHtml($itemValues['maxValue']) : 0 ?>">
+                    </div>
+                    <div></div>
+                </div>
+            <?php endif; ?>
+        </div>
+	</li>
+</ol>

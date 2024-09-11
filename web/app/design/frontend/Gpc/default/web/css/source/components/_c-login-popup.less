@@ -1,0 +1,179 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-loginPopup {
+        position: relative;
+
+        &__item {
+            color: @color-text;
+            cursor: pointer;
+
+            img {
+                height: 45px;
+            }
+        }
+
+        &__dropdown {
+            display: none;
+            flex-wrap: wrap;
+            flex-direction: row;
+            z-index: @zindex-max;
+            position: absolute;
+            top: 40px;
+            left: -55px;
+            width: 260px;
+            background: @color-secondary;
+            padding: 10px 15px 30px;
+
+            &--active {
+                display: flex;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0 0 1rem;
+                margin: 0 0 2rem;
+                border-bottom: 2px dotted @color-white;
+                width: 100%;
+
+                li {
+                    margin: 0 0 1rem;
+
+                    a {
+                        display: block;
+                        color: @color-white;
+                    }
+                }
+            }
+
+            &> .c-button--primary {
+                width: 100%;
+                text-align: center;
+            }
+
+            form {
+                margin: 0 0 1em;
+
+                .field {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin: 0 0 1em;
+
+                    label {
+                        width: 100%!important;
+                        color: @color-white;
+                        font-weight: @font-weight__regular!important;
+                        padding: 0!important;
+
+                        &:after {
+                            display: none!important;
+                        }
+                    }
+
+                    .control {
+                        width: 100%!important;
+
+                        input {
+                            &::placeholder,
+                            &::-moz-placeholder,
+                            &::-webkit-input-placeholder {
+                                color: @color-darker-grey;
+                            }
+                        }
+                    }
+                }
+
+                .actions-toolbar {
+                    .primary {
+                        width: 100%;
+
+                        .c-button {
+                            background: @color-tertiary!important;
+
+                            &:hover {
+                                background: @color-tertiary-light!important;
+                            }
+                        }
+
+                        button {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
+            &> .c-button--link {
+                display: block;
+                text-align: center;
+                width: 100%;
+                color: @color-white;
+            }
+        }
+
+        &__register {
+            display: flex;
+            flex-wrap: wrap;
+            border-top: 2px dotted @color-white;
+            padding-top: 20px;
+            margin-top: 20px;
+
+            span {
+                color: @color-white;
+                font-weight: @font-weight__bold;
+                text-align: center;
+                width: 100%;
+            }
+
+            .c-button {
+                width: 100%;
+                text-align: center;
+                color: @color-white!important;
+            }
+        }
+    }
+
+    .popup-authentication {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .c-loginPopup {
+        &__item {
+            span {
+                display: none;
+            }
+
+            img {
+                bottom: 0;
+            }
+
+            & > .far {
+                display: none;
+            }
+        }
+
+        &__dropdown {
+            top: 45px;
+        }
+    }
+}
+
+//
+//  Tablet / Mobile
+//  _____________________________________________
+@media only screen and (max-width: 1024px) {
+    .c-loginPopup {
+        &__item {
+            a {
+                color: @color-secondary;
+                font-size: 36px;
+            }
+
+            img {
+                position: relative;
+            }
+        }
+    }
+}

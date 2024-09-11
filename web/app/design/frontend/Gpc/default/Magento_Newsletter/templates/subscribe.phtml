@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/** @var Magento\Newsletter\Block\Subscribe $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<div class="c-newsletter">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="c-newsletter__left">
+                    <div class="c-social">
+                        <a class="c-social__icon" href="https://www.facebook.com/westernindustrialbusinessinteriors/" target="_blank" title="Facebook">
+                            <img src="<?= $block->getViewFileUrl('images/icons/Icon_facebook.svg'); ?>" alt="Facebook" loading="lazy"/>
+                        </a>
+                        <a class="c-social__icon" href="https://twitter.com/WestIndInterior" target="_blank" title="Twitter">
+                            <img src="<?= $block->getViewFileUrl('images/icons/Icon_Twitter.svg'); ?>" alt="Twitter" loading="lazy"/>
+                        </a>
+                        <a class="c-social__icon" href="https://www.linkedin.com/company/western-industrial/" target="_blank" title="LinkedIn">
+                            <img src="<?= $block->getViewFileUrl('images/icons/Icon_Linkedin.svg'); ?>" alt="LinkedIn" loading="lazy"/>
+                        </a>
+                        <a class="c-social__icon" href="https://www.youtube.com/channel/UCuUNRJwcAYUx4V22fcCC_3g" target="_blank" title="Youtube">
+                            <img src="<?= $block->getViewFileUrl('images/icons/Icon_Youtube.svg'); ?>" alt="Youtube" loading="lazy"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="c-newsletter__right">
+                    <div class="c-newsletter__caption">Newsletter sign up</div>
+
+                    <div class="c-newsletter__content clearfix">
+                        <form class="c-newsletter__form" novalidate action="<?= $escaper->escapeUrl($block->getFormActionUrl()); ?>" method="post" data-mage-init='{"validation": {"errorClass": "mage-error"}}' id="newsletter-validate-detail">
+                            <input name="email" type="email" class="c-newsletter__input" id="newsletter" placeholder="<?= $escaper->escapeHtml(__('Enter email')); ?>" data-validate="{required:true, 'validate-email':true}"/>
+                            <button class="c-newsletter__button c-button c-button--primary" title="<?= $escaper->escapeHtml(__('Sign up')); ?>" type="submit"><?= $escaper->escapeHtml(__('Sign up')); ?></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

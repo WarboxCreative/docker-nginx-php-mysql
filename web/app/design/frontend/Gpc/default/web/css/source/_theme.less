@@ -1,0 +1,281 @@
+@import 'components/_modals_extend.less';
+
+//
+//  Page
+//  ---------------------------------------------
+@page__background-color: #F5F5F5;
+
+//
+//  Animation
+//  ---------------------------------------------
+@global-transition: .333333333s;
+@ease-in: cubic-bezier(0.47, 0, 0.745, 0.715);
+@ease-out: cubic-bezier(0.39, 0.575, 0.565, 1);
+@ease-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+
+//
+//  Grid
+//  ---------------------------------------------
+
+// Extra small devices (portrait phones)
+@screen__xxs: 280px;
+@screen__xs: 320px;
+
+// Small devices (landscape phones, 576px and up)
+@screen__s: 576px;
+
+// Medium devices (tablets, 768px and up)
+@screen__m: 767px;
+
+// Large devices (desktops, 992px and up)
+@screen__l: 992px;
+
+// Extra large devices (large desktops, 1500px and up)
+@screen__xl: 1500px;
+
+@screen__xxl: 1920px;
+
+//
+//  Typography
+//  ---------------------------------------------
+@layout__max-width: @screen__xl;
+@layout-indent__width: 1.5rem;
+
+//
+//  Typography
+//  ---------------------------------------------
+
+//  Sizes
+@root__font-size: 62.5%; // Defines ratio between root font size and base font size, 1rem = 10px
+@font-size-ratio__base: 1.6; // Defines ratio of the root font-size to the base font-size
+
+@font-size-unit: rem; // The unit to which most typography values will be converted by default
+@font-size-unit-ratio: unit(@root__font-size * 16/100); // Ratio of the root font-size to the font-size unit
+@font-size-unit-convert: true; // Controls whether font-size values are converted to the specified font-size unit
+
+@font-size__base: unit(@font-size-unit-ratio * @font-size-ratio__base, px); // 16px
+@font-size__xxl: ceil(1.75 * @font-size__base); // 28px
+@font-size__xl: ceil(1.5 * @font-size__base); // 24px
+@font-size__l: ceil(1.125 * @font-size__base); // 18px
+@font-size__s: ceil(.875 * @font-size__base); // 14px
+@font-size__xs: floor(.75 * @font-size__base); // 12px
+
+//  Line heights
+@line-height__base: 1.4;
+@line-height__computed: floor(@font-size__base * @line-height__base);
+@line-height__xl: 1.7;
+@line-height__l: 1.5;
+@line-height__s: 1.33;
+
+//  Weights
+@font-weight__light: 300;
+@font-weight__regular: 400;
+@font-weight__medium: 500;
+@font-weight__heavier: 500;
+@font-weight__semibold: 600;
+@font-weight__bold: 700;
+@font-weight__extrabold: 800;
+
+//  Focus
+@focus__color: @color-primary;
+@focus__box-shadow: 0 0 .2rem .1rem @focus__color;
+
+//  Headings
+@heading__font-family__base: @font-family__special;
+@heading__font-weight__base: @font-weight__bold;
+@heading__line-height__base: 1.1;
+@heading__color__base: @color-secondary;
+@heading__font-style__base: false;
+@heading__margin-top__base: @indent__base;
+@heading__margin-bottom__base: @indent__base;
+
+@h1__font-size: ceil((@font-size__base * 4.5)); // 72px
+@h1__font-size-small: ceil((@font-size__base * 4)); // 64px
+@h1__font-size-title: ceil((@font-size__base * 3.5)); // 56px
+@h1__font-color: @heading__color__base;
+@h1__font-family: @heading__font-family__base;
+@h1__font-weight: @heading__font-weight__base;
+@h1__font-style: @heading__font-style__base;
+@h1__line-height: @heading__line-height__base;
+@h1__margin-top: 0;
+@h1__margin-bottom: @heading__margin-bottom__base;
+@h1__font-size-desktop: ceil((@font-size__base * 4.5)); // 72px
+
+@h2__font-size: ceil((@font-size__base * 3)); // 48px
+@h2__font-size-small: ceil((@font-size__base * 2.375)); // 38px
+@h2__font-color: @heading__color__base;
+@h2__font-family: @heading__font-family__base;
+@h2__font-weight: @heading__font-weight__base;
+@h2__font-style: @heading__font-style__base;
+@h2__line-height: @heading__line-height__base;
+@h2__margin-top: 0;
+@h2__margin-bottom: @heading__margin-bottom__base;
+
+@h3__font-size: ceil((@font-size__base * 2)); // 32px
+@h3__font-color: @heading__color__base;
+@h3__font-family: @heading__font-family__base;
+@h3__font-weight: @heading__font-weight__base;
+@h3__font-style: @heading__font-style__base;
+@h3__line-height: @heading__line-height__base;
+@h3__margin-top: 0;
+@h3__margin-bottom: @heading__margin-bottom__base;
+
+@h4__font-size: ceil((@font-size__base * 1.5)); // 24px
+@h4__font-color: @heading__color__base;
+@h4__font-family: @heading__font-family__base;
+@h4__font-weight: @heading__font-weight__base;
+@h4__font-style: @heading__font-style__base;
+@h4__line-height: @heading__line-height__base;
+@h4__margin-top: 0;
+@h4__margin-bottom: @heading__margin-bottom__base;
+
+@h5__font-size: ceil((@font-size__base * 1.25)); // 20px
+@h5__font-color: @heading__color__base;
+@h5__font-family: @heading__font-family__base;
+@h5__font-weight: @heading__font-weight__base;
+@h5__font-style: @heading__font-style__base;
+@h5__line-height: @heading__line-height__base;
+@h5__margin-top: 0;
+@h5__margin-bottom: @heading__margin-bottom__base;
+
+@h6__font-size: ceil((@font-size__base * 1.125)); // 18px
+@h6__font-color: @heading__color__base;
+@h6__font-family: @heading__font-family__base;
+@h6__font-weight: @heading__font-weight__base;
+@h6__font-style: @heading__font-style__base;
+@h6__line-height: @heading__line-height__base;
+@h6__margin-top: 0;
+@h6__margin-bottom: @heading__margin-bottom__base;
+
+@heading__small-color: @primary__color;
+@heading__small-line-height: 1;
+@heading__small-size: (@font-size__xs/@font-size__base) * 100%;
+
+//  Blockquote
+@blockquote__border-color: @border-color__base;
+@blockquote__border-width: 0;
+@blockquote__content-before: '\2014 \00A0';
+@blockquote__font-size: @font-size__base;
+@blockquote__font-style: @font-style__emphasis;
+@blockquote__margin: 0 0 @indent__base @indent__xl;
+@blockquote__padding: 0;
+
+@blockquote-small__color: @primary__color;
+@blockquote-small__font-size: @font-size__xs;
+
+@cite__font-style: @font-style__base;
+
+//
+//  Navigation
+//  ---------------------------------------------
+@navigation-desktop-level0-item__active__border-width: 0;
+@navigation-level0-item__active__border-width: 0;
+@submenu-item__active__border-width: 0;
+
+//
+//  Buttons
+//  ---------------------------------------------
+
+//  Font style
+@button__padding: 1rem 2.5rem;
+
+//  Display settings
+@button__border-radius: 24px;
+
+//  Default = secondary button
+@button__color: @color-white;
+@button__background: @color-tertiary;
+@button__border: .1rem solid @color-tertiary;
+@button__gradient-color-start: false;
+@button__gradient-color-end: false;
+
+@button__hover__color: @color-white;
+@button__hover__background: @color-tertiary-light;
+@button__hover__border: .1rem solid @color-tertiary-light;
+@button__hover__gradient-color-start: false;
+@button__hover__gradient-color-end: false;
+
+@button__active__gradient-color-start: false;
+@button__active__gradient-color-end: false;
+
+@button__line-height: 1;
+@button__font-weight: @font-weight__regular;
+
+//  Primary button
+@button-primary__line-height: false;
+@button-primary__padding: @button__padding;
+
+@button-primary__background: @color-secondary;
+@button-primary__border: .1rem solid @color-secondary;
+@button-primary__color: @color-white;
+
+@button-primary__hover__background: @color-secondary-light;
+@button-primary__hover__border: .1rem solid @color-secondary-light;
+@button-primary__hover__color: @button-primary__color;
+
+@button-primary__active__background: @button-primary__hover__background;
+@button-primary__active__border: @button-primary__hover__border;
+@button-primary__active__color: @button-primary__color;
+
+@button-primary__disabled__background: @color-darker-grey;
+@button-primary__disabled__border: @color-darker-grey;
+@button-primary__disabled__color: @button-primary__color;
+
+//  Tertiary button
+@button-tertiary__line-height: false;
+@button-tertiary__padding: @button__padding;
+
+@button-tertiary__background: @color-primary;
+@button-tertiary__border: .1rem solid @color-primary;
+@button-tertiary__color: @color-white;
+
+@button-tertiary__hover__background: @color-primary;
+@button-tertiary__hover__border: .1rem solid @color-primary;
+@button-tertiary__hover__color: @button-tertiary__color;
+
+@button-tertiary__active__background: @button-tertiary__hover__background;
+@button-tertiary__active__border: @button-tertiary__hover__border;
+@button-tertiary__active__color: @button-tertiary__color;
+
+@button-tertiary__disabled__background: @color-darker-grey;
+@button-tertiary__disabled__border: @color-darker-grey;
+@button-tertiary__disabled__color: @button-tertiary__color;
+
+//
+//  Form elements
+//  ---------------------------------------------
+
+// Labels
+@form-field-type-label-inline__align: left;
+
+// Inputs
+@form-element-input__height: 4rem;
+@form-element-input__padding: 0 1.5rem;
+@form-element-input__border-color: @color-grey;
+
+// Select
+@select__padding: 1rem 1.5rem;
+
+// Checkbox etc
+@form-element-choice__margin: .2rem 1rem 0 0;
+
+//
+//  Modal
+//  ---------------------------------------------
+@modal__box-shadow: none;
+
+//
+//  Checkout
+//  ---------------------------------------------
+@checkout-progress-bar-item__width: 50%;
+
+//
+//  Mobile
+//  _____________________________________________
+@media only screen and (max-width: 767px) {
+    @h1__font-size: ceil((@font-size__base * 3)); // 48px
+    @h2__font-size: ceil((@font-size__base * 2)); // 32px
+    @h3__font-size: ceil((@font-size__base * 1.5)); // 24px
+    @h4__font-size: ceil((@font-size__base * 1.25)); // 20px
+    @h5__font-size: ceil((@font-size__base * 1.125)); // 18px
+}

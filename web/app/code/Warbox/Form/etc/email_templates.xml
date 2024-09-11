@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="become-a-supplier" label="Become a supplier" file="become-a-supplier.html" type="html"
+              module="Warbox_Form" area="frontend"/>
+    <template id="become-a-distributor" label="Become a distributor" file="become-a-distributor.html" type="html"
+              module="Warbox_Form" area="frontend"/>
+    <template id="request-a-catalogue" label="Request a catalogue" file="request-a-catalogue.html" type="html"
+              module="Warbox_Form" area="frontend"/>
+</config>

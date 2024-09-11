@@ -1,0 +1,77 @@
+<?php /* @var Warbox\WidgetCollection\Block\Bestsellers $block */ ?>
+<?php if ($items = $block->getItems()): ?>
+    <div class="c-productCarousel c-bestsellers">
+        <div class="c-productCarousel__title">
+            <h3>Bestsellers</h3>
+            <hr/>
+        </div>
+        <div class="owl-carousel">
+            <?php foreach ($items as $key => $item): ?>
+                <div class="c-productCarousel__item">
+                    <?= print_r($item->getProduct(), true); ?>
+                    <?php /*
+                    <div class="c-productCarousel__item__image">
+                        <img src="<?= $block->getViewFileUrl('images/product-1.jpeg'); ?>" alt="Apollo Heavy Duty Angle Iron Sack Truck" loading="lazy"/>
+                        <img class="c-productCarousel__item__image__rollover" src="<?= $block->getViewFileUrl('images/atlas-steps.jpeg'); ?>" alt="Apollo Heavy Duty Angle Iron Sack Truck" loading="lazy"/>
+                        <img class="c-productCarousel__brand" src="<?= $block->getViewFileUrl('images/Proplaz_2x.png'); ?>" alt="ProPlaz" loading="lazy"/>
+                    </div>
+                    <div class="c-productCarousel__item__content">
+                        <p class="c-productCarousel__name">Apollo Heavy Duty Angle Iron Sack Truck</p>
+                        <p class="c-productCarousel__sku">SKU: GI706R</p>
+                        <p class="c-productCarousel__desc">W580 x D600 x H1185 mm</p>
+                    </div>
+                    <div class="c-productCarousel__options">
+                    </div>
+                    <div class="c-productCarousel__attrs">
+                        <div class="c-productCarousel__price">
+                            <p>&nbsp;</p>
+                            <span class="c-productCarousel__price__ex">£106.95 ex. VAT</span>
+                            <span class="c-productCarousel__price__inc">£128.34 inc. VAT</span>
+                            <a href class="c-button c-button--primary">More info</a>
+                        </div>
+                        <div class="c-productCarousel__badges">
+                            <div class="c-manufactured">
+                                <img src="<?= $block->getViewFileUrl('images/icons/UKFlag@2x.jpg'); ?>" alt="UK Manufactured" loading="lazy"/>
+                                <span>UK Manufactured</span>
+                            </div>
+                            <div class="c-leadTime">
+                                <img src="<?= $block->getViewFileUrl('images/icons/Icon_Delivery.svg'); ?>" alt="Delivery" loading="lazy"/>
+                                <span>Get this in <strong>3-5 working days</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    */?>
+                </div>
+            <?php endforeach ?>
+        </div>
+    </div>
+    <script type="text/javascript">
+        require(['jquery','owl'], function($, owlCarousel) {
+            $(document).ready(function(){
+                $(".c-productCarousel .owl-carousel").owlCarousel({
+                    loop: true,
+                    responsiveClass: true,
+                    lazyLoad:true,
+                    nav: true,
+                    center: false,
+                    dots: false,
+                    margin: 16,
+                    responsive: {
+                        0: {
+                            items: 1,
+                        },
+                        600: {
+                            items: 2,
+                        },
+                        769: {
+                            items: 3
+                        },
+                        1366: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+<?php endif ?>

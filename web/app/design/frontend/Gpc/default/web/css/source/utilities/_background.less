@@ -1,0 +1,23 @@
+//
+//  Background variables
+//  _____________________________________________
+@background__primary: @color-primary;
+@background__secondary: @color-secondary;
+@background__grey: @color-grey;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .u-bg-primary {
+        background-color: @background__primary !important;
+    }
+
+    .u-bg-secondary {
+        background-color: @background__secondary !important;
+    }
+
+    .u-bg-grey {
+        background-color: @background__grey !important;
+    }
+}

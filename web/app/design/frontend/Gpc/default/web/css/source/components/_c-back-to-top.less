@@ -1,0 +1,27 @@
+//
+//  Variables
+//  _____________________________________________
+@back-to-top__color: @color-white;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-back-to-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        width: 48px;
+        position: absolute;
+        bottom: 8rem;
+        right: 2rem;
+        cursor: pointer;
+        background: @color-tertiary;
+
+        i {
+            color: @color-white;
+            font-size: 30px;
+        }
+    }
+}

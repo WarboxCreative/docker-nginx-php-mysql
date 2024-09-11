@@ -1,0 +1,22 @@
+{
+  "name": "warbox/widgetcollection",
+  "description": "A collection of widgets.",
+  "require": {
+    "php": "~8.0|~8.1",
+    "magento/framework": ">101.0",
+    "warbox/widget-elements": "^2"
+  },
+  "type": "magento2-module",
+  "version": "1.0.1",
+  "license": [
+    "MIT"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Warbox\\WidgetCollection\\": ""
+    }
+  }
+}

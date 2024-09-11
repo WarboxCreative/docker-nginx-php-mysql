@@ -1,0 +1,129 @@
+//
+//  Variables
+//  _____________________________________________
+@cta-banner__color: @color-text;
+@cta-banner__background-color: @color-header-grey;
+@cta-banner__padding: 1rem;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-cta-banner {
+        background-color: @cta-banner__background-color;
+        color: @cta-banner__color;
+        display: block;
+        padding: @cta-banner__padding;
+
+        &__closeable {
+            display: none;
+        }
+
+        &__container {
+            &:extend(.container);
+            position: relative;
+        }
+
+        &__close {
+            .lib-button-reset();
+            position: absolute;
+            right: 0;
+            transition: color @global-transition @ease-in;
+
+            .hocus({
+                color: @color-primary;
+                outline: 0;
+            });
+        }
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+        }
+    }
+}
+
+@media screen and (max-width: 1500px) and (min-width: 1201px) {
+    .c-cta-banner__container {
+        .pagebuilder-column-line {
+            .pagebuilder-column {
+                &:first-of-type {
+                    width: 60%!important;
+                }
+
+                &:last-of-type {
+                    width: 60%!important;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Laptop <1200px >1025px
+//  _____________________________________________
+@media screen and (max-width: 1200px) and (min-width: 1025px) {
+    .c-cta-banner {
+        &__container {
+            .pagebuilder-column-line {
+                .pagebuilder-column {
+                    width: 65%!important;
+
+                    &:last-of-type {
+                        width: 35%!important;
+                    }
+                }
+            }
+        }
+
+        p {
+            font-size: 14px;
+        }
+    }
+}
+
+//
+//  Tablet / Mobile
+//  _____________________________________________
+@media only screen and (max-width: 1024px) {
+    .c-cta-banner {
+        &__container {
+            .pagebuilder-column-line {
+                justify-content: flex-end;
+
+                .pagebuilder-column {
+                    &:first-of-type {
+                        display: none!important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//  Small Desktop / Tablet
+//  _____________________________________________
+@media only screen and (max-width: @screen__l) {
+    .c-cta-banner {
+        &__container {
+            .pagebuilder-column-line {
+                .pagebuilder-column {
+                    width: 100%!important;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+@media only screen and (max-width: @screen__m) {
+    .c-cta-banner {
+        display: none;
+    }
+}

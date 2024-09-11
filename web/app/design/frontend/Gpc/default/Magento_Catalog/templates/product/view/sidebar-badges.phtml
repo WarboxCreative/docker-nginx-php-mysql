@@ -1,0 +1,46 @@
+<?php
+    /** @var Magento\Catalog\Block\Product\View $block */
+    $product = $block->getProduct();
+    $badges  = [];
+
+    if ($product->getResource()->getAttribute('gpc_product_badges')) {
+        $badges = explode(', ', $product->getResource()->getAttribute('gpc_product_badges')->getFrontend()->getValue($product));
+        $tmp = null;
+        $tmp2 = null;
+        foreach($badges as $key => $val) {
+            if(str_contains(strtolower($val), 'working days')) {
+                $tmp = $val;
+                unset($badges[$key]);
+            }
+            if(str_contains(strtolower($val), 'manufactured')) {
+                $tmp2 = $val;
+                unset($badges[$key]);
+            }
+        }
+
+        if($tmp2) {
+            $badges[] = $tmp2;
+        }
+        if($tmp) {
+            array_unshift($badges, $tmp);
+        }
+
+        $badges = array_values($badges);
+    }
+    $leadTime = $product->getAttributeText('gpc_lead_time');
+?>
+
+<div class="product__sidebar__badges hide-mobile">
+    <?php if($leadTime): ?>
+        <div class="c-leadTime">
+            <img src="<?= $block->getViewFileUrl('images/icons/leadTime.svg'); ?>" alt="Delivery" loading="lazy"/>
+            <span>Get this in <strong><?= $leadTime; ?></strong></span>
+        </div>
+    <?php endif; ?>
+
+    <?php if(count($badges) && $badges[0] !== ''): ?>
+        <?php foreach($badges as $badge): ?>
+            <?= $block->getChildBlock('c-badges')->addData(['class' => $badge])->toHtml(); ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,189 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer $block
+ * @var Magento\Sales\Model\Order\Item $_item
+ * @var Magento\Framework\Locale\LocaleFormatter $localeFormatter
+ */
+$_item = $block->getItem();
+$blockProd = $_item->getProduct();
+?>
+<tr class="item-info" id="order-item-row-<?= (int) $_item->getId() ?>">
+    <td class="col item" data-th="<?= $block->escapeHtml(__('Product')) ?>">
+        <?php if ($blockProd->getProductUrl()): ?>
+            <a href="<?= $block->escapeUrl($blockProd->getProductUrl()); ?>"
+               title="<?= $block->escapeHtml($_item->getName()) ?>"
+               tabindex="-1"
+               class="product-item-photo">
+        <?php else: ?>
+            <span class="product-item-photo">
+        <?php endif; ?>
+        <?php if($blockProd->getImage()): ?>
+            <img src="/media/catalog/product/<?= $blockProd->getImage(); ?>" alt="<?= $block->escapeHtml($_item->getName()) ?>" loading="lazy"/>
+        <?php endif; ?>
+        <?php if ($blockProd->getProductUrl()): ?>
+            </a>
+        <?php endif; ?>
+
+        <div class="product-item-details">
+            <strong class="product-item-name">
+                <?php if ($blockProd->getProductUrl()): ?>
+                    <a href="<?= $block->escapeUrl($blockProd->getProductUrl()) ?>"
+                    ><?= $block->escapeHtml($_item->getName()) ?></a>
+                <?php else: ?>
+                    <?= $block->escapeHtml($_item->getName()) ?>
+                <?php endif; ?>
+            </strong>
+
+            <?php if ($_options = $block->getItemOptions()): ?>
+                <dl class="item-options">
+                    <?php foreach ($_options as $_option): ?>
+                        <dt><?= $block->escapeHtml($_option['label']) ?></dt>
+                        <?php if (!$block->getPrintStatus()): ?>
+                            <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                            <dd<?= (isset($_formatedOptionValue['full_view']) ? ' class="tooltip wrapper"' : '') ?>>
+                                <?= $block->escapeHtml($_formatedOptionValue['value'], ['a']) ?>
+                                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                                    <div class="tooltip content">
+                                        <dl class="item options">
+                                            <dt><?= $block->escapeHtml($_option['label']) ?></dt>
+                                            <dd><?= $block->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
+                                        </dl>
+                                    </div>
+                                <?php endif; ?>
+                            </dd>
+                        <?php else: ?>
+                            <?php $optionValue = isset($_option['print_value']) ? $_option['print_value'] : $_option['value'] ?>
+                            <dd><?= $block->escapeHtml($optionValue) ?></dd>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </dl>
+            <?php endif; ?>
+
+            <?php $addtInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+            <?php if ($addtInfoBlock): ?>
+                <?= $addtInfoBlock->setItem($_item)->toHtml() ?>
+            <?php endif; ?>
+        </div>
+    </td>
+
+    <td data-th="<?= $block->escapeHtml(__('SKU')) ?>" class="col sku">
+        <?= /* @noEscape */ $block->prepareSku($block->getSku()) ?>
+    </td>
+
+    <td data-th="<?= $block->escapeHtml(__('Lead Time')) ?>" class="col leadTime">
+        <?= $block->escapeHtml($blockProd->getResource()->getAttribute('gpc_lead_time')->getFrontend()->getValue($blockProd)); ?>
+    </td>
+
+    <td class="col price" data-th="<?= $block->escapeHtml(__('Unit Price')) ?>">
+        <?= $block->getItemPriceHtml() ?>
+    </td>
+
+    <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+        <ul class="items-qty">
+        <?php if ($block->getItem()->getQtyOrdered() > 0): ?>
+            <li class="item">
+                <span class="title"><?= $block->escapeHtml(__('Ordered')) ?></span>
+                <span class="content">
+                    <?= $block->escapeHtml($localeFormatter->formatNumber((float) $block->getItem()->getQtyOrdered()))?>
+                </span>
+            </li>
+        <?php endif; ?>
+        <?php if ($block->getItem()->getQtyShipped() > 0): ?>
+            <li class="item">
+                <span class="title"><?= $block->escapeHtml(__('Shipped')) ?></span>
+                <span class="content">
+                    <?= $block->escapeHtml($localeFormatter->formatNumber((float) $block->getItem()->getQtyShipped()))?>
+                </span>
+            </li>
+        <?php endif; ?>
+        <?php if ($block->getItem()->getQtyCanceled() > 0): ?>
+            <li class="item">
+                <span class="title"><?= $block->escapeHtml(__('Canceled')) ?></span>
+                <span class="content">
+                    <?= $block->escapeHtml(
+                        $localeFormatter->formatNumber((float) $block->getItem()->getQtyCanceled())
+                    )?>
+                </span>
+            </li>
+        <?php endif; ?>
+        <?php if ($block->getItem()->getQtyRefunded() > 0): ?>
+            <li class="item">
+                <span class="title"><?= $block->escapeHtml(__('Refunded')) ?></span>
+                <span class="content">
+                    <?= $block->escapeHtml(
+                        $localeFormatter->formatNumber((float) $block->getItem()->getQtyRefunded())
+                    )?>
+                </span>
+            </li>
+        <?php endif; ?>
+        </ul>
+    </td>
+
+    <td class="col subtotal" data-th="<?= $block->escapeHtml(__('Subtotal')) ?>">
+        <?= $block->getItemRowTotalHtml() ?>
+    </td>
+
+    <td class="col small-td hidden">
+        <div data-th="<?= $block->escapeHtml(__('SKU')) ?>" class="col sku">
+            <?= $block->escapeHtml($_item->getSku()); ?>
+        </div>
+
+        <div data-th="<?= $block->escapeHtml(__('Lead Time')) ?>" class="col leadTime">
+            <?= $block->escapeHtml($blockProd->getResource()->getAttribute('gpc_lead_time')->getFrontend()->getValue($blockProd)); ?>
+        </div>
+
+        <div class="col price" data-th="<?= $block->escapeHtml(__('Unit Price')) ?>">
+            <?= $block->getItemPriceHtml() ?>
+        </div>
+
+        <div class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+            <ul class="items-qty">
+                <?php if ($block->getItem()->getQtyOrdered() > 0): ?>
+                    <li class="item">
+                        <span class="title"><?= $block->escapeHtml(__('Ordered')) ?></span>
+                        <span class="content">
+                        <?= $block->escapeHtml($localeFormatter->formatNumber((float) $block->getItem()->getQtyOrdered()))?>
+                    </span>
+                    </li>
+                <?php endif; ?>
+                <?php if ($block->getItem()->getQtyShipped() > 0): ?>
+                    <li class="item">
+                        <span class="title"><?= $block->escapeHtml(__('Shipped')) ?></span>
+                        <span class="content">
+                        <?= $block->escapeHtml($localeFormatter->formatNumber((float) $block->getItem()->getQtyShipped()))?>
+                    </span>
+                    </li>
+                <?php endif; ?>
+                <?php if ($block->getItem()->getQtyCanceled() > 0): ?>
+                    <li class="item">
+                        <span class="title"><?= $block->escapeHtml(__('Canceled')) ?></span>
+                        <span class="content">
+                        <?= $block->escapeHtml(
+                            $localeFormatter->formatNumber((float) $block->getItem()->getQtyCanceled())
+                        )?>
+                    </span>
+                    </li>
+                <?php endif; ?>
+                <?php if ($block->getItem()->getQtyRefunded() > 0): ?>
+                    <li class="item">
+                        <span class="title"><?= $block->escapeHtml(__('Refunded')) ?></span>
+                        <span class="content">
+                        <?= $block->escapeHtml(
+                            $localeFormatter->formatNumber((float) $block->getItem()->getQtyRefunded())
+                        )?>
+                    </span>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <div class="col subtotal" data-th="<?= $block->escapeHtml(__('Subtotal')) ?>">
+            <?= $block->getItemRowTotalHtml() ?>
+        </div>
+    </td>
+</tr>

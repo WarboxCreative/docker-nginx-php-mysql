@@ -1,0 +1,131 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-aboutUs {
+        &-row {
+            margin: 50px 0;
+        }
+
+        h2 {
+            margin: 0 0 20px;
+        }
+
+        .pagebuilder-column-line {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+
+            .pagebuilder-column {
+                justify-content: center!important;
+
+                &:first-of-type {
+                    padding: 40px 80px 40px 40px;
+                }
+
+                figure {
+                    margin: 0;
+                }
+
+                p {
+                    margin-bottom: 25px;
+
+                    &:last-of-type {
+                        margin-bottom: 25px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//  Desktop > 1200px & < 1800px
+//  _____________________________________________
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
+    .c-aboutUs {
+        .pagebuilder-column-line {
+            .pagebuilder-column {
+                p {
+                    margin-bottom: 15px;
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet Landscape
+//  _____________________________________________
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+    .c-aboutUs .pagebuilder-column-line .pagebuilder-column figure {
+        height: 100%;
+        overflow: hidden;
+
+        img {
+            max-width: none!important;
+            height: 100%!important;
+            width: auto;
+            max-height: 690px;
+        }
+    }
+}
+
+//
+//  Tablet
+//  _____________________________________________
+@media screen and (max-width: 992px) {
+    .c-aboutUs {
+        .pagebuilder-column-line {
+            flex-direction: column;
+            flex-wrap: wrap;
+
+            .pagebuilder-column {
+                width: 100%!important;
+            }
+        }
+
+        h2 {
+            font-size: 32px;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+@media screen and (max-width: 767px) {
+    .c-aboutUs {
+        &-row {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        &__wrapper {
+            background: @color-white;
+            margin-bottom: 50px;
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+
+                .row {
+                    margin: 0;
+
+                    .col-12 {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+        .pagebuilder-column-line {
+            .pagebuilder-column {
+                &:first-of-type {
+                    padding: 8% 5% 40px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,542 @@
+<?php
+    /** @var Warbox\Category\Block\Product $block */
+    $product   = $block->getProduct();
+    $childProducts = $block->getChildProducts();
+    $type      = $product->getTypeId();
+    $options   = $block->getConfigOptions();
+    $count     = 1;
+    $itemClass = count($block->getConfigOptions()) > 2 ? ' closed' : '';
+
+    $isWorkbench = $product->getGpcIsWorkbench();
+    $workbenchProducts = $block->getWorkbenchLinkedProducts();
+    $benchOptions   = [];
+    foreach($workbenchProducts as $benchProd) {
+        if ($benchProd->getTypeId() === 'simple') {
+            // $benchAttr = $benchProd->getResource()->getAttribute('gpc_workbench_category');
+            $benchCat = $benchProd->getResource()->getAttribute('gpc_workbench_options')->getFrontend()->getValue($benchProd);
+
+            if ($benchCat) {
+                $benchOptions[ $benchCat ][] = $benchProd;
+            } else {
+                $benchOptions[ 'accessories' ][] = $benchProd;
+            }
+        }
+    }
+
+    $disclaimer = 'Disclaimer: Please note that image shown may not match the size / combinations you have selected.';
+?>
+<?php if($type !== 'simple'): ?>
+    <?php if((int)$isWorkbench !== 1): ?>
+        <div class="c-productOptions">
+            <?php foreach($childProducts as $child_product): ?>
+                <input class="childSku" type="hidden" name="childSku" value="<?= $child_product->getSku(); ?>" data-simple-id="<?= $child_product->getId(); ?>"/>
+            <?php endforeach; ?>
+            <?php foreach($block->getConfigOptions() as $option): ?>
+                <div class="c-productOptions__item<?= (count($block->getConfigOptions()) > 2 && $count > 1) ? $itemClass : ''; ?>" data-attribute-id="<?= $option->getAttributeId(); ?>">
+                    <div class="c-productOptions__item__title">
+                        <?php if(count($block->getConfigOptions()) > 1): ?>
+                            Step <?= $count; ?>: Select <?= $option->getLabel(); ?>
+                        <?php else: ?>
+                            Select <?= $option->getLabel(); ?>
+                        <?php endif; ?>
+
+                        <?php if(count($block->getConfigOptions()) > 2): ?>
+                            <span class="arrow"></span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="c-productOptions__item__content">
+                        <?php if($count === 1): ?>
+                            <p><?= $disclaimer; ?></p>
+                        <?php endif; ?>
+                        <span><?= $option->getLabel(); ?></span>
+                        <ul>
+                            <?php
+                            $prodOptions = $option->getOptions();
+                            $keyVals = array_column($prodOptions, 'label');
+                            array_multisort($keyVals, SORT_ASC, $prodOptions);
+                            ?>
+                            <?php foreach($prodOptions as $optionVal): ?>
+                                <?php if ($optionVal['label']) : ?>
+                                    <?php
+                                        $optionClass = '';
+                                        if ($optionVal['label']) {
+                                            $optionClass = rtrim(str_replace(' ', '-', str_replace('/', '-', strtolower($optionVal['label']))), '-');
+                                        }
+                                    ?>
+                                    <li class="c-option__<?= strtolower($option->getLabel()); ?> c-option__<?= strtolower($option->getLabel()); ?>--<?= $optionClass; ?>" data-attribute-id="<?= $option->getAttributeId(); ?>" data-label="<?= $optionVal['label']; ?>" data-value="<?= $optionVal['value_index']; ?>">
+                                        <a><?= $optionVal['label']; ?></a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+                <?php $count++; ?>
+            <?php endforeach; ?>
+        </div>
+
+        <script type="text/javascript">
+            require(['jquery'], function($) {
+                $(document).ready(function(){
+                    if($('.c-productOptions__item').length) {
+                        const addToBag = $('#product-addtoquote-button');
+                        const optionsCount = $('.c-productOptions__item__content').length;
+
+                        addToBag.addClass('disabled');
+
+                        addToBag.on('click', function(e){
+                            if ($(this).hasClass('disabled')) {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                if($(window).width() < 768) {
+                                    $([document.documentElement, document.body]).animate({
+                                        scrollTop: $('.c-productOptions').offset().top - 150
+                                    }, 500);
+                                }
+                            }
+                        });
+
+                        $('.c-productOptions__item__content').on('click', 'li', function(e){
+                            e.stopPropagation();
+                            const attrId  = $(this).data('attribute-id');
+                            const attrVal = $(this).data('value');
+                            let activeOptions = 0;
+
+                            $('.product-options-wrapper select[name="super_attribute['+attrId+']"] option').each(function(){
+                                if($(this).prop('value').toString() === attrVal.toString()) {
+                                    $(this).prop('selected', true);
+                                    $('.product-options-wrapper select[name="super_attribute['+attrId+']"]').trigger('change');
+                                }
+                            });
+
+                            $(this).parent().children('li').each(function(){
+                                $(this).removeClass('active');
+                            });
+
+                            $(this).addClass('active');
+
+                            $('.product-options-wrapper .field.configurable').each(function() {
+                                const select   = $(this).children('.control').children();
+                                const selectLabel = $(this).children('.label').children('span').text();
+                                const selectId = select.prop('name').replace('super_attribute[', '').replace(']', '');
+                                if (select.children('option').length && attrId.toString() !== selectId.toString()) {
+                                    const attrList = $('.c-productOptions__item[data-attribute-id="'+selectId+'"] .c-productOptions__item__content ul');
+
+                                    attrList.empty();
+
+                                    select.children('option').each(function () {
+                                        if ($(this).prop('value')) {
+                                            const attrLabel = $(this).text();
+                                            const attrValue = $(this).prop('value');
+
+                                            if (attrLabel.toLowerCase() !== 'null') {
+                                                attrList.append('<li class="c-option__' + selectLabel.toLowerCase() + ' c-option__' + selectLabel.toLowerCase() + '--' + attrLabel.toLowerCase() + '" data-attribute-id="' + selectId + '" data-label="' + attrLabel + '" data-value="' + attrValue + '">' +
+                                                    '<a>' + attrLabel.split('+')[0] + '</a>' +
+                                                    '</li>');
+                                            }
+                                        }
+                                    });
+                                }
+
+                                select.children('option').each(function () {
+                                    if ($(this).is(':selected')) {
+                                        const optionVal = $(this).prop('value');
+
+                                        $('.c-productOptions__item[data-attribute-id="'+selectId+'"] .c-productOptions__item__content ul li').each(function(){
+                                            if($(this).data('value').toString() === optionVal.toString()) {
+                                                $(this).addClass('active');
+                                            }
+                                        });
+                                    }
+                                });
+
+                                const selectedId = $('input[name="selected_configurable_option"]').prop('value');
+                                let selectedSku = '';
+
+                                if(selectedId) {
+                                    $('.childSku').each(function () {
+                                        if ($(this).data('simple-id') == selectedId) {
+                                            selectedSku = $(this).prop('value');
+                                        }
+                                    });
+
+                                    if (selectedSku) {
+                                        $('.product__sidebar__sku').text('SKU: ' + selectedSku);
+                                    }
+                                }
+                            });
+
+                            $('.c-productOptions__item__content').each(function(){
+                                $(this).children('ul').children('li').each(function(){
+                                    if ($(this).hasClass('active')) {
+                                        activeOptions++;
+                                    }
+                                });
+                            });
+
+                            if (activeOptions === optionsCount) {
+                                addToBag.removeClass('disabled');
+                                addToBag.parent().parent().children('span').addClass('hidden');
+                            }
+
+                            $('.c-productOptions__item').each(function(){
+                                const options = $(this).children('.c-productOptions__item__content').children('ul');
+                                if(options.children().length === 1) {
+                                    if(!options.children('li').hasClass('active')) {
+                                        const attrIdClicked  = $(this).data('attribute-id');
+                                        const attrValClicked = $(this).data('value');
+
+                                        options.children('li').addClass('active');
+                                        if($(this).hasClass('closed')) {
+                                            $(this).removeClass('closed');
+                                        }
+                                        options.children('li').trigger('click');
+
+                                        $('.product-options-wrapper select[name="super_attribute['+attrIdClicked+']"] option').each(function(){
+                                            if($(this).prop('value').toString() === attrValClicked.toString()) {
+                                                $(this).prop('selected', true);
+                                                $('.product-options-wrapper select[name="super_attribute['+attrIdClicked+']"]').trigger('change');
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                            const nextOption = $(this).parent().parent().parent().next('.c-productOptions__item');
+                            if(nextOption.hasClass('closed')) {
+                                nextOption.removeClass('closed');
+                            }
+                        });
+
+                        const firstOption = $('.c-productOptions__item:first-of-type');
+                        const options = firstOption.children('.c-productOptions__item__content').children('ul');
+                        if(options.children().length === 1) {
+                            if(!options.children('li').hasClass('active')) {
+                                const attrIdClicked  = $(this).data('attribute-id');
+                                const attrValClicked = $(this).data('value');
+
+                                options.children('li').addClass('active');
+
+                                const nextOption = firstOption.next('.c-productOptions__item');
+                                if(nextOption.hasClass('closed')) {
+                                    nextOption.removeClass('closed');
+                                }
+
+                                options.children('li').trigger('click');
+
+                                $('.product-options-wrapper select[name="super_attribute['+attrIdClicked+']"] option').each(function(){
+                                    if($(this).prop('value').toString() === attrValClicked.toString()) {
+                                        $(this).prop('selected', true);
+                                        $('.product-options-wrapper select[name="super_attribute['+attrIdClicked+']"]').trigger('change');
+                                    }
+                                });
+
+                                options.children('li').trigger('click');
+                            }
+                        }
+                    }
+
+                    setTimeout(function() {
+                        if ($('.c-productOptions__item').length) {
+                            const firstOption = $('.c-productOptions__item:first-of-type');
+                            const options = firstOption.children('.c-productOptions__item__content').children('ul');
+                            if (options.children().length === 1) {
+                                options.children('li').addClass('active');
+                                options.children('li').trigger('click');
+                            }
+                        }
+                    }, 500)
+                });
+            });
+        </script>
+    <?php else: ?>
+        <div class="c-productOptions">
+            <?php foreach($childProducts as $child_product): ?>
+                <input class="childSku" type="hidden" name="childSku" value="<?= $child_product->getSku(); ?>" data-simple-id="<?= $child_product->getId(); ?>"/>
+            <?php endforeach; ?>
+            <div class="c-productOptions__item">
+                <div class="c-productOptions__item__title">
+                    Step 1: Select Material & Size
+                    <span class="arrow"></span>
+                </div>
+                <div class="c-productOptions__item__content">
+                    <?php $c = 0; ?>
+                    <?php foreach($block->getConfigOptions() as $option): ?>
+                        <div class="c-productOptions__workbench-options" data-attribute-id="<?= $option->getAttributeId(); ?>">
+                            <?php if($c === 0): ?>
+                                <p><?= $disclaimer; ?></p>
+                            <?php endif; ?>
+                            <span><?= $option->getLabel(); ?></span>
+                            <ul>
+                                <?php foreach($option->getOptions() as $optionVal): ?>
+                                    <?php
+                                    $optionClass = rtrim(str_replace(' ', '-', str_replace('/', '-', strtolower($optionVal['label']))), '-');
+                                    ?>
+                                    <li class="configurableOption c-option__<?= strtolower($option->getLabel()); ?> c-option__<?= strtolower($option->getLabel()); ?>--<?= $optionClass; ?>" data-attribute-id="<?= $option->getAttributeId(); ?>" data-label="<?= $optionVal['label']; ?>" data-value="<?= $optionVal['value_index']; ?>">
+                                        <a><?= $optionVal['label']; ?></a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php $c++; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <?php
+            $showAccessories = false;
+            if (count($benchOptions)) {
+                foreach($benchOptions as $accessoryCat => $accessoryArr) {
+                    if(count($accessoryArr)) {
+                        foreach($accessoryArr as $builder_option) {
+                            if ($builder_option->getTypeId() === 'simple' ) {
+                                $showAccessories = true;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if ( $showAccessories ) : ?>
+                <div class="c-productOptions__item closed">
+                    <div class="c-productOptions__item__title">
+                        Step 2: Accessories
+                        <span class="arrow"></span>
+                    </div>
+                    <div class="c-productOptions__item__content">
+                        <p>Please note that the price of accessories will not be added until the basket stage.</p>
+                        <?php foreach($benchOptions as $accessoryCat => $accessoryArr): ?>
+                            <div class="c-productOptions__workbench-options">
+                                <span><?= $accessoryCat; ?></span>
+                                <ul>
+                                <?php foreach($accessoryArr as $builderOption): ?>
+                                    <?php
+                                    $builderOptionAttrs = $block->getConfigOptions($builderOption->getId());
+                                    $finalEx    = number_format(
+                                        round($builderOption->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(), 2),
+                                        2);
+                                    $finalInc   = number_format(
+                                        round($builderOption->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(), 2),
+                                        2);
+                                    ?>
+                                    <li class="c-option__builderOptions">
+                                        <a>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    name="productId-<?= $builderOption->getId(); ?>"
+                                                    value="<?= $builderOption->getId(); ?>"
+                                                    data-prod-id="<?= $builderOption->getId(); ?>"
+                                                    data-prod-sku="<?= $builderOption->getSku(); ?>"
+                                                    data-prod-price-ex="<?= $finalEx; ?>"
+                                                    data-prod-price-inc="<?= $finalInc; ?>"
+                                                />
+                                                <?= htmlspecialchars($builderOption->getName()); ?>
+                                                <span>(+ £<?= $finalEx; ?> Ex. VAT)</span>
+                                            </label>
+                                            <?php foreach($builderOptionAttrs as $builderOptionAttr): ?>
+                                                <?php foreach($builderOptionAttr->getOptions() as $builderAttrVal): ?>
+                                                    <input type="hidden" name="<?= $builderOptionAttr->getLabel(); ?>" value="<?= $builderAttrVal['value_index']; ?>" data-attr-id="<?= $builderOptionAttr->getAttributeId(); ?>" data-label="<?= $builderAttrVal['label']; ?>" data-value="<?= $builderAttrVal['value_index']; ?>"/>
+                                                <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+    <script type="text/javascript">
+        require(['jquery'], function($) {
+            $(document).ready(function(){
+                if($('.c-productOptions__item').length) {
+                    const addToBag = $('#product-addtoquote-button');
+                    const optionsCount = $('.c-productOptions__item__content').length;
+
+                    addToBag.addClass('disabled');
+
+                    addToBag.on('click', function(e){
+                        if ($(this).hasClass('disabled')) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            if($(window).width() < 768) {
+                                $([document.documentElement, document.body]).animate({
+                                    scrollTop: $('.c-productOptions').offset().top - 150
+                                }, 500);
+                            }
+                        }
+                    });
+
+                    $('.product-options-bottom .toquote').on('click', function(e) {
+                        e.preventDefault();
+                        if ($('.c-productOptions__workbench-options').length) {
+                            const workbenchOptions = $('input[name="related_product"]');
+                            let childIds = '';
+                            $('.c-option__builderOptions').each(function(){
+                                const child = $(this).children().children('label').children('input[type="checkbox"]');
+                                if(child.is(':checked')) {
+                                    if(child.data('parent-id')) {
+                                        childIds += child.prop('value') + '|' + child.data('parent-id') + ',';
+                                    } else {
+                                        childIds += child.prop('value') + ',';
+                                    }
+                                }
+                            });
+
+                            workbenchOptions.prop('value', childIds.slice(0,-1));
+                        }
+
+                        $('#product_addtocart_form').submit();
+                    });
+
+                    $('.c-productOptions__item__content').on('click', 'li', function(e){
+                        e.stopPropagation();
+                        const attrId  = $(this).data('attribute-id');
+                        const attrVal = $(this).data('value');
+                        let activeOptions = 0;
+
+                        $('.product-options-wrapper select[name="super_attribute['+attrId+']"] option').each(function(){
+                            if($(this).prop('value').toString() === attrVal.toString()) {
+                                $(this).prop('selected', true);
+                                $('.product-options-wrapper select[name="super_attribute['+attrId+']"]').trigger('change');
+                            }
+                        });
+
+                        if($(this).hasClass('c-option__builderOptions')) {
+                            const input = $(this).children('a').children('label').children('input');
+                            input.trigger('click');
+                        }
+
+                        $(this).parent().children('li').each(function(){
+                            $(this).removeClass('active');
+                        });
+
+                        $(this).addClass('active');
+
+                        $('.product-options-wrapper .field.configurable').each(function() {
+                            const select   = $(this).children('.control').children();
+                            const selectLabel = $(this).children('.label').children('span').text();
+                            const selectId = select.prop('name').replace('super_attribute[', '').replace(']', '');
+                            if(attrId) {
+                                if (select.children('option').length && attrId.toString() !== selectId.toString()) {
+                                    let count = 1;
+                                    select.children('option').each(function () {
+                                        if ($(this).prop('value')) {
+                                            const attrLabel = $(this).text();
+                                            const attrValue = $(this).prop('value');
+
+                                            const attrList = $('.c-productOptions__workbench-options[data-attribute-id="' + selectId + '"] ul');
+
+                                            if (count === 1) {
+                                                attrList.empty();
+                                            }
+
+                                            if (attrLabel.toLowerCase() !== 'null') {
+                                                const newLi = '<li class="configurableOption c-option__' + selectLabel.toLowerCase() + ' c-option__' + selectLabel.toLowerCase() + '--' + attrLabel.toLowerCase() + '" data-attribute-id="' + selectId + '" data-label="' + attrLabel + '" data-value="' + attrValue + '">' +
+                                                    '<a>' + attrLabel.split('+')[0] + '</a>' +
+                                                    '</li>';
+                                                attrList.append(newLi);
+                                            }
+
+                                            count++;
+                                        }
+                                    })
+                                }
+                            }
+
+                            select.children('option').each(function () {
+                                if ($(this).is(':selected')) {
+                                    const optionVal = $(this).prop('value');
+
+                                    $('.c-productOptions__workbench-options[data-attribute-id="'+selectId+'"] ul li').each(function(){
+                                        if($(this).data('value').toString() === optionVal.toString()) {
+                                            $(this).addClass('active');
+                                        }
+                                    });
+                                }
+                            });
+                        });
+
+                        const contentWrap = $(this).parent().parent().parent();
+                        const childNum = contentWrap.children('.c-productOptions__workbench-options').length;
+
+                        if(contentWrap.children('.c-productOptions__workbench-options').length) {
+                            contentWrap.children('.c-productOptions__workbench-options').each(function () {
+                                if ($(this).children('ul').children('li').hasClass('active')) {
+                                    activeOptions++;
+                                }
+                            });
+
+                            if(activeOptions === childNum) {
+                                addToBag.removeClass('disabled');
+                                addToBag.parent().parent().children('span').addClass('hidden');
+
+                                const nextOption = $(this).parent().parent().parent().parent().next('.c-productOptions__item');
+                                if(nextOption.hasClass('closed')) {
+                                    nextOption.removeClass('closed');
+                                }
+                            }
+                        } else {
+                            $('.c-productOptions__item__content').each(function(){
+                                $(this).children('ul').children('li').each(function(){
+                                    if ($(this).hasClass('active')) {
+                                        activeOptions++;
+                                    }
+                                });
+                            });
+
+                            if (activeOptions === optionsCount) {
+                                addToBag.removeClass('disabled');
+                                addToBag.parent().parent().children('span').addClass('hidden');
+                            }
+                        }
+
+                        $('.c-productOptions__workbench-options').each(function(){
+                            const options = $(this).children('ul');
+                            if(options.children().length === 1) {
+                                if(!options.children('li').hasClass('active')) {
+                                    options.children('li').addClass('active').trigger('click');
+                                }
+                            }
+                        });
+
+                        const nextOption = $(this).parent().parent().parent().parent().next('.c-productOptions__item');
+                        if(nextOption.hasClass('closed')) {
+                            nextOption.removeClass('closed');
+                        }
+
+                        const selectedId = $('input[name="selected_configurable_option"]').prop('value');
+                        let selectedSku = '';
+
+                        if(selectedId) {
+                            $('.childSku').each(function () {
+                                if ($(this).data('simple-id') == selectedId) {
+                                    selectedSku = $(this).prop('value');
+                                }
+                            });
+
+                            if (selectedSku) {
+                                $('.product__sidebar__sku').text('SKU: ' + selectedSku);
+                            }
+                        }
+                    });
+
+                    $('.c-productOptions__workbench-options').each(function(){
+                        const options = $(this).children('ul');
+                        if(options.children().length === 1) {
+                            if(!options.children('li').hasClass('active')) {
+                                options.children('li').addClass('active').trigger('click');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+<?php endif; ?>

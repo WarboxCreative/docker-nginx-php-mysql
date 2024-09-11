@@ -1,0 +1,64 @@
+<?php
+    /** @var Warbox\Category\Block\Product $block */
+    $product    = $block->getProduct();
+
+    $brandUrl = '/media/wysiwyg/brands/';
+    $url      = '';
+    if ($product->getResource()->getAttribute('gpc_brand')) {
+        $brand = $product->getResource()->getAttribute('gpc_brand')->getFrontend()->getValue($product);
+        $brand = strtolower(str_replace(' ', '-', $brand));
+
+        $url = $block->findImageByName($brandUrl, $brand);
+    }
+?>
+<div class="product__sidebar__details hide-mobile">
+    <?php if ($url) : ?>
+        <img src="<?= $url; ?>" alt="<?= $brand; ?>"/>
+    <?php endif; ?>
+    <span class="product__sidebar__sku">SKU: <?= $block->escapeHtml(__($product->getSku())); ?></span>
+    <?php if ($product->isAvailable()) :?>
+        <div class="stock available" title="<?= $block->escapeHtmlAttr(__('Availability')); ?>">
+            <span>Status: <strong><?= $block->escapeHtml(__('In stock')); ?></strong></span>
+        </div>
+    <?php else :?>
+        <div class="stock unavailable" title="<?= $block->escapeHtmlAttr(__('Availability')); ?>">
+            <span>Status: <strong><?= $block->escapeHtml(__('Out of stock')); ?></strong></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<script>
+    require(['jquery',], function($){
+        $(document).ready(function(){
+            if($(window).width() > 992) {
+                $('.product__sidebar').removeClass('position-static');
+            }
+        });
+
+        $(window).scroll(function(){
+            if($(window).width() > 992) {
+                const sidebar = $('.product__sidebar');
+                const windowScrollTop = $(window).scrollTop();
+                let contentEnd = '';
+
+                sidebar.removeClass('position-static');
+
+                if ($('.c-prodVideo').length) {
+                    contentEnd = $('.c-prodVideo').position().top;
+                } else {
+                    contentEnd = $('.product.info.detailed').position().top;
+                }
+
+                if (windowScrollTop >= contentEnd) {
+                    if (!sidebar.hasClass('position-static')) {
+                        sidebar.addClass('position-static');
+                    }
+                } else {
+                    if (sidebar.hasClass('position-static')) {
+                        sidebar.removeClass('position-static');
+                    }
+                }
+            }
+        });
+    });
+</script>

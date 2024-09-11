@@ -1,0 +1,60 @@
+<?php
+/** @var \Mageplaza\Blog\Block\Sidebar\MostView $block */
+/** @var \Magento\Framework\Escaper $escaper */
+
+$posts = $block->getRecentPost();
+?>
+
+<?php if ($posts && $posts->getSize()) : ?>
+    <div class="c-latestNews">
+        <div class="c-latestNews__title">
+            <h2>Latest GPC News</h2>
+            <a href="/blog.html">View all</a>
+        </div>
+        <div class="owl-carousel">
+            <?php /** @var \Mageplaza\Blog\Model\Post $post */ ?>
+            <?php foreach ($posts as $post) : ?>
+                <div class="c-latestNews__item">
+                    <div class="c-latestNews__image">
+                        <img src="<?= $block->escapeUrl($block->resizeImage($post->getImage())); ?>" alt="<?= $block->escapeHtml($post->getName()); ?>" loading="lazy"/>
+                        <span><?= $block->escapeHtml($post->getName()); ?></span>
+                    </div>
+                    <p class="c-latestNews__date"><?= $post->getPublishDate()
+                            ? $block->escapeHtml($block->getDateFormat($post->getPublishDate())) : ''; ?></p>
+                    <p class="c-latestNews__intro"><?= $block->escapeHtml($post->getShortDescription()); ?></p>
+                    <a href="<?= $block->escapeUrl($post->getUrl()) ?>">Read more</a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require(['jquery','owl'], function($, owlCarousel) {
+            $(document).ready(function(){
+                $(".c-latestNews .owl-carousel").owlCarousel({
+                    loop: false,
+                    responsiveClass: true,
+                    lazyLoad:true,
+                    nav: true,
+                    center: false,
+                    dots: false,
+                    margin: 16,
+                    responsive: {
+                        0: {
+                            items: 1,
+                        },
+                        600: {
+                            items: 2,
+                        },
+                        992: {
+                            items: 3
+                        },
+                        1500: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+<?php endif; ?>

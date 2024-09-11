@@ -1,0 +1,20 @@
+{
+    "name": "Western Industrial",
+    "short_name": "Western Industrial",
+    "start_url": "https://gpc-distr.warboxcreative.co.uk/",
+    "icons": [
+        {
+            "src": "/static/frontend/Gpc/default/en_GB/Magento_Theme/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/frontend/Gpc/default/en_GB/Magento_Theme/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

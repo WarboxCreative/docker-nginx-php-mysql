@@ -1,0 +1,30 @@
+name: 'Composer Setup and install'
+description: 'Sets up composer for the project'
+inputs:
+  private_key:
+    description: 'Private key'
+    required: true
+  public_key:
+    description: 'Public key'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Copy SSH keys
+      run: |
+        mkdir ~/.ssh;
+        chmod 700 ~/.ssh;
+        echo "$PUBLIC_KEY" > ~/.ssh/id_rsa.pub;
+        echo "$PRIVATE_KEY" > ~/.ssh/id_rsa;
+        chmod 600 ~/.ssh/id_rsa;
+        chmod 600 ~/.ssh/id_rsa.pub;
+      env:
+        PUBLIC_KEY: ${{ inputs.public_key }}
+        PRIVATE_KEY: ${{ inputs.private_key }}
+      shell: bash
+    - name: Disable Host Key verification for git
+      run: git config --global core.sshCommand 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+      shell: bash
+    - name: Install Dependencies
+      run: composer install --prefer-dist
+      shell: bash

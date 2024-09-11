@@ -1,0 +1,59 @@
+<?php
+/** @var Magento\Framework\Escaper $escaper */
+/** @var Lof\Autosearch\Block\Autosearch $block */
+
+$moduleId       = rand() . time();
+$module_selector = 'autosearch' . $moduleId;
+$helper         = $this->helper('Magento\Search\Helper\Data');
+$searchHelper   = $this->helper('Lof\Autosearch\Helper\Data');
+$blockId        = 'lof-search' . $moduleId;
+?>
+<div class="c-search lof-autosearch box search_box" id="<?= $blockId ?>">
+    <form class="c-search__form" method="GET" id="form<?= $blockId ?>" action="<?= $this->getCatalogSearchLink(); ?>">
+        <?php if(!empty($categories)): ?>
+            <div class="filter_type category-filter">
+                <span class="fa fa-caret-down"></span>
+                <select name="cat">
+                    <option value="<?= $this->getRootCategoryId(); ?>"><?= __("All Categories"); ?></option>
+                    <?= $categories; ?>
+                </select>
+            </div>
+            <?php endif; ?>
+
+            <label class="c-search__label" for="search" data-role="minisearch-label">
+                <?= $escaper->escapeHtml(__('Search')); ?>
+            </label>
+
+            <div id="<?= $module_selector ?>" class="c-search__control lof-search control">
+                <input
+                    id="search"
+                    type="text"
+                    name="<?= $helper->getQueryParamName() ?>"
+                    value="<?= $helper->getEscapedQueryText() ?>"
+                    placeholder="<?= __('Search here...'); ?>"
+                    class="input-text c-search__input"
+                    autocomplete="off"
+                    onfocus="this.placeholder='What are you looking for?'"
+                    onblur="this.placeholder='Search here...'"
+                />
+                <input type="hidden" name="name" placeholder="<?= __('Search here...'); ?>" value="<?= $helper->getEscapedQueryText() ?>" class="input-text" autocomplete="off"/>
+                <button type="submit" title="<?= $escaper->escapeHtml(__('Search')); ?>" class="c-search__button" aria-label="Search">
+                    <i class="far fa-search text-black"></i>
+                </button>
+            </div>
+        </form>
+        <?php if(($trendingCollection = $block->getTerms()) && $trendingCollection->getSize()): ?>
+            <div id="search-tags" class="search-tags">
+                <div class="title">
+                    <span><?= __('Trending keywords:'); ?></span>
+                </div>
+                <div class="content">
+                    <?php foreach ($trendingCollection as $_term): ?>
+                    <a href="<?= $this->getCatalogSearchLink(); ?>?q=<?= $block->escapeHtml($_term->getQueryText()) ?>" style="font-size:<?= $_term->getPopularity()/100*80+90 ?>%;">
+                        <?= $block->escapeHtml($_term->getQueryText()) ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>

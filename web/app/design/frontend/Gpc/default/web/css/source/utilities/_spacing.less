@@ -1,0 +1,74 @@
+//
+//  Variables
+//  _____________________________________________
+@values-array: 0, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .for(@i, @n) {
+        .-each(@i)
+    }
+
+    .for(@n) when (isnumber(@n)) {
+        .for(1, @n)
+    }
+
+    .for(@i, @n) when not (@i =@n) {
+        .for((@i + (@n - @i) / abs(@n - @i)), @n);
+    }
+
+    .for(@array) when (default()) {
+        .for-impl_(length(@array))
+    }
+
+    .for-impl_(@i) when (@i > 1) {
+        .for-impl_((@i - 1))
+    }
+
+    .for-impl_(@i) when (@i > 0) {
+        .-each(extract(@array, @i))
+    }
+
+    @media (min-width: 0) {
+        .make-space(@prefix: xs);
+    }
+
+    @media (min-width: @screen__s) {
+        .make-space(@prefix: sm);
+    }
+
+    @media (min-width: @screen__m) {
+        .make-space(@prefix: md);
+    }
+
+    @media (min-width: @screen__l) {
+        .make-space(@prefix: lg);
+    }
+
+    @media (min-width: @screen__xl) {
+        .make-space(@prefix: xl);
+    }
+
+    .make-space(@prefix) {
+        .for(@values-array);
+
+        .-each(@value) {
+            .@{prefix}-p-@{value}   { padding:        ~"@{value}px !important"; }
+            .@{prefix}-pt-@{value}  { padding-top:    ~"@{value}px !important"; }
+            .@{prefix}-pl-@{value}  { padding-left:   ~"@{value}px !important"; }
+            .@{prefix}-pr-@{value}  { padding-right:  ~"@{value}px !important"; }
+            .@{prefix}-pb-@{value}  { padding-bottom: ~"@{value}px !important"; }
+            .@{prefix}-px-@{value}  { padding-left:   ~"@{value}px"; padding-right:  ~"@{value}px !important"; }
+            .@{prefix}-py-@{value}  { padding-top:    ~"@{value}px"; padding-bottom: ~"@{value}px !important"; }
+            .@{prefix}-m-@{value}   { margin:         ~"@{value}px !important"; }
+            .@{prefix}-mt-@{value}  { margin-top:     ~"@{value}px !important"; }
+            .@{prefix}-ml-@{value}  { margin-left:    ~"@{value}px !important"; }
+            .@{prefix}-mr-@{value}  { margin-right:   ~"@{value}px !important"; }
+            .@{prefix}-mb-@{value}  { margin-bottom:  ~"@{value}px !important"; }
+            .@{prefix}-mx-@{value}  { margin-left:    ~"@{value}px"; margin-right:    ~"@{value}px !important"; }
+            .@{prefix}-my-@{value}  { margin-top:     ~"@{value}px"; margin-bottom:   ~"@{value}px !important"; }
+        }
+    }
+}

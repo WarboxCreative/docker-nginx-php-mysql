@@ -1,0 +1,74 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-article-overview {
+        margin: 0 0 3rem 0;
+
+        &__img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        &__content {
+
+        }
+
+        &__title {
+            .lib-font-size(18);
+            display: block;
+            font-weight: @font-weight__semibold;
+            padding: 1.5rem 0 .5rem;
+        }
+
+        &__desc {
+            .lib-font-size(15);
+            display: block;
+            margin: 0 0 1.5rem;
+        }
+
+        &__link {
+            .lib-font-size(15);
+            color: @color-black;
+            text-decoration: underline;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-article-overview {
+        margin: 0 0 5rem 0;
+
+        &__title {
+            .lib-font-size(20);
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .c-article-overview {
+        margin: 0 0 7.5rem 0;
+
+        &__title {
+            .lib-font-size(20);
+        }
+    }
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

@@ -1,0 +1,27 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+	img,
+	video,
+	embed {
+	    border: none;
+	    max-width: 100%;
+	    height: auto;
+	}
+
+	.video-embed {
+		position: relative;
+		padding-bottom: 56.25%;
+		padding-top: 2.5rem;
+		height: 0;
+
+		iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}

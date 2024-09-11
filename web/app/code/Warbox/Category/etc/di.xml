@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <type name="Warbox\Category\Controller\Adminhtml\Category\Image\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magento\Catalog\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\Catalog\CategoryImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">catalog/tmp/category</argument>
+            <argument name="basePath" xsi:type="string">catalog/category</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+                <item name="svg" xsi:type="string">svg</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <preference for="Magento\Catalog\Model\Category\DataProvider" type="Warbox\Category\Model\Category\DataProvider" />
+    <preference for="Magento\Catalog\Block\Product\ListProduct" type="Warbox\Category\Block\ListProduct" />
+    <preference for="Magento\CatalogSearch\Block\SearchResult\ListProduct" type="Warbox\Category\Block\ListProduct" />
+    <preference for="Magento\Catalog\Block\Product\AbstractProduct" type="Warbox\Category\Block\AbstractProduct" />
+
+    <type name="Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection">
+        <plugin
+            name="attributeSortOrdering"
+            type="Warbox\Category\Plugin\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection"
+            sortOrder="10"
+            disabled="false"
+        />
+    </type>
+</config>

@@ -1,0 +1,91 @@
+//
+//  Variables
+//  _____________________________________________
+@overview-background__image: url('https://via.placeholder.com/1920x600');
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-overview-bg {
+        background-image: @overview-background__image;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        color: @color-white;
+        display: block;
+        height: auto;
+        max-width: 100%;
+        padding: 10rem 0 11rem;
+        width: 100%;
+
+        &__content {
+            width: 100%;
+            position: relative;
+
+            &:after {
+                content: "";
+                background: @color-primary;
+                display: block;
+                height: .4rem;
+                margin: 2rem 0 0;
+                width: 9rem;
+            }
+        }
+
+        &__title {
+            .lib-font-size(16);
+            display: block;
+            font-family: @font-family__base;
+            font-weight: @font-weight__heavier;
+            margin: 0 0 1.5rem;
+        }
+
+        &__info {
+            .lib-font-size(15);
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .c-overview-bg {
+        background-attachment: fixed;
+
+        &__alignment {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+        }
+
+        &__content {
+            width: 50%;
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-overview-bg {
+        padding: 15rem 0;
+
+        &__content {
+            width: 40%;
+
+            &:after {
+                margin: 3.5rem 0 0;
+            }
+        }
+
+        &__title {
+            .lib-font-size(20);
+        }
+    }
+}

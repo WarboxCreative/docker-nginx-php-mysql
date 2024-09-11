@@ -1,0 +1,24 @@
+//
+//  Variables
+//  _____________________________________________
+@gallery__border: .1rem solid @color-light-grey;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .fotorama {
+        .fotorama__stage {
+            border: @gallery__border;
+        }
+    }
+
+    //
+    //  Pagination
+    //  _____________________________________________
+    .fotorama__nav__frame--dot {
+        .fotorama__dot {
+            padding: .5rem;
+        }
+    }
+}

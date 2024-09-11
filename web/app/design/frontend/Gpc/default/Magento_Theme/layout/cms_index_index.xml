@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="usps" template="Magento_Theme::html/blocks/c-usps.phtml" before="-"/>
+        </referenceContainer>
+
+        <referenceContainer name="page.wrapper">
+            <container name="our-brands-wrapper" after="main" htmlTag="div" htmlClass="c-ourBrands__wrapper">
+                <container name="our-brands-container" htmlTag="div" htmlClass="container">
+                    <container name="our-brands-row" htmlTag="div" htmlClass="row">
+                        <container name="our-brands-col" htmlTag="div" htmlClass="col-12">
+                            <block class="Magento\Cms\Block\Block" name="our-brands">
+                                <arguments>
+                                    <argument name="block_id" xsi:type="string">our-brands</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                    </container>
+                </container>
+            </container>
+            <container name="latest-news-wrapper" after="our-brands-wrapper" htmlTag="div" htmlClass="c-latestNews__wrapper">
+                <container name="latest-news-container" htmlTag="div" htmlClass="container">
+                    <container name="latest-news-row" htmlTag="div" htmlClass="row">
+                        <container name="latest-news-col" htmlTag="div" htmlClass="col-12">
+                            <block class="Mageplaza\Blog\Block\Sidebar\MostView" name="usps" template="Magento_Theme::html/blocks/c-latestNews.phtml" before="-"/>
+                        </container>
+                    </container>
+                </container>
+            </container>
+            <container name="about-wrapper" after="latest-news-wrapper" htmlTag="div" htmlClass="c-aboutUs__wrapper">
+                <container name="about-container" htmlTag="div" htmlClass="container">
+                    <container name="about-row" htmlTag="div" htmlClass="row">
+                        <container name="about-col" htmlTag="div" htmlClass="col-12">
+                            <block class="Magento\Cms\Block\Block" name="about-us">
+                                <arguments>
+                                    <argument name="block_id" xsi:type="string">about-gpc</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                    </container>
+                </container>
+            </container>
+            <container name="seo-wrapper" after="about-wrapper" htmlTag="div" htmlClass="c-seo__wrapper">
+                <container name="seo-container" htmlTag="div" htmlClass="container">
+                    <container name="seo-row" htmlTag="div" htmlClass="row">
+                        <container name="seo-col" htmlTag="div" htmlClass="col-12">
+                            <block class="Magento\Cms\Block\Block" name="seo">
+                                <arguments>
+                                    <argument name="block_id" xsi:type="string">seo-content</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                    </container>
+                </container>
+            </container>
+            <container name="faqs-wrapper" after="seo-wrapper" htmlTag="div" htmlClass="c-faqs__wrapper">
+                <container name="faqs-container" htmlTag="div" htmlClass="container">
+                    <container name="faqs-row" htmlTag="div" htmlClass="row">
+                        <container name="faqs-col" htmlTag="div" htmlClass="col-12" label="FAQ Container">
+                            <block class="Magento\Cms\Block\Block" name="faqs">
+                                <arguments>
+                                    <argument name="block_id" xsi:type="string">faqs-gpctv</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                    </container>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <!-- Remove title from homepage -->
+        <referenceBlock name="page.main.title" remove="true"/>
+
+        <referenceBlock name="products.tabs" remove="true"/>
+    </body>
+</layout>

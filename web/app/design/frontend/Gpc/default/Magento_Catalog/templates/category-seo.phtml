@@ -1,0 +1,11 @@
+<?php
+ /** @var \Warbox\Category\Block\Landing $block */
+$current    = $block->getCurrentCategory();
+$pageNumber = $block->getRequest()->getParam('p');
+?>
+
+<?php if(!$pageNumber || $pageNumber < 2) : ?>
+    <div class="c-categorySeo">
+        <?= $current->getSeoContent(); ?>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,109 @@
+//
+//  Variables
+//  _____________________________________________
+@multi-cta__background: @color-grey;
+@multi-cta__icon-color: @color-primary;
+@multi-cta__color: @color-black;
+@multi-cta__hover-color: @color-primary;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-multi-cta {
+        background: @multi-cta__background;
+        margin: 0;
+        padding: 1.5rem;
+
+        &__items {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            opacity: 0;
+            transition: opacity @global-transition*1.8 @ease-in;
+            visibility: hidden;
+
+            > *:not(:first-child) {
+                display: none;
+            }
+        }
+
+        &__item {
+            text-align: center;
+        }
+
+        &__link {
+            color: @multi-cta__color;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            transition: color @global-transition @ease-in;
+
+            .hocus({
+                color: @multi-cta__hover-color;
+                text-decoration: none;
+                transition: color @global-transition @ease-out;
+            });
+        }
+
+        &__icon {
+            color: @multi-cta__icon-color;
+            display: block;
+            margin: 0 .75rem 0 0;
+        }
+
+        &__desc {
+            display: block;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .c-multi-cta {
+        &__item {
+            opacity: 1 !important;
+        }
+
+        &__items {
+            opacity: 1;
+            visibility: visible;
+
+            > *:not(:first-child) {
+                display: block;
+            }
+        }
+    }
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

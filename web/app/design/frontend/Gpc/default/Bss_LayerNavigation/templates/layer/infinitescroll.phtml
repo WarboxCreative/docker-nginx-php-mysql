@@ -1,0 +1,45 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Bss_LayerNavigation
+ * @author    Extension Team
+ * @copyright Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+
+<?php
+// @codingStandardsIgnoreFile
+?>
+<?php if ($block->isBssInfiniteScrollEnabled()): ?>
+<?php
+$blockInfiniteScroll = $block->getBlockBssInfiniteScroll();
+$helper = $blockInfiniteScroll->getBssHelper();
+?>
+<?php if ($helper->checkActive() && $block->getRequest()->isAjax()): ?>
+    <div class="bss-scroll-js">
+        <script type="text/x-magento-init">
+        {
+            "*": {
+                "Bss_InfiniteScroll/js/infinite-scroll": {
+                    <?php if ($helper->checkBssLazy()) :?>
+                        "bss_lazy_loader" : <?php /* @escapeNotVerified */ echo $this->helper('Bss\LazyImageLoader\Helper\Data')->isEnabled() ?>,
+                        "bss_lazy_threshold" : <?php /* @escapeNotVerified */ echo $this->helper('Bss\LazyImageLoader\Helper\Data')->getThreshold() ?>,
+                    <?php endif;?>
+                    "jsonConfig": <?php /* @escapeNotVerified */ echo $blockInfiniteScroll->getJsonConfig() ?>
+                }
+            }
+        }
+    </script>
+    </div>
+<?php endif; ?>
+<?php endif; ?>

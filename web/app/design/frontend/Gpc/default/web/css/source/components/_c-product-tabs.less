@@ -1,0 +1,115 @@
+//
+//  Variables
+//  _____________________________________________
+@product-tabs__color: #707070;
+@product-tabs__border: 0;
+@product-tabs__current__color: #333333;
+@product-tabs__current__border: .1rem solid #333333;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-product-tabs {
+        margin: 3rem 0 0;
+
+        &__title {
+            .lib-font-size(20);
+            display: block;
+            font-weight: @font-weight__bold;
+            margin: 0 0 2.5rem;
+            text-align: center;
+        }
+
+        &__links {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        &__link-item {
+            &--active {
+                .c-product-tabs__link {
+                    border-bottom: @product-tabs__current__border;
+                    color: @product-tabs__current__color;
+                }
+            }
+        }
+
+        &__link {
+            .lib-font-size(12);
+            border-bottom: @product-tabs__color;
+            color: @product-tabs__color;
+            display: inline-block;
+            margin: 0;
+            text-transform: uppercase;
+
+            &:visited {
+                color: @product-tabs__color;
+            }
+
+            .hocus({
+                color: @product-tabs__color;
+                text-decoration: none;
+            });
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-product-tabs {
+        margin: 4rem 0 0;
+
+        &__title {
+            .lib-font-size(23);
+        }
+
+        &__links {
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        &__link {
+            .lib-font-size(14);
+            margin: 0 3rem;
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .c-product-tabs {
+        margin: 5rem 0 0;
+
+        &__title {
+            .lib-font-size(26);
+        }
+    }
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

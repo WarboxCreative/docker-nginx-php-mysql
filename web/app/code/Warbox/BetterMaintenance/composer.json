@@ -1,0 +1,22 @@
+{
+    "name": "warbox/better-maintenance",
+    "description": "PHP8.1 fixes for Mageplaza/module-better-maintenance",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "php": "~7.4|~8.0|~8.1",
+	    "magento/product-community-edition": ">2.3.*",
+        "mageplaza/module-better-maintenance": "~4.0.2"
+    },
+    "license": [
+    	  "MIT"
+     ],
+    "autoload": {
+        "files": [
+	          "registration.php"
+	      ],
+        "psr-4": {
+            "Warbox\\BetterMaintenance\\": ""
+        }
+    }
+}

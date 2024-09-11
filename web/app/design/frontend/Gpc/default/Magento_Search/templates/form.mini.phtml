@@ -1,0 +1,58 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Search\ViewModel\ConfigProvider $configProvider */
+$configProvider = $block->getData('configProvider');
+/** @var \Magento\Search\ViewModel\AdditionalSearchFormData $versionManager */
+$additionalSearchFormData = $block->getData('additionalSearchFormData');
+/** @var \Magento\Search\Helper\Data $helper */
+$helper = $configProvider->getSearchHelperData();
+$allowedSuggestion = $configProvider->isSuggestionsAllowed();
+$quickSearchUrl = $allowedSuggestion ? $escaper->escapeUrl($helper->getSuggestUrl()) : '';
+?>
+
+<div id="blockSearch" class="c-search" aria-hidden="true">
+    <form class="c-search__form" id="search_mini_form" action="<?= $escaper->escapeUrl($helper->getResultUrl()); ?>" method="get">
+        <?php  if (!empty($queryParams = $additionalSearchFormData->getFormData())): ?>
+            <?php foreach ($queryParams as $param): ?>
+                <input type="hidden" name="<?= $escaper->escapeHtmlAttr($param['name']) ?>"
+                       value="<?= $escaper->escapeHtmlAttr($param['value']) ?>"/>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <label class="c-search__label" for="search" data-role="minisearch-label">
+            <?= $escaper->escapeHtml(__('Search')); ?>
+        </label>
+
+        <div class="c-search__control">
+            <input id="search"
+                   class="input-text c-search__input"
+                   data-mage-init='{
+                    "quickSearch":{
+                        "formSelector":"#search_mini_form",
+                        "url":"<?= /* @noEscape */ $quickSearchUrl ?>",
+                        "destinationSelector":"#search_autocomplete",
+                        "minSearchLength": "<?= $escaper->escapeHtml($helper->getMinQueryLength()) ?>"
+                    }
+                }'
+                   type="text"
+                   name="<?= $escaper->escapeHtmlAttr($helper->getQueryParamName()); ?>"
+                   value="<?= /* @noEscape */ $helper->getEscapedQueryText(); ?>"
+                   placeholder="<?= $escaper->escapeHtmlAttr(__('Search here...')); ?>"
+                   maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()); ?>"
+                   role="combobox"
+                   aria-haspopup="false"
+                   aria-autocomplete="both"
+                   autocomplete="off"
+                   aria-expanded="false"
+                   onfocus="this.placeholder='What are you looking for?'"
+                   onblur="this.placeholder='Search here...'"/>
+            <div id="search_autocomplete" class="search-autocomplete"></div>
+            <?php echo $block->getChildHtml(); ?>
+        </div>
+
+        <button type="submit" title="<?= $escaper->escapeHtml(__('Search')); ?>" class="c-search__button" aria-label="Search">
+            <i class="far fa-search text-black"></i>
+        </button>
+    </form>
+</div>

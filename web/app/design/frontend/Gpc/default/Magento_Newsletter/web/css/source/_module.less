@@ -1,0 +1,228 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-newsletter {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em 0;
+        background-color: @color-primary;
+
+        &__left {
+            display: flex;
+            align-items: center;
+        }
+
+        &__right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        div.mage-error {
+            position: absolute;
+            top: -15px;
+            right: 145px;
+        }
+
+        .c-social {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 100%;
+
+            &__icon {
+                width: 50px;
+                height: 50px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+
+                    &:hover {
+                        filter: invert(1);
+                    }
+                }
+                span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 100%;
+                    background: @color-white;
+                    border-radius: 100px;
+
+                    i {
+                        color: @color-secondary;
+                    }
+                }
+            }
+        }
+
+        &__caption {
+            font-size: @font-size__xl;
+            color: @color-white;
+            font-family: @font-family__special;
+            font-weight: @font-weight__bold;
+            margin-right: 2.5rem;
+        }
+
+        &__content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        &__form {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        &__button {
+            margin-left: 2.5rem;
+        }
+
+        .mage-error[generated] {
+            position: absolute;
+            bottom: -4rem;
+        }
+    }
+
+    input.c-newsletter__input {
+        width: 484px;
+    }
+}
+
+//
+//  Laptop <1500px
+//  _____________________________________________
+@media screen and (max-width: @screen__xl) {
+    .c-newsletter {
+        &__caption {
+            font-size: @h5__font-size;
+        }
+
+        input.c-newsletter__input {
+            width: 360px;
+        }
+    }
+}
+
+//
+//  IPad
+//  _____________________________________________
+@media only screen and (max-width: 1200px) {
+    .c-newsletter {
+        .col-md-8 {
+            padding-left: 0;
+        }
+
+        &__caption {
+            font-size: 18px;
+            margin-right: 1rem;
+        }
+
+        input.c-newsletter__input {
+            width: 329px;
+        }
+
+        &__button {
+            margin-left: 1.5rem;
+        }
+    }
+}
+
+//
+//  Small Desktop / Tablet
+//  _____________________________________________
+@media only screen and (max-width: @screen__l) {
+    .c-newsletter {
+        .col-md-8 {
+            padding-left: 15px;
+        }
+
+        .col-md-4 {
+            display: flex;
+            align-items: center;
+        }
+
+        &__right {
+            flex-wrap: wrap;
+        }
+
+        &__caption {
+            width: 100%;
+            flex: 0 0 100%;
+            margin-right: 0;
+            font-size: 24px;
+        }
+
+        &__content {
+            width: 100%;
+            flex: 0 0 100%;
+        }
+
+        &__button {
+            min-width: 110px;
+        }
+
+        div.mage-error {
+            top: 10px;
+            right: 20px;
+        }
+
+        input.c-newsletter__input {
+            flex-grow: 1;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+@media only screen and (max-width: @screen__m) {
+    .c-newsletter {
+        padding: 3em 0;
+
+        .col-md-4 {
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+
+        &__caption {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        &__form {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        input.c-newsletter__input {
+            width: 100%;
+            flex: 0 0 100%;
+            margin-bottom: 16px;
+            height: 45px;
+        }
+
+        div.mage-error {
+            position: static;
+            top: 0;
+            right:0;
+            margin-right: 1rem;
+        }
+
+        &__button {
+            margin-left: 0;
+        }
+    }
+}

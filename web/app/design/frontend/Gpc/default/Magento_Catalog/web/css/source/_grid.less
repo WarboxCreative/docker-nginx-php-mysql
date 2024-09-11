@@ -1,0 +1,151 @@
+//
+//  Variables
+//  _____________________________________________
+
+// Layout
+@grid-layout__mobile: 1fr 1fr;
+@grid-layout__tablet: 1fr 1fr 1fr;
+@grid-layout__desktop: 1fr 1fr 1fr;
+@grid-layout__large-desktop: 1fr 1fr 1fr;
+
+// Column spacing
+@grid-column-spacing__mobile: 1.5rem;
+@grid-column-spacing__tablet: 1.5rem;
+@grid-column-spacing__desktop: 2rem;
+@grid-column-spacing__large-desktop: 2rem;
+
+// Row spacing
+@grid-row-spacing__mobile: 2.5rem;
+@grid-row-spacing__tablet: 4rem;
+@grid-row-spacing__desktop: 5rem;
+@grid-row-spacing__large-desktop: 5rem;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .products-grid.grid,
+    .products-grid.wrapper {
+        .product-items:not(.slick-initialized) {
+            position: relative;
+            display: -ms-grid;
+            display: grid;
+            -ms-grid-columns: @grid-layout__mobile;
+            grid-template-columns: @grid-layout__mobile;
+            grid-gap: @grid-row-spacing__mobile @grid-column-spacing__mobile;
+
+            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                display: block !important;
+            }
+        }
+
+        .product-items {
+            &.slick-initialized {
+                .product-item {
+                    margin: 0 @grid-column-spacing__mobile/2;
+                }
+            }
+
+            .item {
+                min-width: 0;
+            }
+        }
+
+        .product-item {
+            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                float: left !important;
+                width: 50% !important;
+            }
+        }
+    }
+
+    .product-items-carousel {
+        opacity: 0;
+        transition: opacity @global-transition*1.8 @ease-in;
+        visibility: hidden;
+
+        > *:not(:first-child):not(:nth-child(2)) {
+            display: none;
+        }
+    }
+}
+
+
+//
+//  Small screen
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .products-grid.grid,
+    .products-grid.wrapper {
+        .product-items:not(.slick-initialized) {
+            -ms-grid-columns: @grid-layout__tablet;
+            grid-template-columns: @grid-layout__tablet;
+            grid-gap: @grid-row-spacing__tablet @grid-column-spacing__tablet;
+        }
+
+        .product-items {
+            &.slick-initialized {
+                .product-item {
+                    margin: 0 @grid-column-spacing__tablet/2;
+                }
+            }
+        }
+    }
+
+    .product-items-carousel {
+        > *:not(:first-child):not(:nth-child(2)):not(:nth-child(3)) {
+            display: none;
+        }
+    }
+}
+
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .products-grid.grid,
+    .products-grid.wrapper {
+        .product-items:not(.slick-initialized) {
+            -ms-grid-columns: @grid-layout__desktop;
+            grid-template-columns: @grid-layout__desktop;
+            grid-gap: @grid-row-spacing__desktop @grid-column-spacing__desktop;
+        }
+
+        .product-items {
+            &.slick-initialized {
+                .product-item {
+                    margin: 0 @grid-column-spacing__desktop/2;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .products-grid.grid,
+    .products-grid.wrapper {
+        .product-items:not(.slick-initialized) {
+            -ms-grid-columns: @grid-layout__large-desktop;
+            grid-template-columns: @grid-layout__large-desktop;
+            grid-gap: @grid-row-spacing__large-desktop @grid-column-spacing__large-desktop;
+        }
+
+        .product-items {
+            &.slick-initialized {
+                .product-item {
+                    margin: 0 @grid-column-spacing__large-desktop/2;
+                }
+            }
+        }
+    }
+}

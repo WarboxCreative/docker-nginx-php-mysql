@@ -1,0 +1,83 @@
+<?php
+/** @var \Warbox\Customer\Block\Account $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<div class="c-loginPopup">
+    <div class="c-loginPopup__item">
+        <img src="<?= $block->getViewFileUrl('images/icons/Icon_user.svg'); ?>" alt="User" role="presentation"/>
+        <?php if(!$block->customerLoggedIn()): ?>
+            <span>Login / Register</span>
+        <?php else: ?>
+            <span>My Account</span>
+        <?php endif; ?>
+        <i class="far fa-chevron-down"></i>
+    </div>
+    <div class="c-loginPopup__dropdown">
+        <?php if(!$block->customerLoggedIn()): ?>
+            <form id="headerFormPopup" class="form form-login" method="post" action="<?= $block->getCustomerLoginUrl(); ?>">
+                <input name="form_key" type="hidden" value="<?= $block->getFormKey(); ?>">
+                <div class="fieldset login">
+                    <div class="field email required">
+                        <label class="label" for="customer-email">Email</label>
+                        <div class="control">
+                            <input name="login[username]"
+                                   id="customer-email"
+                                   type="email"
+                                   class="input-text"
+                                   placeholder="Enter email"
+                                   data-validate="{required:true, 'validate-email':true}"/>
+                        </div>
+                    </div>
+                    <div class="field password required">
+                        <label for="pass" class="label">Password</label>
+                        <div class="control">
+                            <input name="login[password]"
+                                   type="password"
+                                   class="input-text"
+                                   placeholder="Enter password"
+                                   id="pass"
+                                   data-validate="{required:true}"/>
+                        </div>
+                    </div>
+                    <div class="actions-toolbar">
+                        <div class="primary">
+                            <button type="submit" class="action action-login c-button c-button--primary" name="send" id="send2">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <a class="c-button c-button--link" href="<?= $escaper->escapeUrl($block->getCustomerForgotPasswordUrl()); ?>" title="Forgot Password?">Forgot Password?</a>
+            <div class="c-loginPopup__register">
+                <span>Don't have an account?</span>
+                <a class="c-button c-button--link" href="<?= $escaper->escapeUrl($block->getCustomerRegisterUrl()); ?>" title="Register here">Register HERE</a>
+            </div>
+        <?php else: ?>
+            <ul>
+                <li>
+                    <a href="/customer/account/" title="Dashboard">Dashboard</a>
+                </li>
+                <li>
+                    <a href="/sales/order/history/" title="My Quotes">My Orders</a>
+                </li>
+                <li>
+                    <a href="/customer/account/edit/" title="Account Information">Account Information</a>
+                </li>
+                <li>
+                    <a href="/customer/address/" title="Address Book">Address Book</a>
+                </li>
+            </ul>
+            <a class="c-button c-button--primary" href="<?= $escaper->escapeUrl($block->getCustomerLogoutUrl()); ?>" title="Log out">Log out</a>
+        <?php endif; ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        $('.c-loginPopup__item').click(function(){
+            $('.c-loginPopup__dropdown').toggleClass('c-loginPopup__dropdown--active');
+        });
+    });
+</script>

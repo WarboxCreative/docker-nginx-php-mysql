@@ -1,0 +1,69 @@
+@color-primary: #456D7D;
+@color-secondary: #7AC2BE;
+
+@font-family-name__special: 'new-frank';
+@font-family__special: @font-family-name__special, @font-family__sans-serif;
+
+@root__font-size: 62.5%; // Defines ratio between root font size and base font size, 1rem = 10px
+@font-size-ratio__base: 1.6; // Defines ratio of the root font-size to the base font-size
+
+@font-size-unit: rem; // The unit to which most typography values will be converted by default
+@font-size-unit-ratio: unit(@root__font-size * 16/100); // Ratio of the root font-size to the font-size unit
+@font-size-unit-convert: true; // Controls whether font-size values are converted to the specified font-size unit
+
+@font-size__base: unit(@font-size-unit-ratio * @font-size-ratio__base, px); // 16px
+@h4__font-size: ceil((@font-size__base * 1.5)); // 24px
+
+@font-weight__bold: 700;
+
+.icon-pagebuilder-faqs {
+    content: url('@{baseDir}Warbox_PageBuilderFaqs/css/images/content-type/warbox-faqs/appearance/icon-pagebuilder-faqs.svg');
+    width: 18px;
+    height: 18px;
+    margin-bottom: -1px;
+}
+
+.c-faqs {
+    border-top: 2px solid @color-secondary!important;
+    padding-top: 24px;
+
+    h2 {
+        margin-bottom: 32px;
+    }
+
+    .accordion {
+        dt {
+            padding: 14px 0;
+            border-bottom: none!important;
+
+            a {
+                font-family: @font-family__special;
+                font-size: @h4__font-size!important;
+                font-weight: @font-weight__bold!important;
+                color: @color-primary!important;
+
+                &:hover {
+                    text-decoration: none;
+                }
+
+                span {
+                    display: inline-block;
+                    margin-right: 16px;
+                }
+
+                p {
+                    display: inline-block;
+                    margin: 0;
+                }
+            }
+        }
+
+        dd {
+            border-bottom: 1px solid #C0C5D1!important;
+            display: block!important;
+            padding-bottom: 16px;
+            padding-left: 32px;
+            margin: 0!important;
+        }
+    }
+}

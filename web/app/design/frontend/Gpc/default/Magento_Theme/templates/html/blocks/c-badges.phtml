@@ -1,0 +1,92 @@
+<?php /** @var Warbox\Category\Block\Product $block */ ?>
+
+<?php
+    $existingBadges = [
+        'some assembly required',
+        'uk manufactured',
+        'get this in 3-5 working days',
+        'xxxx certified',
+        'while stocks last',
+        'made to order'
+    ];
+    $class      = $block->getData('class');
+
+    if($class) :
+        $code       = strtolower(str_replace(' ', '-', $class));
+        $badgeBlock = '';
+
+        switch(strtolower($class)) {
+            case 'some assembly required':
+                $badgeBlock = 'c-assembly';
+                break;
+            case 'uk manufactured':
+                $badgeBlock = 'c-manufactured';
+                break;
+            case 'get this in 3-5 working days':
+                $badgeBlock = 'c-leadTime';
+                break;
+            case 'xxxx certified':
+                $badgeBlock = 'c-certified';
+                break;
+            case 'while stocks last':
+                $badgeBlock = 'c-limitedStock';
+                break;
+            case 'made to order':
+                $badgeBlock = 'c-madeToOrder';
+                break;
+            default:
+                break;
+        }
+
+        $badgeUrl = '/media/wysiwyg/badges/';
+        $url      = '';
+
+        $url = $block->findImageByName($badgeUrl, $code);
+    ?>
+
+    <?php if($badgeBlock === 'c-assembly'): ?>
+        <div class="c-assembly">
+            <img src="<?= $block->getViewFileUrl('images/icons/assembly.svg'); ?>" alt="Some assembly required" loading="lazy"/>
+            <span>Some assembly required</span>
+        </div>
+    <?php endif; ?>
+
+    <?php if($badgeBlock === 'c-manufactured'): ?>
+        <div class="c-manufactured">
+            <img src="<?= $block->getViewFileUrl('images/icons/manufactured.jpg'); ?>" alt="UK Manufactured" loading="lazy"/>
+            <span>UK Manufactured</span>
+        </div>
+    <?php endif; ?>
+
+    <?php if($badgeBlock === 'c-madeToOrder'): ?>
+        <div class="c-madeToOrder">
+            <img src="<?= $block->getViewFileUrl('images/icons/madetoOrder.svg'); ?>" alt="Made to order" loading="lazy"/>
+            <span>Made to order</span>
+        </div>
+    <?php endif; ?>
+
+    <?php if($badgeBlock === 'c-limitedStock'): ?>
+        <div class="c-limitedStock">
+            <img src="<?= $block->getViewFileUrl('images/icons/limitedStock.svg'); ?>" alt="While Stocks Last" loading="lazy"/>
+            <span>While Stocks Last</span>
+        </div>
+    <?php endif; ?>
+
+    <?php if($badgeBlock === 'c-certified'): ?>
+        <div class="c-certified">
+            <img src="<?= $block->getViewFileUrl('images/icons/certified.svg'); ?>" alt="xxxx Certified" loading="lazy"/>
+            <span>xxxx Certified</span>
+        </div>
+    <?php endif; ?>
+
+    <?php if(!str_contains(strtolower($class), 'day delivery') && !str_contains(strtolower($class), 'week delivery')): ?>
+        <?php if(!in_array(strtolower($class), $existingBadges)): ?>
+            <div class="c-certified c-defaultBadge">
+                <?php if($url): ?>
+                    <img src="<?= $url; ?>" alt="<?= $class; ?>" loading="lazy"/>
+                <?php endif; ?>
+                <span><?= $class; ?></span>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,48 @@
+<?php /** @var Magento\Framework\View\Element\Template $block */ ?>
+
+<span class="c-back-to-top" id="backToTop"><i class="far fa-arrow-up"></i></span>
+
+<script type="text/javascript">
+    require(['jquery','owl'], function($, owlCarousel) {
+        $('#backToTop').on('click', function(e) {
+            e.preventDefault();
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+        });
+
+        $(document).ready(function(){
+            if($('.c-usps').length) {
+                $(".c-usps .pagebuilder-column-line").addClass('owl-carousel');
+                $(".c-usps .pagebuilder-column-line").owlCarousel({
+                    loop: false,
+                    responsiveClass: true,
+                    nav: false,
+                    dots: false,
+                    arrows: false,
+                    responsive: {
+                        0: {
+                            items: 1,
+                            loop: true,
+                            dots: false,
+                            arrows: false,
+                            autoplay: true,
+                        },
+                        768: {
+                            items: 3,
+                            loop: true,
+                            dots: false,
+                            arrows: false,
+                            autoplay: false,
+                        },
+                        992: {
+                            items: 4,
+                            dots: false,
+                            arrows: false,
+                            autoplay: false,
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,22 @@
+{
+    "name": "warbox/blog",
+    "description": "Rewrites for Blog block",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "php": "~7.4|~8.0|~8.1",
+	    "magento/product-community-edition": ">2.3.*",
+        "mageplaza/magento-2-blog-extension": "*"
+    },
+    "license": [
+    	  "MIT"
+     ],
+    "autoload": {
+        "files": [
+	          "registration.php"
+	      ],
+        "psr-4": {
+            "Warbox\\Blog\\": ""
+        }
+    }
+}

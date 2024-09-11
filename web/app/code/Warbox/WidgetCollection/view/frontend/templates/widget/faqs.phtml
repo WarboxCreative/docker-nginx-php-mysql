@@ -1,0 +1,43 @@
+<?php /* @var Warbox\WidgetCollection\Block\Faqs $block */ ?>
+
+<?php if ($items = $block->getItems()): ?>
+    <div class="c-faqs">
+        <h2>Frequently Asked Questions</h2>
+        <dl class="accordion">
+            <?php foreach ($items as $key => $item): ?>
+                <?php
+                    if (!$item->getTitle() && !$item->getText()) {
+                        continue;
+                    }
+                ?>
+                <dt><a href><span>+</span><?= $item->getTitle(); ?></a></dt>
+                <dd><?= $item->getText(); ?></dd>
+            <?php endforeach; ?>
+        </dl>
+	</div>
+
+    <script type="text/javascript">
+        require(['jquery'], function($) {
+            $(document).ready(function(){
+                const allPanels = $('.accordion > dd').hide();
+
+                $('.accordion > dt > a').click(function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const $this = $(this);
+                    const $target =  $this.parent().next();
+
+                    if(!$target.hasClass('active')){
+                        allPanels.removeClass('active').slideUp();
+                        $('.accordion > dt').removeClass('active');
+                        $('.accordion > dt a span').text('+');
+                        $target.addClass('active').slideDown();
+                        $this.parent().addClass('active');
+                        $this.children('span').text('-');
+                    }
+                });
+            });
+        });
+    </script>
+<?php endif; ?>

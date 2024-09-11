@@ -1,0 +1,70 @@
+//
+//  Variables
+//  _____________________________________________
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-hero {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 30rem;
+
+        &__title {
+            .lib-font-size(20);
+            display: block;
+            font-family: @font-family-name__special;
+            margin: 0 0 1.5rem;
+        }
+
+        &__caption {
+            &:extend(.container);
+            .lib-font-size(14);
+            background: @color-white;
+            margin: -2.5rem auto 2.5rem;
+            padding: 2rem;
+            text-align: center;
+            z-index: @zindex-low;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .c-hero {
+        height: 50rem;
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-hero {
+        &__title {
+            .lib-font-size(24);
+            margin: 0 0 2rem;
+        }
+
+        &__caption {
+            .lib-font-size(16);
+            margin: -7rem auto 0;
+            padding: 4.5rem 8% 5.5rem;
+        }
+    }
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .c-hero {
+        &__title {
+            .lib-font-size(35);
+        }
+    }
+}

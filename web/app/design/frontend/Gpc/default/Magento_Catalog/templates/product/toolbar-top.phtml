@@ -1,0 +1,8 @@
+<?php /** @var Magento\Catalog\Block\Product\ListProduct $block */ ?>
+
+<?php
+$productCollection = $block->getLoadedProductCollection();
+$helper            = $this->helper('Magento\Catalog\Helper\Output');
+
+echo $block->getToolbarHtml();
+?>

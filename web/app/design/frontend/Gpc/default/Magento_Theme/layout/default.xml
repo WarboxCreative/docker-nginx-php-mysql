@@ -1,0 +1,108 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="head.additional">
+            <block name="custom_head" template="Magento_Theme::html/custom_head.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="header.panel.wrapper">
+            <block name="cta.banner" before="-" template="Magento_Theme::html/blocks/c-cta-banner.phtml">
+                <block class="Magento\Cms\Block\Block" name="cta.banner.content">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">top-banner</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="header.panel">
+            <block class="Warbox\Customer\Block\Account" name="login.dropdown" after="-" template="Warbox_Customer::login_dropdown.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="header-wrapper">
+            <container name="header-wrapper-container" as="header-wrapper-container" htmlTag="div" htmlClass="container">
+                <container name="header-wrapper-inner" as="header-wrapper-inner" htmlTag="div" htmlClass="header__inner">
+                    <container name="header-wrapper-inner-left" as="header-wrapper-inner-left" htmlTag="div" htmlClass="header__inner__left"/>
+                    <container name="header-wrapper-inner-right" as="header-wrapper-inner-right" htmlTag="div" htmlClass="header__inner__right"/>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <move element="header.panel.wrapper" destination="after.body.start" before="-"/>
+
+        <move element="breadcrumbs" destination="page.top" after="cta.multi"/>
+
+        <move element="logo" destination="header-wrapper-inner-left" before="-"/>
+        <move element="top.search" destination="header-wrapper-inner-left" after="logo"/>
+
+        <move element="header.panel" destination="header-wrapper-inner-right" before="-"/>
+        <move element="minicart" destination="header-wrapper-inner-right" after="-"/>
+
+        <move element="navigation.sections" destination="header-wrapper" after="-"/>
+
+        <referenceBlock name="store.menu">
+            <block class="Warbox\Navigation\Block\Navigation" name="catalog.navigation" template="Magento_Theme::html/navigation.phtml" before="-"/>
+        </referenceBlock>
+
+        <!-- Change logo -->
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_file" xsi:type="string">images/logo.svg</argument>
+                <argument name="logo_img_width" xsi:type="number">122</argument>
+                <argument name="logo_img_height" xsi:type="number">68</argument>
+            </arguments>
+        </referenceBlock>
+
+		<!-- Footer -->
+        <referenceContainer name="footer-container">
+            <block name="back-to-top" template="Magento_Theme::html/blocks/c-back-to-top.phtml"/>
+            <block class="Magento\Newsletter\Block\Subscribe" name="form.subscribe" as="subscribe" template="subscribe.phtml" before="footer"/>
+
+            <block name="footer" template="Magento_Theme::html/footer/footer.phtml">
+                <block name="footer.social" template="Magento_Theme::html/footer/footer_social.phtml"/>
+
+                <block name="footer.column" template="Magento_Theme::html/footer/footer_column.phtml">
+                    <arguments>
+                        <argument xsi:type="string" name="class">c-footer-column--1</argument>
+                    </arguments>
+                    <block name="cms.footer.column.info" class="Magento\Cms\Block\Block">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">footer-info</argument>
+                        </arguments>
+                    </block>
+                    <block name="cms.footer.column.one" class="Magento\Cms\Block\Block">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">footer-nav</argument>
+                        </arguments>
+                    </block>
+                </block>
+
+                <block name="footer.copyright" class="Magento\Theme\Block\Html\Footer" template="html/copyright.phtml"/>
+           </block>
+            <block class="Magento\Framework\View\Element\Template" name="faqs-js" template="Magento_Theme::html/blocks/c-faqs.phtml" after="-"/>
+        </referenceContainer>
+
+        <!-- Remove -->
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+
+        <referenceBlock name="footer.column.one" remove="true"/>
+        <referenceBlock name="footer.column.two" remove="true"/>
+        <referenceBlock name="footer.column.three" remove="true"/>
+        <referenceBlock name="footer.column.four" remove="true"/>
+        <referenceBlock name="footer.logo" remove="true"/>
+
+        <!-- Remove - Top links -->
+        <referenceBlock name="register-link" remove="true" />
+        <referenceBlock name="wish-list-link" remove="true" />
+
+        <!-- Remove - Welcome message -->
+        <referenceBlock name="header" remove="true"/>
+
+        <referenceBlock name="contact" remove="true"/>
+
+        <!-- Remove - Default Nav -->
+        <referenceBlock name="catalog.topnav" remove="true"/>
+
+        <referenceBlock name="cta.multi" remove="true"/>
+        <referenceBlock name="header.links" remove="true"/>
+        <referenceBlock name="top.links" remove="true"/>
+    </body>
+</page>

@@ -1,0 +1,198 @@
+//
+//  Variables
+//  ---------------------------------------------
+@toolbar-element-background: @panel__background-color;
+@toolbar-item__spacing: 0 2rem 0 0;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .page-products {
+        .columns {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .toolbar {
+        &:extend(.abs-add-clearfix all);
+    }
+
+    .toolbar-amount {
+        display: block;
+
+        .products.wrapper ~ .toolbar & {
+            display: none;
+        }
+    }
+
+    .pages,
+    .limiter,
+    .sorter,
+    .toolbar-amount {
+        margin: @toolbar-item__spacing;
+    }
+
+    .toolbar-products {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        padding: 0 @indent__s;
+
+        label {
+            margin-bottom: 0;
+        }
+
+        .limiter {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+
+            .control {
+                display: inline-block;
+            }
+        }
+    }
+
+    .sorter {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+
+        .products.wrapper ~ .toolbar & {
+            display: none;
+        }
+    }
+
+    .sorter-options {
+        margin: 0 0 0 .7rem;
+        width: auto;
+    }
+
+    .sorter-action {
+        vertical-align: top;
+        .lib-icon-font(
+            @icon-arrow-up,
+            @_icon-font-size: 2.8rem,
+            @_icon-font-line-height: 3.2rem,
+            @_icon-font-color: @header-icons-color,
+            @_icon-font-color-hover: @header-icons-color-hover,
+            @_icon-font-text-hide: true
+        );
+    }
+
+    .sorter {
+        .sort-desc {
+            &:before {
+                content: @icon-arrow-down;
+            }
+        }
+    }
+
+    .modes {
+        display: none;
+    }
+
+    .limiter-options {
+        margin: 0 .5rem 0 .7rem;
+        width: auto;
+    }
+
+    .limiter-label {
+        font-weight: @font-weight__regular;
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .page-products {
+        .columns {
+            padding-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .modes {
+        display: inline-block;
+        margin-right: @indent__base;
+
+        .products.wrapper ~ .toolbar & {
+            display: none;
+        }
+    }
+
+    .modes-label {
+        &:extend(.abs-visually-hidden-desktop all);
+    }
+
+    .modes-mode {
+        .lib-css(color, @text__color__muted);
+        border: .1rem solid @border-color__base;
+        border-right: 0;
+        float: left;
+        font-weight: @font-weight__regular;
+        line-height: 1;
+        padding: .7rem 1rem;
+        text-align: center;
+
+        &:not(.active) {
+            &:hover {
+                .lib-css(color, @text__color__muted);
+                background: darken(@toolbar-element-background, 7%);
+            }
+        }
+
+        &:last-child {
+            border-right: .1rem solid @border-color__base;
+        }
+
+        &.active {
+            .lib-css(color, @primary__color__light);
+        }
+
+        .lib-icon-font(
+            @icon-grid,
+            @_icon-font-size: 2.4rem,
+            @_icon-font-text-hide: true,
+            @_icon-font-color: @text__color__muted,
+            @_icon-font-color-hover: @text__color__muted
+        );
+    }
+
+    .mode-list {
+        .lib-icon-font-symbol(@icon-list);
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

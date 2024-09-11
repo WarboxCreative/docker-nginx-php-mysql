@@ -1,0 +1,118 @@
+
+//
+//  Variables
+//  _____________________________________________
+@pagination__color: @color-black;
+@pagination__border-color: @color-grey;
+@pagination__current__bg: @color-primary;
+@pagination__current__border-color: @color-primary;
+@pagination__current__color: @color-white;
+@pagination__hover__bg: @color-primary;
+@pagination__hover__border-color: @color-primary;
+@pagination__hover__color: @color-white;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-toolbar {
+        .pages {
+            .page,
+            a.page,
+            .action {
+                color: @pagination__color;
+                font-weight: @font-weight__regular;
+                height: 3.75rem;
+                line-height: 3.75rem;
+                text-align: center;
+                width: 3.75rem;
+            }
+
+            .action {
+                border: 0;
+
+                &.next,
+                &.previous {
+                    color: @pagination__color;
+                    margin: 0;
+
+                    &:before {
+                        display: none;
+                    }
+
+                    &:after {
+                        .lib-font-size(12);
+                    }
+                }
+
+                &.next {
+                    &:after {
+                        .lib-fa-light(@_font-awesome-icon: @fa-var-chevron-right);
+                    }
+                }
+
+                &.previous {
+                    &:after {
+                        .lib-fa-light(@_font-awesome-icon: @fa-var-chevron-left);
+                    }
+                }
+            }
+
+            .item {
+                border: .1rem solid @pagination__border-color;
+                margin: 0 -.1rem 0 0;
+                min-width: auto;
+                transition: all @global-transition @ease-in;
+                width: auto;
+
+                .hocus({
+                    background: @pagination__hover__bg;
+                    border-color: @pagination__hover__border-color;
+
+                    a {
+                        color: @pagination__hover__color;
+                    }
+                });
+
+                &.current {
+                    background: @pagination__current__bg;
+                    border-color: @pagination__current__border-color;
+                    position: relative;
+                    z-index: @zindex-low;
+
+                    .page {
+                        color: @pagination__current__color;
+                    }
+                }
+            }
+
+            .products.wrapper ~ & {
+                display: block;
+            }
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

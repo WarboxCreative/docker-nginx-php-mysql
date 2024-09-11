@@ -1,0 +1,63 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .o-list {
+        &--unstyled {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                margin: 0 0 1.5rem;
+                padding: 0;
+            }
+        }
+
+        &--aligned {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                display: inline-block;
+                margin: 0 .75rem 0;
+                padding: 0;
+
+                &:first-child {
+                    margin: 0 .75rem 0 0;
+                }
+
+                &:last-child {
+                    margin: 0 0 0 .75rem;
+                }
+            }
+        }
+
+        &--divided {
+            li {
+                position: relative;
+
+                &:after {
+                    content: '|';
+                    bottom: 0;
+                    right: -1.25rem;
+                    position: absolute;
+                }
+
+
+                &:last-child:after {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .o-list-title {
+        color: @color-white;
+        display: block;
+        font-weight: @font-weight__semibold;
+        margin: 0 0 2.5rem;
+        text-transform: uppercase;
+    }
+}

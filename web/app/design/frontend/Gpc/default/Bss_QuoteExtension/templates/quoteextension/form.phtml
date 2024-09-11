@@ -1,0 +1,118 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_QuoteExtension
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+/**  @var $block \Bss\QuoteExtension\Block\QuoteExtension */
+?>
+<?php // @codingStandardsIgnoreFile ?>
+
+<?php $form = $block->getForm(); ?>
+
+<form action="<?= $block->escapeUrl($block->getUrl('quoteextension/quote/updateQuote')); ?>" method="post" id="form-validate"
+      data-mage-init='{"validation":{}}' class="form form-cart">
+    <?= $block->getBlockHtml('formkey'); ?>
+
+    <div class="page-title-wrapper">
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper">Your Quote</span>
+        </h1>
+
+        <div class="cart main actions">
+            <button type="submit" name="update_quote_action"
+                    value="update_qty"
+                    title="<?= $block->escapeHtml(__('Update Quote')); ?>"
+                    class="action update"
+                    id="update_quote_button"
+                    style="margin: 10px 5px 0 0;">
+                <span><?= $block->escapeHtml(__('Update Quote')); ?></span>
+            </button>
+            <button type="submit" name="update_quote_action"
+                    value="empty_quote"
+                    title="<?= $block->escapeHtml(__('Clear Quote')); ?>"
+                    class="action clear"
+                    id="empty_quote_button"
+                    style="margin: 10px 5px 0 0;">
+                <span><?= $block->escapeHtml(__('Clear Quote')); ?></span>
+            </button>
+        </div>
+    </div>
+
+    <?= $block->escapeHtml($block->getCustomerNote()); ?>
+
+    <div class="cart table-wrapper">
+        <table id="shopping-cart-table" class="cart items data table">
+            <caption role="heading" aria-level="2" class="table-caption"><?= $block->escapeHtml(__('Quote Items')); ?></caption>
+            <thead>
+                <tr>
+                    <th class="col item" scope="col"><span><?php echo /* @escapeNotVerified */ __('Product'); ?></span></th>
+                    <th class="col sku" scope="col"><span><?php echo /* @escapeNotVerified */ __('SKU'); ?></span></th>
+                    <th class="col leadTime" scope="col"><span><?php echo /* @escapeNotVerified */ __('Lead Time'); ?></span></th>
+                    <th class="col price" scope="col"><span><?php echo /* @escapeNotVerified */ __('Unit Price'); ?></span></th>
+                    <th class="col qty" scope="col"><span><?php echo /* @escapeNotVerified */ __('Qty'); ?></span></th>
+                    <th class="col subtotal" scope="col"><span><?php echo /* @escapeNotVerified */ __('Subtotal'); ?></span></th>
+                    <th class="col actions" scope="col"><span>&nbsp;</span></th>
+                </tr>
+            </thead>
+
+            <?php foreach ($block->getItems() as $item): ?>
+                <?= $block->getItemHtml($item) ?>
+            <?php endforeach ?>
+        </table>
+    </div>
+</form>
+
+<?= $block->getChildHtml('quoteextension.quote.order.actions') ?>
+<?= $block->getChildHtml('quoteextension.quote.table.after'); ?>
+<?= $block->escapeHtml($form); ?>
+
+<script>
+    require([
+        'jquery',
+        'stepper',
+    ], function($, stepper){
+        $(function() {
+            $('#shopping-cart-table .input-text.qty').stepper({
+                countBy: 1
+            });
+
+            $('.field.qty input').on('change', function(){
+                const inputName = $(this).attr('name');
+                const inputVal  = $(this).val();
+
+                $('input[name="'+inputName+'"]').each(function(){
+                    if(!$(this).is(':visible')) {
+                        $(this).val(inputVal);
+                    }
+                });
+            });
+
+            $('.o-stepper__button').on('click', function(){
+                $(this).parent().children('input').trigger('change');
+            });
+
+            $('.cart-summary__link').on('click', function(){
+                $('.cart-summary').addClass('active');
+                $('.cart.table-wrapper').addClass('active');
+            });
+
+            $('.table-wrapper').on('click', function(){
+                $('.cart-summary').removeClass('active');
+                $('.cart.table-wrapper').removeClass('active');
+            });
+        });
+    });
+</script>

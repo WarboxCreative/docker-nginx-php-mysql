@@ -1,0 +1,168 @@
+//
+//  Variables
+//  _____________________________________________
+@slick-pagination__color: @color-black;
+@slick-pagination__color__active: @color-primary;
+@slick-pagination__height: .2rem;
+@slick-pagination__width: 5rem;
+
+@slick-arrow__color: @color-black;
+@slick-prev__character: @fa-var-chevron-left;
+@slick-next__character: @fa-var-chevron-right;
+
+@slick-opacity__default: 0.75;
+@slick-opacity__hover: 1;
+@slick-opacity__not-active: 0.25;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .slick-prev,
+    .slick-next {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        color: transparent;
+        cursor: pointer;
+        display: block;
+        font-size: 0;
+        line-height: 0;
+        outline: none;
+        padding: 0;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: @zindex-low;
+
+        &:not(.primary) {
+            box-shadow: none;
+        }
+
+        &:before {
+            .lib-font-size(30);
+            color: @slick-arrow__color;
+            font-weight: bold;
+            line-height: 1;
+            opacity: @slick-opacity__default;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        &:hover, &:focus {
+            background: transparent;
+            border: 0;
+            color: transparent;
+            outline: none;
+
+            &:before {
+                opacity: @slick-opacity__hover;
+            }
+        }
+
+        &:active {
+            box-shadow: none;
+        }
+
+        &.slick-disabled:before {
+            opacity: @slick-opacity__not-active;
+        }
+    }
+
+    .slick-prev {
+        [dir="rtl"] & {
+            left: auto;
+            right: -2.5rem;
+        }
+
+        &:before {
+            .lib-fa-light(@_font-awesome-icon: @slick-prev__character);
+
+            [dir="rtl"] & {
+                .lib-fa-light(@_font-awesome-icon: @slick-prev__character);
+            }
+        }
+    }
+
+    .slick-next {
+        [dir="rtl"] & {
+            left: -2.5rem;
+            right: auto;
+        }
+
+        &:before {
+            .lib-fa-light(@_font-awesome-icon: @slick-next__character);
+
+            [dir="rtl"] & {
+                .lib-fa-light(@_font-awesome-icon: @slick-next__character);
+            }
+        }
+    }
+
+    .slick-dotted .slick-slider {
+        margin-bottom: 30px;
+    }
+
+    .slick-dots {
+        list-style: none;
+        display: block;
+        text-align: center;
+        padding: 0;
+        margin: 2rem 0;
+        width: 100%;
+
+        li {
+            position: relative;
+            display: inline-block;
+            margin: 0 .5rem;
+            padding: 0;
+            cursor: pointer;
+
+            button {
+                border: 0;
+                background: transparent;
+                display: block;
+                outline: none;
+                line-height: 0;
+                font-size: 0;
+                color: transparent;
+                padding: .5rem;
+                width: @slick-pagination__width;
+                cursor: pointer;
+
+                &:hover, &:focus {
+                    outline: none;
+
+                    &:before {
+                        opacity: @slick-opacity__hover;
+                    }
+                }
+
+                &:active {
+                    box-shadow: none;
+                }
+
+                &:before {
+                    content: '';
+                    background-color: @slick-pagination__color;
+                    display: inline-block;
+                    height: @slick-pagination__height;
+                    left: 0;
+                    position: absolute;
+                    top: 0;
+                    width: @slick-pagination__width;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                }
+
+                &.slick-active:before {
+                    background-color: @slick-pagination__color__active;
+                }
+            }
+
+            &.slick-active button:before {
+                background-color: @slick-pagination__color__active;
+            }
+        }
+    }
+}

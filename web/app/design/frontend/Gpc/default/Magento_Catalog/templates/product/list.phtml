@@ -1,0 +1,266 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * @var \Warbox\Category\Block\ListProduct $block
+ * @var Magento\Framework\Escaper $escaper
+ * @var Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+
+<?php
+$recommendedTemplate = false;
+$productCollection   = $block->getLoadedProductCollection();
+$_helper             = $block->getData('outputHelper');
+$showCartQty         = true;
+?>
+
+<?php if (!$productCollection->count()) : ?>
+    <div class="container">
+        <div class="message info empty">
+            <div><?php echo $block->escapeHtml(__('We can\'t find products matching the selection.')); ?></div>
+        </div>
+    </div>
+<?php else :?>
+    <div class="container">
+        <?= $block->getToolbarHtml() ?>
+        <?= $block->getAdditionalHtml() ?>
+
+        <?php
+        if ($block->getMode() === 'grid') {
+            $viewMode = 'grid';
+            $imageDisplayArea = 'category_page_grid';
+            $showDescription = false;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+        } else {
+            $viewMode = 'list';
+            $imageDisplayArea = 'category_page_list';
+            $showDescription = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+        }
+        /**
+         * Position for actions regarding image size changing in vde if needed
+         */
+        $pos = $block->getPositioned();
+        ?>
+        <div class="products wrapper <?php echo /* @noEscape */ $viewMode; ?> products-<?php echo /* @noEscape */ $viewMode; ?>">
+            <div class="products list items product-items">
+                <?php /** @var Magento\Catalog\Model\Product $product */ ?>
+                <?php $count = 1; ?>
+                <?php foreach ($productCollection as $product) : ?>
+                    <?php $block->addGallery($product); ?>
+                    <div class="item product product-item">
+                        <div class="product-item-info"
+                             id="product-item-info_<?= /* @noEscape */ $product->getId() ?>"
+                             data-container="product-<?= /* @noEscape */ $viewMode ?>">
+                            <?php
+                            $class = '';
+
+                            $productImage = $block->getImage($product, $imageDisplayArea);
+                            $width = (int)$productImage->getWidth();
+                            $paddingBottom = $productImage->getRatio() * 100;
+
+                            if ($pos != null) {
+                                $position = 'left:' . $productImage->getWidth() . 'px;'
+                                    . 'top:' . $productImage->getHeight() . 'px;';
+                            }
+
+                            $prodImages = [];
+                            $productImageHover = false;
+                            $gallery = $product->getMediaGalleryImages();
+
+                            foreach ($gallery as $image) {
+                                if(isset($image['file']) && $image['file'] !== '') {
+                                    $prodImages[] = $block->getCachedGalleryImage($image->getFile(), $product, 'product_base_image');
+                                }
+                            }
+
+                            if(count($prodImages) > 1) {
+                                $productImageHover = $prodImages[1];
+                            }
+
+                            if ($productImageHover) {
+                                $class = 'photo--hover';
+                            }
+
+                            $brandUrl = '/media/wysiwyg/brands/';
+                            $brand = '';
+                            $brandImage = false;
+                            if ($product->getResource()->getAttribute('gpc_brand')) {
+                                $brand = $product->getResource()->getAttribute('gpc_brand')->getFrontend()->getValue($product);
+                                $brandImage = $block->findImageByName($brandUrl, strtolower(str_replace(' ', '-', $brand)));
+                            }
+
+                            $lazy = 'eager';
+                            if ($count > 3) {
+                                $lazy = 'lazy';
+                            }
+                            ?>
+                            <?php // Product Image ?>
+                            <?php
+                            $mainImage = $prodImages[0];
+                            ?>
+                            <?php
+                            $styles = <<<STYLE
+                            .product-image-container-{$productImage->getProductId()} {
+                                width: {$width}px;
+                            }
+                            .product-image-container-{$productImage->getProductId()} span.product-image-wrapper {
+                                padding-bottom: {$paddingBottom}%;
+                            }
+                            STYLE;
+                            //In case a script was using "style" attributes of these elements
+                            $script = <<<SCRIPT
+                            prodImageContainers = document.querySelectorAll(".product-image-container-{$productImage->getProductId()}");
+                            for (var i = 0; i < prodImageContainers.length; i++) {
+                                prodImageContainers[i].style.width = "{$width}px";
+                            }
+                            prodImageContainersWrappers = document.querySelectorAll(
+                                ".product-image-container-{$productImage->getProductId()}  span.product-image-wrapper"
+                            );
+                            for (var i = 0; i < prodImageContainersWrappers.length; i++) {
+                                prodImageContainersWrappers[i].style.paddingBottom = "{$paddingBottom}%";
+                            }
+                            SCRIPT;
+                            ?>
+                            <?= /* @noEscape */ $secureRenderer->renderTag('style', [], $styles, false) ?>
+                            <?= /* @noEscape */ $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $script, false) ?>
+                            <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>"
+                               class="product photo product-item-photo <?= $class; ?>"
+                               tabindex="-1">
+                                <span class="product-image-container product-image-container-<?= /* @noEscape */ $productImage->getProductId() ?>">
+                                    <span class="product-image-wrapper">
+                                        <img class="<?= $escaper->escapeHtmlAttr($productImage->getClass()) ?>"
+                                             src="<?= $escaper->escapeUrl($mainImage) ?>"
+                                             loading="<?= $lazy; ?>"
+                                             width="<?= $escaper->escapeHtmlAttr($productImage->getWidth()) ?>"
+                                             height="<?= $escaper->escapeHtmlAttr($productImage->getHeight()) ?>"
+                                             alt="<?= $escaper->escapeHtmlAttr($productImage->getLabel()) ?>"/>
+                                    </span>
+                                </span>
+                                <?php if ($productImageHover) : ?>
+                                    <img src="<?= $productImageHover; ?>" width="240" height="300" loading="<?= $lazy; ?>" class="product-item-photo__rollover" alt="<?= $product->getName(); ?>"/>
+                                <?php endif; ?>
+                                <?php if ($brandImage && $brandImage !== '/media/wysiwyg/brands/.jpg') : ?>
+                                    <img src="<?= $brandImage; ?>" class="product-item-photo__brand" loading="<?= $lazy; ?>" alt="<?= $brand; ?>"/>
+                                <?php endif; ?>
+                            </a>
+                            <div class="product details product-item-details">
+                                <?php $productNameStripped = $block->stripTags($product->getName(), null, true); ?>
+                                <strong class="product name product-item-name">
+                                    <a class="product-item-link"
+                                       href="<?= $escaper->escapeUrl($product->getProductUrl()); ?>">
+                                        <?=/* @noEscape */ $_helper->productAttribute($product, $product->getName(), 'name'); ?>
+                                    </a>
+                                </strong>
+                                <?php
+                                $listAttrVal   = $product->getAttributeText('gpc_size_w_x_d_x_h_mm');
+                                $listAttrLabel = '';
+                                $listAttr      = $product->getGpcListAttribute();
+
+                                if($listAttr) {
+                                    $listAttrVal = $product->getAttributeText($listAttr);
+                                    if (!$listAttrVal) {
+                                        $listAttrVal = '';
+                                    } else {
+                                        $listAttrLabel = $product->getResource()->getAttribute($listAttr)->getFrontend()->getLabel();
+                                    }
+                                }
+                                ?>
+                                <span class="product-item-size">
+                                    <?php if ($listAttrLabel): ?>
+                                        <?= /* @noEscape */ $listAttrLabel . ': ' . $listAttrVal; ?>
+                                    <?php endif; ?>
+                                </span>
+
+                                <div class="product-item-attrs">
+                                    <div class="product-item-attrs__left">
+                                        <div class="product-item-price">
+                                            <?= /* @noEscape */ $block->getProductPrice($product); ?>
+                                        </div>
+
+                                        <div class="product-item-inner">
+                                            <a href="<?= $escaper->escapeUrl($product->getProductUrl()); ?>"
+                                               title="<?= /* @noEscape */ $productNameStripped ?>"
+                                               class="action more c-button c-button--primary"><?= $escaper->escapeHtml(__('More info')); ?></a>
+                                        </div>
+                                    </div>
+                                    <?php
+                                        $badges = [];
+                                        if ($product->getResource()->getAttribute('gpc_product_badges')) {
+                                            $badges = explode(', ', $product->getResource()->getAttribute('gpc_product_badges')->getFrontend()->getValue($product));
+
+                                            $tmp = null;
+                                            $tmp2 = null;
+                                            foreach($badges as $key => $val) {
+                                                if(str_contains(strtolower($val), 'working days')) {
+                                                    $tmp = $val;
+                                                    unset($badges[$key]);
+                                                }
+                                                if(str_contains(strtolower($val), 'manufactured')) {
+                                                    $tmp2 = $val;
+                                                    unset($badges[$key]);
+                                                }
+                                            }
+
+                                            if($tmp2) {
+                                                $badges[] = $tmp2;
+                                            }
+                                            if($tmp) {
+                                                $badges[] = $tmp;
+                                            }
+
+                                            $badges = array_values($badges);
+                                        }
+                                        $leadTime = $product->getAttributeText('gpc_lead_time');
+                                    ?>
+                                    <div class="product-item-attrs__right">
+                                        <?php if(count($badges) && $badges[0] !== ''): ?>
+                                            <?php foreach($badges as $badge): ?>
+                                                <?= $block->getChildBlock('c-badges')->addData(['class' => $badge])->toHtml(); ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+
+                                        <?php if($leadTime): ?>
+                                            <div class="c-leadTime">
+                                                <img src="<?= $block->getViewFileUrl('images/icons/leadTime.svg'); ?>" alt="Delivery" loading="<?= $lazy; ?>"/>
+                                                <span>Get this in <strong><?= $leadTime; ?></strong></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?= ($pos && strpos($pos, $viewMode . '-actions')) ?
+                            /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                                $position,
+                                'product-item-info_' . $product->getId() . ' div.product-item-actions'
+                            ) : '' ?>
+                    </div>
+                    <?php $count++; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="c-toolbar c-toolbar--bottom clearfix">
+        <div class="container">
+            <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
+        </div>
+    </div>
+
+    <?php // phpcs:ignore Magento2.Legacy.PhtmlTemplate ?>
+    <script type="text/x-magento-init">
+    {
+        "[data-role=tocart-form], .form.map.checkout": {
+            "catalogAddToCart": {
+                "product_sku": "<?= $escaper->escapeJs($product->getSku()) ?>"
+            }
+        }
+    }
+    </script>
+<?php endif; ?>

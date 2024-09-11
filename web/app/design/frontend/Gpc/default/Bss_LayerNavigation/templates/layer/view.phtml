@@ -1,0 +1,144 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Bss_LayerNavigation
+ * @author    Extension Team
+ * @copyright Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+
+<?php
+// @codingStandardsIgnoreFile
+?>
+
+<?php
+/**
+ * Category View Template
+ *
+ * @var $block \Bss\LayerNavigation\Block\Navigation
+ */
+?>
+<script>
+    window.sliderBss = ''
+</script>
+<?php if ($block->checkMagentoVersionHigherV244()): ?>
+    <script>
+        window.sliderBss = 'jquery/ui-modules/widgets/slider'
+    </script>
+<?php endif;?>
+
+<?php if ($block->canShowBlock()): ?>
+    <?php
+    $filters = $block->getFilters();
+    $layerConfig = $block->getLayerConfiguration($filters);
+    $buttonSubmit = $block->getModuleHelper()->isButtonSubmit();
+    $filtered = count($block->getLayer()->getState()->getFilters());
+    $category = $block->getLayer()->getCurrentCategory();
+    $listImage = $category->getListImage();
+    ?>
+    <?php if ($listImage) : ?>
+        <img class="c-filters__img" src="<?= $listImage; ?>" alt="<?= $category->getName(); ?>"/>
+    <?php endif; ?>
+
+    <div class="block filter c-filters" id="layered-filter-block" data-mage-init='{"collapsible":{"openedState": "active", "collapsible": true, "active": false, "collateral": { "openedState": "filter-active", "element": "body" } }}'>
+
+        <div class="block-title filter-title show-tablet" data-count="<?php /* @escapeNotVerified */ echo $filtered; ?>">
+            <strong><?= $block->escapeHtml(__('Filter')) ?></strong>
+            <div>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="block-title filter-title" data-count="<?php /* @escapeNotVerified */ echo $filtered; ?>">
+            <strong data-role="title"><?= /* @escapeNotVerified */ __('Filter By'); ?></strong>
+        </div>
+
+        <div class="block-content filter-content" data-mage-init='{"Bss_LayerNavigation/js/ajax_layered": <?php echo $layerConfig ?>}' >
+            <span class="show-tablet close-filters"></span>
+            <?php echo $block->getChildHtml('state') ?>
+            <?php $wrapOptions = false; ?>
+            <?php foreach ($filters as $key => $filter): ?>
+        <?php if ($filter->getItemsCount()): ?>
+        <?php if (!$wrapOptions): ?>
+            <div class="filter-options" id="narrow-by-list" data-role="content">
+                <?php  $wrapOptions = true; ?>
+                <?php endif; ?>
+                <div data-role="bss_collapsible" class="filter-options-item" attribute="<?php echo $block->escapeHtml($filter->getRequestVar()) ?>">
+                    <div data-role="bss_title" class="filter-options-title"><?php /* @escapeNotVerified */ echo __($filter->getName()) ?></div>
+                    <div data-role="bss_content" class="filter-options-content"><?php /* @escapeNotVerified */ echo $block->getChildBlock('renderer')->setFilter($filter)->render($filter); ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <?php endforeach; ?>
+
+                <?php if ($buttonSubmit): ?>
+                    <button id="bss_button_submit" type="button" name="apply_filter" class="c-button c-button--secondary" ><?php echo __('Apply Filter')?></button>
+                <?php endif; ?>
+
+                <?php if ($wrapOptions): ?>
+            </div>
+        <?php endif; ?>
+
+            <?php echo $block->getChildHtml('layer_additional_info'); ?>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require(['jquery'], function($) {
+            $(document).ready(function(){
+                $('.filter-options-title').on('click', function(){
+                    $(this).toggleClass('open');
+                    $(this).next().toggleClass('open');
+                });
+
+                if (window.innerWidth < 993) {
+                    if ($('.c-toolbar .c-filters').length < 1) {
+                        $('.c-filters').clone(true, true).insertBefore('.c-toolbar__sorter');
+                    }
+                }
+
+                $('.c-toolbar .c-filters .filter-title').on('click', function(){
+                    $('.c-toolbar .c-filters > .filter-content').show();
+                });
+
+                $('.c-toolbar .c-filters .close-filters').on('click', function(){
+                    $('.c-toolbar .c-filters > .filter-content').hide();
+                });
+
+                if ($('.c-toolbar .c-filters').length > 1) {
+                    $('.c-toolbar .c-filters')[0].remove();
+                }
+            });
+
+            $(window).on('resize', function(){
+                if (window.innerWidth < 993) {
+                    if ($('.c-toolbar .c-filters').length < 1) {
+                        $('.c-filters').clone(true, true).insertBefore('.c-toolbar__sorter');
+                    }
+                } else {
+                    if ($('.c-toolbar .c-filters').length > 0) {
+                        $('.c-toolbar .c-filters').remove();
+                    }
+                }
+
+                if ($('.c-toolbar .c-filters').length > 1) {
+                    $('.c-toolbar .c-filters')[0].remove();
+                }
+            });
+        });
+    </script>
+<?php endif; ?>
+
+<?php echo $block->getChildHtml('compatible_with_infinite_scroll_bss'); ?>

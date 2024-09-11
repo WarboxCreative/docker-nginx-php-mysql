@@ -1,0 +1,78 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Bss_LayerNavigation
+ * @author    Extension Team
+ * @copyright Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+
+<?php
+ // @codingStandardsIgnoreFile
+?>
+
+<?php
+/**
+ * Filter Rendder Block
+ *
+ * @var $block \Bss\LayerNavigation\Block\Navigation\FilterRenderer
+ */
+?>
+
+<?php
+$filter = $block->getThisFilter();
+$attributeCode = $filter->getRequestVar();
+$itemValues = $filter->getItemValue();
+$filterModel = $block->getFilterModel();
+?>
+
+<?php if($filter instanceof Magento\CatalogSearch\Model\Layer\Filter\Price ):?>
+
+<ol class="items">
+    <li class="item">
+        <div id="bss_slider_container_<?php echo $block->escapeHtml($attributeCode) ?>" class="bss_slider_container">
+            <div id="bss_slider_<?php echo $block->escapeHtml($attributeCode) ?>"></div>
+            <div id="bss_slider_text_<?php echo $block->escapeHtml($attributeCode) ?>"></div>
+        </div>
+    </li>
+</ol>
+<?php else:?>
+<ol class="items bss-items-<?php echo $block->escapeHtml($attributeCode) ?> ">
+    <?php /** @type  $filterItem */ foreach ($filterItems as $filterItem): ?>
+        <li class="item">
+            <?php if($filterModel->isSliderTypes($filter)): ?>
+                <div id="bss_slider_container_<?php echo $block->escapeHtml($attributeCode) ?>" class="bss_slider_container">
+                    <div id="bss_slider_<?php echo $block->escapeHtml($attributeCode) ?>"></div>
+                    <div id="bss_slider_text_<?php echo $block->escapeHtml($attributeCode) ?>"></div>
+                </div>
+            <?php else: ?>
+                <a href="<?php echo $block->escapeUrl($filterModel->getItemUrl($filterItem)) ?>" class="<?php echo $filterModel->isMultiple($filter) ? 'bss_checkbox' : 'bss_radio' ?>">
+                    <?php if ($attributeCode != 'cat'): ?>
+                        <?php if ($filterItem->getCount() > 0): ?>
+                            <input type="<?php echo $filterModel->isMultiple($filter) ? 'checkbox' : 'radio' ?>" <?php echo $filterModel->isSelected($filterItem) ? 'checked="checked"' : ''  ?>  class="layer-input-filter" name="filter_<?php echo $block->escapeHtml($attributeCode) ?>"/>
+                        <?php else: ?>
+                            <input type="<?php echo $filterModel->isMultiple($filter) ? 'checkbox' : 'radio' ?>" disabled="disabled" class="layer-input-filter" name="filter_<?php echo $block->escapeHtml($attributeCode) ?>" />
+                        <?php endif; ?>
+                    <?php endif; ?>
+
+                    <?php echo $filterItem->getLabel() ?>
+                    <?php if ($filterModel->isShowCounter()): ?>
+                        <span class="count"><?php echo $filterItem->getCount()?><span class="filter-count-label"><?php echo ($filterItem->getCount() == 1) ? 'item' : 'items'; ?></span></span>
+                    <?php endif; ?>
+                </a>
+            <?php endif; ?>
+        </li>
+    <?php endforeach ?>
+</ol>
+<button class="c-button c-button--link" id="bss_show_more" type="button" code="more" name="show_more_<?php echo $block->escapeHtml($attributeCode) ?>"><?php echo __('Show More')?></button>
+<?php endif;?>

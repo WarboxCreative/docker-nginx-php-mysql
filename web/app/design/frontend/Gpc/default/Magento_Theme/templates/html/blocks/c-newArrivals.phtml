@@ -1,0 +1,182 @@
+<?php
+/** @var Warbox\Product\Block\Widgets\NewArrivals $block */
+/** @var Magento\Framework\Escaper $escaper */
+$products         = $block->getNewProducts();
+$imageDisplayArea = 'related_products_list';
+?>
+<?php if (!is_null($products)) : ?>
+    <div class="c-productCarousel c-newArrivals">
+        <div class="owl-carousel">
+            <?php /** @var Magento\Catalog\Model\Product $product */ ?>
+            <?php foreach($products as $product) : ?>
+                <?php
+                $productImage = $block->getImage($product, $imageDisplayArea);
+
+                $prodImages = [];
+                $productImageHover = false;
+                $gallery = $block->getGalleryImages($product->getSku());
+
+                foreach ($gallery as $image) {
+                    if(isset($image['file']) && $image['file'] !== '') {
+                        $prodImages[] = $block->getCachedGalleryImage($image->getFile(), $product);
+                    }
+                }
+
+                if(count($prodImages) > 1) {
+                    $productImageHover = $prodImages[1];
+                }
+
+                $productNameStripped = $block->stripTags($product->getName(), null, true);
+
+                $listAttrVal   = $product->getAttributeText('gpc_size_w_x_d_x_h_mm');
+                $listAttrLabel = '';
+                $listAttr      = $product->getGpcListAttribute();
+
+                if($listAttr) {
+                    $listAttrVal = $product->getAttributeText($listAttr);
+                    if (!$listAttrVal) {
+                        $listAttrVal = '';
+                    } else {
+                        $listAttrLabel = $product->getResource()->getAttribute($listAttr)->getFrontend()->getLabel();
+                    }
+                }
+
+                $priceExVat  = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
+                $priceIncVat = $product->getPriceInfo()->getPrice('final_price')->getAmount();
+
+                $prodUrl = $escaper->escapeUrl($product->getProductUrl());
+
+                $badges = [];
+                if ($product->getResource()->getAttribute('gpc_product_badges')) {
+                    $badges = explode(', ', $product->getResource()->getAttribute('gpc_product_badges')->getFrontend()->getValue($product));
+
+                    $tmp = null;
+                    $tmp2 = null;
+                    foreach($badges as $key => $val) {
+                        if(str_contains(strtolower($val), 'working days')) {
+                            $tmp = $val;
+                            unset($badges[$key]);
+                        }
+                        if(str_contains(strtolower($val), 'manufactured')) {
+                            $tmp2 = $val;
+                            unset($badges[$key]);
+                        }
+                    }
+
+                    if($tmp2) {
+                        $badges[] = $tmp2;
+                    }
+                    if($tmp) {
+                        $badges[] = $tmp;
+                    }
+
+                    $badges = array_values($badges);
+                }
+
+                $brandUrl = '/media/wysiwyg/brands/';
+                $brand = '';
+                $brandImage = false;
+                if ($product->getResource()->getAttribute('gpc_brand')) {
+                    $brand = $product->getResource()->getAttribute('gpc_brand')->getFrontend()->getValue($product);
+                    $brandImage = $block->findImageByName($brandUrl, strtolower(str_replace(' ', '-', $brand)));
+                }
+
+                $leadTime = $product->getAttributeText('gpc_lead_time');
+                ?>
+                <div class="c-productCarousel__item">
+                    <div class="c-productCarousel__item__image">
+                        <a href="<?= $prodUrl; ?>" title="<?= /* @noEscape */ $productNameStripped; ?>">
+                            <img src="<?= $productImage->getImageUrl(); ?>" alt="<?= /* @noEscape */ $productNameStripped; ?>" loading="lazy"/>
+                            <?php if ($productImageHover) : ?>
+                                <img class="c-productCarousel__item__image__rollover" src="<?= $productImageHover; ?>" alt="<?= /* @noEscape */ $productNameStripped . ' Alternative image'; ?>" loading="lazy"/>
+                            <?php else : ?>
+                                <img class="c-productCarousel__item__image__rollover" src="<?= $productImage->getImageUrl(); ?>" alt="<?= /* @noEscape */ $productNameStripped; ?>" loading="lazy"/>
+                            <?php endif; ?>
+                            <?php if ($brandImage && $brandImage !== '/media/wysiwyg/brands/.jpg') : ?>
+                                <img class="c-productCarousel__brand" src="<?= $brandImage; ?>" alt="<?= $brand; ?>" loading="lazy"/>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+                    <div class="c-productCarousel__item__content">
+                        <a href="<?= $prodUrl; ?>" title="<?= /* @noEscape */ $productNameStripped; ?>">
+                            <p class="c-productCarousel__name"><?= /* @noEscape */ $productNameStripped; ?></p>
+                        </a>
+                        <p class="c-productCarousel__desc">
+                            <?php if ($listAttrLabel): ?>
+                                <?= /* @noEscape */ $listAttrLabel . ': ' . $listAttrVal; ?>
+                            <?php endif; ?>
+                        </p>
+                    </div>
+                    <div class="c-productCarousel__attrs">
+                        <div class="c-productCarousel__price">
+                            <?= /* @noEscape */ $block->getProductPrice($product); ?>
+                            <a href="<?= $prodUrl; ?>" class="c-button c-button--primary" title="<?= /* @noEscape */ $productNameStripped; ?>">More info</a>
+                        </div>
+                        <div class="c-productCarousel__badges">
+                            <?php if(count($badges) && $badges[0] !== ''): ?>
+                                <?php foreach($badges as $badge): ?>
+                                    <?php if ($badge && is_string($badge)): ?>
+                                        <?php $badgeBlock = $block->getChildBlock('c-badges'); ?>
+                                        <?php if($badgeBlock) : ?>
+                                            <?= $badgeBlock->addData(['class' => $badge])->toHtml(); ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
+                            <?php if($leadTime): ?>
+                                <div class="c-leadTime">
+                                    <img src="<?= $block->getViewFileUrl('images/icons/leadTime.svg'); ?>" alt="Delivery" loading="lazy"/>
+                                    <span>Get this in <strong><?= $leadTime; ?></strong></span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require(['jquery','owl'], function($, owlCarousel) {
+            $(document).ready(function(){
+                $(".c-newArrivals .owl-carousel").owlCarousel({
+                    loop: true,
+                    responsiveClass: true,
+                    lazyLoad:true,
+                    nav: true,
+                    center: false,
+                    dots: false,
+                    margin: 16,
+                    responsive: {
+                        0: {
+                            items: 1,
+                            arrows: false,
+                            dots: true
+                        },
+                        600: {
+                            items: 1,
+                            arrows: false,
+                            dots: true
+                        },
+                        769: {
+                            items: 2,
+                            arrows: true,
+                            dots: false
+                        },
+                        1024: {
+                            items: 3,
+                            arrows: true,
+                            dots: false
+                        },
+                        1366: {
+                            items: 4,
+                            arrows: true,
+                            dots: false
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+<?php endif; ?>

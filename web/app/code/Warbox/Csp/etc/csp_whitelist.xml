@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp/etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="google-analytics" type="host">*.google-analytics.com</value>
+                <value id="gstatic" type="host">*.gstatic.com</value>
+                <value id="fontawesome" type="host">*.fontawesome.com</value>
+                <value id="bing" type="host">*.bing.com</value>
+                <value id="zopim" type="host">*.zopim.com</value>
+                <value id="google" type="host">*.google.com</value>
+                <value id="tawkto" type="host">*.tawk.to</value>
+                <value id="jsdelivr" type="host">*.jsdelivr.net</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="googleapis" type="host">*.googleapis.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="gstatic" type="host">*.gstatic.com</value>
+                <value id="typekit" type="host">*.typekit.net</value>
+                <value id="adobe" type="host">*.adobe.com</value>
+                <value id="fontawesome" type="host">*.fontawesome.com</value>
+                <value id="bing" type="host">*.bing.com</value>
+                <value id="tawkto" type="host">*.tawk.to</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="klarna-base" type="host">*.klarna.com</value>
+                <value id="googleadservices" type="host">*.googleadservices.com</value>
+                <value id="google-analytics" type="host">*.google-analytics.com</value>
+                <value id="paypal" type="host">*.paypal.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="vimeocdn" type="host">*.vimeocdn.com</value>
+                <value id="youtube-img" type="host">*.ytimg.com</value>
+                <value id="data" type="host">'self' data:</value>
+                <value id="fontawesome" type="host">*.bing.com</value>
+                <value id="doubleclick" type="host">*.doubleclick.net</value>
+                <value id="google" type="host">*.google.com</value>
+                <value id="mastercard" type="host">*.mastercard.com</value>
+                <value id="tawkto" type="host">*.tawk.to</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="google-analytics" type="host">www.google-analytics.com</value>
+                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="paypal" type="host">*.paypal.com</value>
+                <value id="googleanalytics" type="host">*.google-analytics.com</value>
+                <value id="doubleclick" type="host">https://stats.g.doubleclick.net</value>
+                <value id="demdex" type="host">dpm.demdex.net</value>
+                <value id="omtrdc" type="host">amcglobal.sc.omtrdc.net</value>
+                <value id="analytics" type="host">analytics.google.com</value>
+                <value id="vimeo" type="host">vimeo.com</value>
+                <value id="cardinalcommerce" type="host">*.cardinalcommerce.com</value>
+                <value id="payflowlink" type="host">pilot-payflowlink.paypal.com</value>
+                <value id="avada" type="host">*.avada.io</value>
+                <value id="braintreegateway" type="host">*.braintreegateway.com</value>
+                <value id="braintree-api" type="host">*.braintree-api.com</value>
+                <value id="tawkto" type="host">*.tawk.to</value>
+                <value id="tawktowss" type="host">wss://*.tawk.to</value>
+                <value id="self" type="host">self</value>
+                <value id="unsafe-inline" type="host">unsafe-inline</value>
+            </values>
+        </policy>
+        <policy id="font-src">
+            <values>
+                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="gstatic" type="host">*.gstatic.com</value>
+                <value id="typekit" type="host">*.typekit.net</value>
+                <value id="googleapis" type="host">*.googleapis.com</value>
+                <value id="fontawesome" type="host">*.fontawesome.com</value>
+                <value id="fontawesome" type="host">'self' data:</value>
+                <value id="fontawesome" type="host">'unsafe-inline' data:</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="youtube.com" type="host">https://www.youtube.com</value>
+                <value id="sandbox.paypal.com" type="host">http://www.sandbox.paypal.com</value>
+                <value id="paypal.com" type="host">www.paypal.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="tawkto" type="host">*.tawk.to</value>
+            </values>
+        </policy>
+
+        <policy id="media-src">
+            <values>
+                <value id="zopim" type="host">*.zopim.com</value>
+                <value id="zopimio" type="host">*.zopim.io</value>
+                <value id="tawkto" type="host">*.tawk.to</value>
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

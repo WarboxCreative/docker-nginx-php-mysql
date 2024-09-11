@@ -1,0 +1,151 @@
+<?php
+/**
+ * Top menu for store
+ *
+ * @var \Warbox\Navigation\Block\Navigation $block
+ */
+
+$navItems = $block->getNavigationItems();
+?>
+
+<?php if($navItems): ?>
+<nav class="navigation c-nav" data-action="navigation">
+    <span class="c-nav__close show-tablet">X</span>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <ul>
+                    <?php foreach($navItems as $navItem): ?>
+                        <?php
+                        $item = $navItem['item'];
+                        ?>
+                        <li class="c-nav__item c-nav__item--first" id="category-<?= $item['id']; ?>">
+                            <a href="<?= $item['url']; ?>"><?= $item['name']; ?></a>
+                            <?php if($navItem['children']): ?>
+                            <div class="c-nav__item__dropdown">
+                                <span class="c-nav__item__back show-tablet">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+                                      <path id="Path_241" data-name="Path 241" d="M24.875,38V15.181L35.356,25.662,38,23,23,8,8,23l2.644,2.644L21.125,15.181V38Z" transform="translate(-8 38) rotate(-90)" fill="#456D7D"/>
+                                    </svg>
+                                </span>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <ul>
+                                                <li class="c-nav__item c-nav__item--second c-nav__item--heading view-all show-tablet" id="category-<?= $item['id']; ?>-all">
+                                                    <div class="c-nav__item__list">
+                                                        <a href="<?= $item['url']; ?>">View All</a>
+                                                    </div>
+                                                </li>
+                                                <?php foreach($navItem['children'] as $childNavItem): ?>
+                                                    <?php
+                                                    $childItem = $childNavItem['item'];
+                                                    ?>
+                                                    <li class="c-nav__item c-nav__item--second c-nav__item--heading" id="category-<?= $childItem['id']; ?>">
+                                                        <?php if($childItem['image']): ?>
+                                                        <div class="c-nav__item__img">
+                                                            <img src="<?= $childItem['image']; ?>" loading="lazy" alt="<?= $childItem['name']; ?>"/>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <div class="c-nav__item__list">
+                                                            <a href="<?= $childItem['url']; ?>"><?= $childItem['name']; ?></a>
+                                                            <?php if($childNavItem['children']): ?>
+                                                                <ul>
+                                                                    <span class="c-nav__item__back show-tablet">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+                                                                          <path id="Path_241" data-name="Path 241" d="M24.875,38V15.181L35.356,25.662,38,23,23,8,8,23l2.644,2.644L21.125,15.181V38Z" transform="translate(-8 38) rotate(-90)" fill="#456D7D"/>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <li class="c-nav__item c-nav__item--third view-all show-tablet">
+                                                                        <img src="<?= $childItem['image']; ?>" loading="lazy" alt="<?= $childItem['name']; ?>"/>
+                                                                        <a href="<?= $childItem['url']; ?>">View All</a>
+                                                                    </li>
+                                                                    <?php foreach($childNavItem['children'] as $subChildNavItem): ?>
+                                                                        <?php
+                                                                        $subChildItem = $subChildNavItem['item'];
+                                                                        ?>
+                                                                        <li class="c-nav__item c-nav__item--third" id="category-<?= $subChildItem['id']; ?>">
+                                                                            <a href="<?= $subChildItem['url']; ?>"><?= $subChildItem['name']; ?></a>
+                                                                        </li>
+                                                                    <?php endforeach; ?>
+                                                                </ul>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            const scroll = $(window).scrollTop();
+
+            if (scroll >= 42) {
+                $('.c-nav').addClass('sticky');
+            }
+        });
+        $(window).scroll(function() {
+            const scroll = $(window).scrollTop();
+
+            if (scroll >= 42) {
+                $('.c-nav').addClass('sticky');
+            } else {
+                $('.c-nav').removeClass('sticky');
+            }
+        });
+
+        function clearNavigation() {
+            $('.c-nav__item').each(function(){
+                $(this).removeClass('active');
+            });
+        }
+
+        if (window.outerWidth < 1201) {
+            $('.nav-toggle').on('click', function () {
+                $('body').toggleClass('nav-open');
+                clearNavigation();
+            });
+
+            $('.c-nav__close').on('click', function () {
+                $('body').removeClass('nav-open');
+                clearNavigation();
+            });
+
+            $('.c-nav__item--first > a').on('click', function (e) {
+                e.preventDefault();
+                if ($(this).parent().children('.c-nav__item__dropdown').length) {
+                    $(this).parent().addClass('active');
+                } else {
+                    window.location.href = $(this).attr('href');
+                }
+            });
+
+            $('.c-nav__item--second > .c-nav__item__list > a').on('click', function (e) {
+                e.preventDefault();
+                if ($(this).parent().children('ul').length) {
+                    $(this).parent().parent().addClass('active');
+                } else {
+                    window.location.href = $(this).attr('href');
+                }
+            });
+
+            $('.c-nav__item__back').on('click', function () {
+                $(this).closest('li').removeClass('active');
+            });
+        }
+    });
+</script>
+
+<?php endif; ?>

@@ -1,0 +1,55 @@
+<?php
+/** @var Warbox\Sitemap\Block\Sitemap $block */
+$pages      = $block->getAllPages();
+$categories = $block->getAllCategories();
+$posts      = $block->getAllPosts();
+?>
+
+<div class="c-sitemap">
+    <div class="page-title-wrapper">
+        <h1 class="page-title">Sitemap</h1>
+    </div>
+
+    <div class="c-sitemap__section">
+        <h4>Pages</h4>
+        <hr/>
+        <ul>
+            <?php /** @var Magento\Cms\Model\Page $page */ ?>
+            <?php foreach($pages as $page): ?>
+                <?php if($page->getIdentifier() !== 'no-route'): ?>
+                    <li>
+                        <a href="/<?= $page->getIdentifier(); ?>"><?= $page->getTitle(); ?></a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <li>
+                <a href="/blog.html">Blog</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="c-sitemap__section">
+        <h4>Blog posts</h4>
+        <hr/>
+        <ul>
+            <?php /** @var Mageplaza\Blog\Model\Post $post */ ?>
+            <?php foreach($posts as $post): ?>
+                <li>
+                    <a href="/blog/post/<?= $post->getUrlKey(); ?>.html"><?= $post->getName(); ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <div class="c-sitemap__section">
+        <h4>Categories</h4>
+        <hr/>
+        <ul>
+            <?php /** @var Magento\Catalog\Model\Category $category */ ?>
+            <?php foreach($categories as $category): ?>
+                <li>
+                    <a href="/<?= $category->getRequestPath(); ?>"><?= $category->getName(); ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

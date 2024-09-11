@@ -1,0 +1,121 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// phpcs:disable Magento2.Templates.ThisInTemplate
+?>
+<?php /**  @var Magento\Checkout\Block\Cart\Grid $block */ ?>
+
+<?php $mergedCells = ($this->helper(Magento\Tax\Helper\Data::class)->displayCartBothPrices() ? 2 : 1); ?>
+<?= $block->getChildHtml('form_before'); ?>
+<form action="<?= $block->escapeUrl($block->getUrl('checkout/cart/updatePost')); ?>"
+        method="post"
+        id="form-validate"
+        data-mage-init='{"Magento_Checkout/js/action/update-shopping-cart":
+              {"validationURL" : "<?= $block->escapeUrl($block->getUrl('checkout/cart/updateItemQty')) ?>",
+              "updateCartActionContainer": "#update_cart_action_container"}
+        }'
+        class="form form-cart">
+
+    <?= $block->getBlockHtml('formkey'); ?>
+
+    <div class="page-title-wrapper">
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper">Basket</span>
+        </h1>
+
+        <div class="cart main actions">
+            <button type="submit"
+                    name="update_cart_action"
+                    data-cart-item-update=""
+                    value="update_qty"
+                    title="<?php echo $block->escapeHtml(__('Update Shopping Basket')); ?>"
+                    class="action update c-button--link">
+                <span><?php echo /* @escapeNotVerified */ __('Update Shopping Basket'); ?></span>
+            </button>
+            <?php if ($block->getViewModel()->isClearShoppingCartEnabled()): ?>
+                <button type="button"
+                        name="update_cart_action"
+                        data-cart-empty=""
+                        value="empty_cart"
+                        title="<?php echo $block->escapeHtml(__('Clear Shopping Basket')); ?>"
+                        class="action clear" id="empty_cart_button">
+                    <span><?php echo /* @escapeNotVerified */ __('Clear Shopping Basket'); ?></span>
+                </button>
+            <?php endif; ?>
+
+            <input type="hidden" value="" id="update_cart_action_container" data-cart-item-update=""/>
+        </div>
+    </div>
+
+    <div class="cart table-wrapper<?= $mergedCells === 2 ? ' detailed' : ''; ?>">
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="cart-products-toolbar cart-products-toolbar-top toolbar" data-attribute="cart-products-toolbar-top"><?= $block->getPagerHtml(); ?></div>
+        <?php endif ?>
+        <table id="shopping-cart-table"
+               class="cart items data table"
+               data-mage-init='{"shoppingCart":{"emptyCartButton": ".action.clear",
+               "updateCartActionContainer": "#update_cart_action_container"}}'>
+            <caption role="heading" aria-level="2" class="table-caption"><?php echo /* @escapeNotVerified */ __('Shopping Basket Items'); ?></caption>
+            <thead>
+                <tr>
+                    <th class="col item" scope="col"><span><?= $block->escapeHtml(__('Product')); ?></span></th>
+                    <th class="col sku" scope="col"><span><?= $block->escapeHtml(__('SKU')); ?></span></th>
+                    <th class="col leadTime" scope="col"><span><?= $block->escapeHtml(__('Lead Time')); ?></span></th>
+                    <th class="col price" scope="col"><span><?= $block->escapeHtml(__('Unit Price')); ?></span></th>
+                    <th class="col qty" scope="col"><span><?= $block->escapeHtml(__('Qty')); ?></span></th>
+                    <th class="col subtotal" scope="col"><span><?= $block->escapeHtml(__('Subtotal')); ?></span></th>
+                    <th class="col actions" scope="col"><span>&nbsp;</span></th>
+                </tr>
+            </thead>
+            <?php foreach ($block->getItems() as $item): ?>
+                <?= $block->getItemHtml($item); ?>
+            <?php endforeach ?>
+        </table>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="cart-products-toolbar cart-products-toolbar-bottom toolbar" data-attribute="cart-products-toolbar-bottom"><?= $block->getPagerHtml(); ?></div>
+        <?php endif ?>
+    </div>
+</form>
+
+<?= $block->getChildHtml('checkout.cart.order.actions'); ?>
+<?= $block->getChildHtml('shopping.cart.table.after'); ?>
+
+<script>
+    require([
+        'jquery',
+        'stepper',
+    ], function($, stepper){
+        $(function() {
+            $('#shopping-cart-table .input-text.qty').stepper({
+                countBy: 1
+            });
+
+            $('.field.qty input').on('change', function(){
+                const inputName = $(this).attr('name');
+                const inputVal  = $(this).val();
+
+                $('input[name="'+inputName+'"]').each(function(){
+                    if(!$(this).is(':visible')) {
+                        $(this).val(inputVal);
+                    }
+                });
+            });
+
+            $('.o-stepper__button').on('click', function(){
+                $(this).parent().children('input').trigger('change');
+            });
+
+            $('.cart-summary__link').on('click', function(){
+                $('.cart-summary').addClass('active');
+                $('.cart.table-wrapper').addClass('active');
+            });
+
+            $('.table-wrapper').on('click', function(){
+                $('.cart-summary').removeClass('active');
+                $('.cart.table-wrapper').removeClass('active');
+            });
+        });
+    });
+</script>

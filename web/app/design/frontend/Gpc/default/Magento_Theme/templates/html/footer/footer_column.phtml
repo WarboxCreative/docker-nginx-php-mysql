@@ -1,0 +1,31 @@
+<?php /** @var Magento\Framework\View\Element\Template $block */ ?>
+
+<div class="c-footer-column <?= $block->getClass(); ?>">
+    <div class="c-footer-column__content" data-role="content">
+        <div class="row">
+            <div class="c-footer-column__left col-12 col-xs-6 col-md-5 col-lg-4">
+                <div class="c-footer-column__item c-footer-column__one">
+                    <img src="<?= $block->getViewFileUrl('images/storage_systems_glos_footer.png'); ?>" alt="Storage Systems Glos" loading="lazy" />
+                    <?= $block->getChildHtml('cms.footer.column.info'); ?>
+                </div>
+            </div>
+            <?= $block->getChildHtml('cms.footer.column.one'); ?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        $('.c-footer-column__heading').click(function(){
+            if (typeof $(this).parent().data('content-type') !== 'undefined') {
+                if ($(this).parent().data('content-type') === 'html') {
+                    $(this).parent().parent().toggleClass('active');
+                } else {
+                    $(this).parent().toggleClass('active');
+                }
+            } else {
+                $(this).parent().toggleClass('active');
+            }
+        });
+    });
+</script>

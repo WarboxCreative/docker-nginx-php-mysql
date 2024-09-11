@@ -1,0 +1,86 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var Magento\LayeredNavigation\Block\Navigation $block */ ?>
+<?php
+$category = $block->getLayer()->getCurrentCategory();
+$listImage = $category->getListImage();
+?>
+
+<?php if ($block->canShowBlock()) : ?>
+    <?php if ($listImage) : ?>
+        <img class="c-filters__img" src="<?= $listImage; ?>" alt="<?= $category->getName(); ?>"/>
+    <?php endif; ?>
+
+    <div class="block filter c-filters">
+        <div class="block-title filter-title show-tablet">
+            <strong><?= $block->escapeHtml(__('Filter')) ?></strong>
+            <div>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="block-title filter-title">
+            <strong><?= $block->escapeHtml(__('Filter by')) ?></strong>
+        </div>
+
+        <div class="block-content filter-content">
+            <span class="show-tablet close-filters"></span>
+            <?= $block->getChildHtml('state') ?>
+            <?php $wrapOptions = false; ?>
+            <?php foreach ($block->getFilters() as $filter) : ?>
+        <?php if (!$wrapOptions) : ?>
+            <dl class="filter-options" id="narrow-by-list">
+                <?php $wrapOptions = true;
+                endif; ?>
+                <?php if ($filter->getItemsCount()) : ?>
+                    <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
+                    <dd class="filter-options-content"><?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?></dd>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if ($wrapOptions) : ?>
+            </dl>
+        <?php endif; ?>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require(['jquery'], function($) {
+            $(document).ready(function(){
+                $('.filter-options-title').on('click', function(){
+                    $(this).toggleClass('open');
+                    $(this).next().toggleClass('open');
+                });
+
+                if (window.innerWidth < 993) {
+                    $('.c-filters').clone(true, true).insertBefore('.c-toolbar__sorter');
+                }
+
+                $('.c-toolbar .c-filters .filter-title').on('click', function(){
+                    $('.c-toolbar .c-filters > .filter-content').show();
+                });
+
+                $('.c-toolbar .c-filters .close-filters').on('click', function(){
+                    $('.c-toolbar .c-filters > .filter-content').hide();
+                });
+            });
+
+            $(window).on('resize', function(){
+                if (window.innerWidth < 993) {
+                    if ($('.c-toolbar .c-filters').length < 1) {
+                        $('.c-filters').clone(true, true).insertBefore('.c-toolbar__sorter');
+                    }
+                } else {
+                    if ($('.c-toolbar .c-filters').length > 0) {
+                        $('.c-toolbar .c-filters').remove();
+                    }
+                }
+            });
+        });
+    </script>
+
+<?php endif; ?>

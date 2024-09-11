@@ -1,0 +1,44 @@
+<?php
+/** @var Warbox\Category\Block\Landing $block */
+$current    = $block->getCurrentCategory();
+$categories = $block->getCategoriesCollection();
+$image      = $current->getHeroImage() ?: ($current->getImageUrl() ?: '');
+?>
+
+
+<div class="c-landing__title">
+    <?= $block->getDescription(); ?>
+</div>
+
+<div class="c-landing__grid">
+    <?php if($categories) : ?>
+        <?php
+        $c = 1;
+        $loading = 'eager';
+        ?>
+        <?php /** @var \Magento\Catalog\Model\Category $category */ ?>
+        <?php foreach($categories as $category): ?>
+            <?php
+            if($c > 8) {
+                $loading = 'lazy';
+            }
+            $landingImage = $category->getLandingImage() ?: ($category->getImageUrl() ?: '');
+            ?>
+            <div class="c-landing__item">
+                <a href="<?= $category->getUrl(); ?>">
+                    <div class="c-landing__image">
+                        <img src="<?= $landingImage; ?>" alt="<?= $category->getName(); ?>" loading="<?= $loading; ?>"/>
+                    </div>
+                    <p>
+                        <span><?= $category->getName(); ?></span>
+                        <svg role="presentation" id="Icon_ArrowRight" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                            <path id="Path_241" data-name="Path 241" d="M24.875,38V15.181L35.356,25.662,38,23,23,8,8,23l2.644,2.644L21.125,15.181V38Z" transform="translate(47 1) rotate(90)" fill="#456D7D"/>
+                            <path id="Path_242" data-name="Path 242" d="M0,0H48V48H0Z" fill="none"/>
+                        </svg>
+                    </p>
+                </a>
+            </div>
+            <?php $c++; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>

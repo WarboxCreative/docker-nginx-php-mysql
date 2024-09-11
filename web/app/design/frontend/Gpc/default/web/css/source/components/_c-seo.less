@@ -1,0 +1,50 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-seo {
+        margin: 0 0 50px;
+
+        h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            margin-bottom: 1.5rem;
+            font-weight: @font-weight__regular;
+        }
+
+        p {
+            margin-bottom: 25px;
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .c-seo__wrapper {
+        .pagebuilder-column {
+            h2 {
+                font-size: 32px;
+            }
+
+            h3 {
+                font-size: 24px;
+            }
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+@media screen and (max-width: 767px) {
+    .c-seo {
+        h2 {
+            font-size: 32px;
+        }
+
+        h3 {
+            font-size: 24px;
+        }
+    }
+}

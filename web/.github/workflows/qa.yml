@@ -1,0 +1,152 @@
+name: CI
+on: [ pull_request ]
+env:
+  # Use the same PHP modules across each step
+  php_modules: 'bcmath, ctype, curl, dom, gd, hash, iconv, intl, mbstring, openssl, pdo_mysql, simplexml, soap, xsl, zip'
+jobs:
+  # The purpose of this job is to ensure that the vendor directory is up to date and can be shared with the different testing
+  # jobs. By putting this into a standalone job, rather than doing this for every testing job, we cut the total time for this
+  # to run in half. If in the future there are further dependencies that are required (i.e. anything for frontend testing) these
+  # should be generated and checked here as well
+  build:
+    name: Build Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest Ref
+        uses: actions/checkout@v4
+
+      # After getting the latest commit, we are going to fetch the old vendor directory from the cache. If the composer.lock
+      # file has not changed, then there will be a cache hit, and nothing else needs to be done for this job. If it has changed
+      # then we will install PHP, get the composer cache from the cache and install the updates. At the end of the job the new
+      # vendor file will be cached to be used in the subsequent jobs. Ideally, the cache action would have a way of checking for
+      # a hit with out downloading the entire directory, but this can be updated if the action provides that option in the future
+      - name: Cache Vendor Directory
+        id: cacheVendor
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ hashFiles('./composer.lock') }}
+
+      - name: Setup PHP
+        if: steps.cacheVendor.outputs.cache-hit != 'true' # Cache was hit, skip this step and the others
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: ${{ env.php_modules }}
+          tools: composer:v2
+          coverage: none # disables xdebug, can use other options
+
+      - name: Get Composer Cache Directory
+        if: steps.cacheVendor.outputs.cache-hit != 'true'
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v4
+        if: steps.cacheVendor.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('./composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Install composer dependencies
+        if: steps.cacheVendor.outputs.cache-hit != 'true'
+        uses: ./.github/actions/composer-setup
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH_JSON }}
+        with:
+          public_key: ${{ secrets.SSH_KEY_PUB }}
+          private_key: ${{ secrets.SSH_KEY }}
+
+
+  # The integration test require a full environment to be present, so this is setup in a different job to the static tests that just require the
+  # files to be present. In the future this can be used as a template for the acceptance tests as well.
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [build]
+    services:
+      elasticsearch:
+        image: elasticsearch:7.6.0
+        ports:
+          - 9200:9200
+        options: -e="discovery.type=single-node" --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=10
+
+    steps:
+      - name: Checkout latest Ref
+        uses: actions/checkout@v4
+
+      - name: Setup Mysql
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306 # Optional, default value is 3306. The port of host
+          container port: 3306 # Optional, default value is 3306. The port of container
+          character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+          mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
+          mysql database: 'magento' # Optional, default value is "test". The specified database which will be create
+          mysql root password: 'magento' # Required if "mysql user" is empty, default is empty. The root superuser password
+          mysql user: 'magento' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+          mysql password: 'magento' # Required if "mysql user" exists. The password for the "mysql user"
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: ${{ env.php_modules }}
+          tools: composer:v2
+          coverage: none # disables coverage for the moment, can look at PCOV in the future however I've hit issues with this
+
+      - name: Restore Vendor Directory
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ hashFiles('./composer.lock') }}
+
+      - name: Prepare config
+        run: cp dev/tests/integration/etc/install-config-mysql.php.dist dev/tests/integration/etc/install-config-mysql.php
+
+      - name: Run tests
+        run: |
+          cd dev/tests/integration;
+
+  # The static test just require the files to be present, so the job for them is quite simple. There are a couple of things to be
+  # aware of here. First the matrix, we want to run each test even if one of the others fail so we get a complete overview of the
+  # state of the PR / push. By pulling the vendor directory from the cache, the setup for this takes ~30 seconds, so I'm happy to
+  # run each test individually. This means that the `fail-fast` param __must__ be set to false, otherwise one failure will prevent
+  # the rest from running. Secondly, the `test-types` should have descriptive names, to allow the actions screen to be easy to read.
+  # These variables are handles in the [test-runner](../.github/test-runner.bash) script, and new tests should be added to the
+  # statement following the current format
+  static-tests:
+    name: Static Tests
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test-type:
+          - "Frontend PHP Code Sniffer"
+          - "Frontend Mess Detector"
+          - "Backend Copy Paste Detector"
+          - "Backend Mess Detector"
+          - "Backend Code Sniffer"
+
+    steps:
+      - name: Checkout latest Ref
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: ${{ env.php_modules }}
+          tools: composer:v2
+          coverage: none # disables xdebug, can use other options
+
+      - name: Restore Vendor Directory
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ hashFiles('./composer.lock') }}
+
+      - name: Run Tests
+        run: .github/test-runner.bash "${{ matrix.test-type }}"

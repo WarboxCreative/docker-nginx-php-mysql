@@ -1,0 +1,113 @@
+@color-primary: #456D7D;
+@color-secondary: #7AC2BE;
+
+@font-family-name__special: 'new-frank';
+@font-family__special: @font-family-name__special, @font-family__sans-serif;
+
+@root__font-size: 62.5%; // Defines ratio between root font size and base font size, 1rem = 10px
+@font-size-ratio__base: 1.6; // Defines ratio of the root font-size to the base font-size
+
+@font-size-unit: rem; // The unit to which most typography values will be converted by default
+@font-size-unit-ratio: unit(@root__font-size * 16/100); // Ratio of the root font-size to the font-size unit
+@font-size-unit-convert: true; // Controls whether font-size values are converted to the specified font-size unit
+
+@font-size__base: unit(@font-size-unit-ratio * @font-size-ratio__base, px); // 16px
+@h4__font-size: ceil((@font-size__base * 1.5)); // 24px
+
+@font-weight__bold: 700;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-faqs {
+        border-top: 2px solid @color-secondary;
+        padding-top: 24px;
+
+
+        h2 {
+            margin-bottom: 32px;
+        }
+    }
+
+    .accordion {
+        dt {
+            padding: 14px 0;
+            border-bottom: 1px solid #C0C5D1;
+
+            &.active {
+                border-bottom: none;
+            }
+
+            a {
+                font-family: @font-family__special;
+                font-size: @h4__font-size;
+                font-weight: @font-weight__bold;
+                color: @color-primary;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            span {
+                display: inline-block;
+                margin-right: 16px;
+            }
+
+            p {
+                display: inline-block;
+                margin: 0!important;
+            }
+        }
+
+        dd {
+            border-bottom: 1px solid #C0C5D1;
+            padding-bottom: 16px;
+        }
+    }
+}
+
+//
+//  Desktop > 1200px & < 1500px
+//  _____________________________________________
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
+    .accordion {
+        dt {
+            padding: 11px 0;
+
+            a {
+                font-size: 22px;
+            }
+        }
+    }
+
+    .c-faqs {
+        h2 {
+            font-size: 40px;
+        }
+    }
+}
+
+//
+//  Small Desktop < 1200px
+//  _____________________________________________
+@media screen and (max-width: 1200px) {
+    .c-faqs {
+        h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+//
+//  Tablet < 992px
+//  _____________________________________________
+@media screen and (max-width: 992px) {
+    .c-faqs {
+        h2 {
+            margin-bottom: 30px;
+        }
+    }
+}

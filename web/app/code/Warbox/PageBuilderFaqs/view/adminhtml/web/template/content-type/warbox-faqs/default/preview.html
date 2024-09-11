@@ -1,0 +1,87 @@
+<!-- preview.html -->
+<div attr="data.main.attributes"
+     ko-style="data.main.style"
+     class="pagebuilder-content-type"
+     css="data.main.css"
+     event="{ mouseover: onMouseOver, mouseout: onMouseOut }, mouseoverBubble: false">
+    <render args="getOptions().template" ></render>
+
+    <div class="c-faqs">
+        <h2 attr="data.faqs_heading.attributes"
+            ko-style="data.faqs_heading.style"
+            data-bind="liveEdit: { field: 'faqs_heading', placeholder: $t('Enter Heading') }"></h2>
+        <dl class="accordion">
+            <dt>
+                <a>
+                    <span>+</span>
+                    <p attr="data.faqs_question.attributes"
+                       ko-style="data.faqs_question.style"
+                       data-bind="liveEdit: { field: 'faqs_question', placeholder: $t('Enter Question 1') }"></p>
+                </a>
+            </dt>
+            <dd attr="data.faqs_answer.attributes"
+                ko-style="data.faqs_answer.style"
+                data-bind="liveEdit: { field: 'faqs_answer', placeholder: $t('Enter Answer 1') }"></dd>
+
+            <dt>
+                <a>
+                    <span>+</span>
+                    <p attr="data.faqs_question_two.attributes"
+                       ko-style="data.faqs_question_two.style"
+                       data-bind="liveEdit: { field: 'faqs_question_two', placeholder: $t('Enter Question 2') }"></p>
+                </a>
+            </dt>
+            <dd attr="data.faqs_answer_two.attributes"
+                ko-style="data.faqs_answer_two.style"
+                data-bind="liveEdit: { field: 'faqs_answer_two', placeholder: $t('Enter Answer 2') }"></dd>
+
+            <dt>
+                <a>
+                    <span>+</span>
+                    <p attr="data.faqs_question_three.attributes"
+                       ko-style="data.faqs_question_three.style"
+                       data-bind="liveEdit: { field: 'faqs_question_three', placeholder: $t('Enter Question 3') }"></p>
+                </a>
+            </dt>
+            <dd attr="data.faqs_answer_three.attributes"
+                ko-style="data.faqs_answer_three.style"
+                data-bind="liveEdit: { field: 'faqs_answer_three', placeholder: $t('Enter Answer 3') }"></dd>
+
+            <dt>
+                <a>
+                    <span>+</span>
+                    <p attr="data.faqs_question_four.attributes"
+                       ko-style="data.faqs_question_four.style"
+                       data-bind="liveEdit: { field: 'faqs_question_four', placeholder: $t('Enter Question 4') }"></p>
+                </a>
+            </dt>
+            <dd attr="data.faqs_answer_four.attributes"
+                ko-style="data.faqs_answer_four.style"
+                data-bind="liveEdit: { field: 'faqs_answer_four', placeholder: $t('Enter Answer 4') }"></dd>
+
+            <dt>
+                <a>
+                    <span>+</span>
+                    <p attr="data.faqs_question_five.attributes"
+                       ko-style="data.faqs_question_five.style"
+                       data-bind="liveEdit: { field: 'faqs_question_five', placeholder: $t('Enter Question 5') }"></p>
+                </a>
+            </dt>
+            <dd attr="data.faqs_answer_five.attributes"
+                ko-style="data.faqs_answer_five.style"
+                data-bind="liveEdit: { field: 'faqs_answer_five', placeholder: $t('Enter Answer 5') }"></dd>
+
+            <dt>
+                <a>
+                    <span>+</span>
+                    <p attr="data.faqs_question_six.attributes"
+                       ko-style="data.faqs_question_six.style"
+                       data-bind="liveEdit: { field: 'faqs_question_six', placeholder: $t('Enter Question 6') }"></p>
+                </a>
+            </dt>
+            <dd attr="data.faqs_answer_six.attributes"
+                ko-style="data.faqs_answer_six.style"
+                data-bind="liveEdit: { field: 'faqs_answer_six', placeholder: $t('Enter Answer 6') }"></dd>
+        </dl>
+    </div>
+</div>

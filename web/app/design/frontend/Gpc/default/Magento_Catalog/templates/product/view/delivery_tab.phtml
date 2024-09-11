@@ -1,0 +1,7 @@
+<?php
+/** @var Magento\Catalog\Block\Product\View $block */
+$product = $block->getProduct();
+echo $this->getLayout()
+    ->createBlock('Magento\Cms\Block\Block')
+    ->setBlockId('delivery-instructions')
+    ->toHtml();

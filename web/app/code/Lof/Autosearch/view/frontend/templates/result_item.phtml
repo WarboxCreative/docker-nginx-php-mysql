@@ -1,0 +1,75 @@
+<?php
+use Magento\Framework\App\Action\Action;
+$_helper      = $this->helper('Magento\Catalog\Helper\Output');
+$_imgHelper   = $this->helper('Lof\Autosearch\Helper\Image');
+$data         = $this->helper('Lof\Autosearch\Helper\Data');
+$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+$productName  = $product->getName();
+$productName  = strip_tags(html_entity_decode($productName, ENT_QUOTES, 'UTF-8'));
+$productName  = str_replace($queryText, '<span>' . $queryText . '</span>', $productName);
+$image_type = $data->getConfig('general/image_type');
+$image_type = $image_type ?: 'category_page_grid';
+?>
+<div class="product">
+	<?php if($showImage) : ?>
+		<?php $_image = $_imgHelper->getImg($product, $thumbW, $thumbH, $image_type);?>
+		<div class="image">
+			<a href="<?= $product->getProductUrl() ?>" title="<?= $_image->getLabel() ?>" class="product-item-photo">
+				<img src="<?= $_image->getUrl(); ?>" alt="<?= $_image->getLabel() ?>" />
+			</a>
+		</div>
+	<?php endif; ?>
+	<div class="info">
+		<div class="name">
+			<a href="<?= $product->getProductUrl() ?>">
+				<?= $productName; ?>
+			</a>
+		</div>
+		<?php if($showSku): ?>
+            <div class="sku"><?= __('SKU: '); ?><?= $product->getSku(); ?></div>
+        <?php endif; ?>
+
+		<?php if($showReview) : ?>
+            <div class="review"><?= $block->getReviewsSummaryHtml($product, $templateType, true); ?></div>
+        <?php endif; ?>
+		<?php $shortDescription = $product->getShortDescription(); ?>
+		<?php if($showDes && $shortDescription): ?>
+			<div class="description">
+                <?php $short_description = $data->subString($shortDescription, $shortMax, '...'); ?>
+			    <?= $short_description; ?>
+            </div>
+		<?php endif; ?>
+	</div>
+
+    <?php if($showPrice) : ?>
+        <div class="price">
+            <?= $block->getProductPrice($product); ?>
+        </div>
+    <?php endif; ?>
+
+	<?php if($showAddtocart): ?>
+		<?php if ($product->isSaleable()): ?>
+			<?php $postParams = $block->getAddToCartPostParams($product); ?>
+			<?php if ($product->getTypeInstance()->hasRequiredOptions($product)): ?>
+				<button class="action tocart primary" data-mage-init='{"redirectUrl": {"url": "<?= /* @escapeNotVerified */ $block->getAddToCartUrl($product) ?>"}}' type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+					<span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+				</button>
+			<?php else: ?>
+				<?php $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+				$postData = $postDataHelper->getPostData($block->getAddToCartUrl($product), ['product' => $product->getEntityId()])
+				?>
+				<button class="action tocart primary"
+						data-post='<?= /* @escapeNotVerified */ $postData; ?>'
+						type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+					<span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+				</button>
+			<?php endif; ?>
+		<?php else: ?>
+			<?php if ($product->getIsSalable()): ?>
+				<div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+			<?php else: ?>
+				<div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+			<?php endif; ?>
+		<?php endif; ?>
+	<?php endif; ?>
+</div>

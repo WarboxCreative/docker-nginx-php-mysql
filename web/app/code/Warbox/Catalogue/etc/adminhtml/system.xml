@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="warbox" translate="label" sortOrder="10">
+            <label>Catalogue options</label>
+        </tab>
+        <section id="catalogue" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Catalogue configuration</label>
+            <tab>warbox</tab>
+            <resource>Warbox_Catalogue::catalogue_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="image" translate="label" type="image" sortOrder="20" showInDefault="1" showInWebsite="1">
+                    <label>Upload Image</label>
+                    <backend_model>Warbox\Catalogue\Model\Config\Backend\Image</backend_model>
+                    <base_url type="media">catalogue</base_url>
+                </field>
+
+                <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1">
+                    <label>Title</label>
+                    <comment><![CDATA[If nothing is entered, the default will show: Request a <span>FREE</span> 22/23 catalogue. The <span> tags need to remain in place for styling purposes]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

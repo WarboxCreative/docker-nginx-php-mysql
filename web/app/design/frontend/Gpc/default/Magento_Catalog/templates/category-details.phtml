@@ -1,0 +1,70 @@
+<?php /** @var Warbox\Category\Block\Landing $block */ ?>
+<?php
+$categories = $block->getCategoriesCollection();
+$pageType   = $block->getRequest()->getFullActionName();
+$pageArr    = ['catalogsearch_advanced_result','catalogsearch_result_index'];
+$placeholder = $block->getViewFileUrl('images/silhouette.png');
+
+?>
+
+<div class="c-catalog-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <?php echo $block->getChildHtml('page.main.title'); ?>
+                <?php echo $block->getChildHtml('category.description'); ?>
+                <?php if($categories && !in_array($pageType, $pageArr)) : ?>
+                    <div class="c-subcategories">
+                        <?php /** @var Magento\Catalog\Model\Category $category */ ?>
+                        <div class="owl-carousel">
+                            <?php foreach($categories as $category): ?>
+                                <?php
+                                $landingImage = $category->getIconImage() ?: $placeholder;
+                                ?>
+                                <div class="c-subcategories__item">
+                                    <a href="<?= $category->getUrl(); ?>">
+                                        <div class="c-subcategories__image">
+                                            <img src="<?= $landingImage; ?>" alt="<?= $category->getName(); ?>" loading="lazy"/>
+                                        </div>
+                                        <p><?= $category->getName(); ?></p>
+                                    </a>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php if($categories) : ?>
+    <script type="text/javascript">
+        require(['jquery','owl'], function($, owlCarousel) {
+            $(document).ready(function(){
+                $(".c-subcategories .owl-carousel").owlCarousel({
+                    loop: false,
+                    responsiveClass: true,
+                    lazyLoad:true,
+                    nav: true,
+                    center: false,
+                    dots: true,
+                    margin: 20,
+                    responsive: {
+                        0: {
+                            items: 2,
+                            dots: false,
+                        },
+                        767: {
+                            items: 4,
+                            dots: true,
+                        },
+                        1500: {
+                            items: 6
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+<?php endif; ?>

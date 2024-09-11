@@ -1,0 +1,200 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-catalogue {
+        height: 195px;
+        display: flex;
+        align-items: center;
+        margin: 24px 0 0;
+
+        &__inner {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            background: @color-secondary;
+            width: 100%;
+            padding: 45px 3%;
+
+            img {
+                position: absolute;
+                height: 195px;
+                left: calc(~'4% + 30px');
+                top: -25%;
+            }
+        }
+
+        &__title {
+            color: @color-white;
+            font-family: @font-family__special;
+            font-size: 30px;
+            font-weight: @font-weight__bold;
+            margin: 0;
+
+            span {
+                color: @color-white;
+            }
+        }
+
+        &__form {
+            margin-left: 2%;
+            width: 42%;
+
+            form {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                width: 100%;
+
+                input {
+                    margin-right: 15px;
+                    width: 70%;
+                }
+
+                button {
+                    padding: 1.85rem 1.5rem;
+                }
+            }
+        }
+
+        div.mage-error {
+            position: absolute;
+            top: 15px;
+        }
+    }
+}
+
+//
+//  Desktop > 1200px & < 1500px
+//  _____________________________________________
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
+    .c-catalogue {
+        &__title {
+            width: 30%;
+        }
+
+        &__form {
+            margin-left: 1%;
+            width: 45%;
+
+            form {
+                input {
+                    width: 65%;
+                }
+            }
+        }
+
+        &__inner {
+            img {
+                top: -5%;
+            }
+        }
+    }
+}
+
+//
+//  Small Desktop < 1200px
+//  _____________________________________________
+@media screen and (max-width: 1200px) {
+    .c-catalogue {
+        &__inner {
+            padding: 30px 3%;
+
+            img {
+                left: 0;
+                top: -20%;
+            }
+        }
+
+        &__title {
+            width: 30%;
+        }
+
+        &__form {
+            width: 50%;
+
+            form {
+                input {
+                    width: 63%;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet < 992px
+//  _____________________________________________
+@media screen and (max-width: 992px) {
+    .c-catalogue {
+        &__inner {
+            flex-direction: column;
+            align-items: self-end;
+
+            img {
+                top: -25%;
+            }
+        }
+
+        &__title {
+            font-size: @h4__font-size;
+            width: 70%;
+            margin-bottom: 0.5rem;
+        }
+
+        &__form {
+            width: 70%;
+        }
+
+        div.mage-error {
+            top: initial;
+            bottom: 5px;
+        }
+    }
+}
+
+//
+//  Mobile < 992px
+//  _____________________________________________
+@media screen and (max-width: 768px) {
+    .c-catalogue {
+        height: auto;
+
+        &__inner {
+            img {
+                top: -15px;
+                left: 15px;
+                height: auto;
+                width: 25%;
+                max-height: 132px;
+                max-width: 107px;
+            }
+        }
+
+        &__title {
+            margin-bottom: 3rem;
+        }
+
+        &__form {
+            width: 100%;
+            margin: 0;
+
+            form {
+                justify-content: flex-end;
+
+                input {
+                    width: 100%;
+                    margin-bottom: 1rem;
+                    margin-right: 0;
+                }
+            }
+        }
+
+        div.mage-error {
+            position: static;
+            margin-right: 1rem;
+        }
+    }
+}

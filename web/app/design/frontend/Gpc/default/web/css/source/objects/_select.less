@@ -1,0 +1,45 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .custom-select {
+        position: relative;
+        display: block;
+
+        &::after {
+            .lib-fa-solid(@_font-awesome-icon: @fa-var-sort-down);
+            position: absolute;
+            top: calc(~'50% - .3rem');
+            right: 1rem;
+            line-height: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        select {
+            .lib-font-size(14);
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            outline: none;
+            padding: .6em .8em .5em .8em;
+        }
+
+        select::-ms-expand {
+            display: none;
+        }
+    }
+
+    @supports ( -webkit-appearance: none ) or ( appearance: none )
+		or ( ( -moz-appearance: none ) and ( mask-type: alpha ) ) {
+        .custom-select {
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+        }
+    }
+}

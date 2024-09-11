@@ -1,0 +1,95 @@
+//
+//  Variables
+//  _____________________________________________
+@overview-banner__background-color: @color-light-grey;
+@overview-banner__text-color: @color-black;
+@overview-banner__link-color: @color-black;
+@overview-banner__border: .5rem solid @color-grey;
+
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-overview-banner {
+        background: @overview-banner__background-color;
+        border-bottom: @overview-banner__border;
+        border-top: @overview-banner__border;
+        color: @overview-banner__text-color;
+        padding: 2rem;
+        text-align: center;
+
+        &--deep {
+            padding: 4.5rem;
+        }
+
+        &__title {
+            .lib-font-size(20);
+            color: @overview-banner__text-color;
+            display: block;
+            margin: 0 0 2rem 0;
+        }
+
+        &__desc {
+            .lib-font-size(16);
+            display: block;
+            margin: 0 0 2rem 0;
+        }
+
+        &__link {
+            .lib-font-size(16);
+            color: @overview-banner__link-color;
+            display: block;
+            font-weight: @font-weight__heavier;
+            text-transform: uppercase;
+
+            .hocus({
+                color: darken(@overview-banner__link-color, 10%);
+            });
+        }
+    }
+}
+
+//
+//  Tablet
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .c-overview-banner {
+        padding: 3.5rem;
+
+        &--deep {
+            padding: 9.5rem;
+        }
+
+        &__title {
+            .lib-font-size(25);
+        }
+
+        &__link,
+        &__desc {
+            .lib-font-size(18);
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .c-overview-banner {
+        padding: 5rem;
+
+        &--deep {
+            padding: 13.5rem 2rem 11.5rem 2rem;
+        }
+
+        &__title {
+            .lib-font-size(35);
+        }
+    }
+}
+
+//
+//  Large Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+}

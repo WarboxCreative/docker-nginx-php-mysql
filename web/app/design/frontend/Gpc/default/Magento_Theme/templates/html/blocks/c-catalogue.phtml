@@ -1,0 +1,18 @@
+<?php
+/** @var Warbox\Form\Block\Form $block */
+/** @var Magento\Framework\Escaper $escaper */
+?>
+
+<div class="c-catalogue">
+    <div class="c-catalogue__inner">
+        <img class="ignore-webp" src="<?= $block->getImage(); ?>" alt="Storage Systems Glos" loading="lazy"/>
+        <p class="c-catalogue__title"><?= $block->getTitle(); ?></p>
+        <div class="c-catalogue__form">
+            <form action="<?= $block->getFormAction('catalogue'); ?>" method="post" data-mage-init='{"validation":{}}'>
+                <input name="form_key" type="hidden" value="<?= $block->getFormKey(); ?>">
+                <input type="text" name="email" value="" placeholder="Enter email" required="required" data-validate="{required:true, 'validate-email':true}"/>
+                <button class="c-button c-button--secondary" type="submit">Send Request</button>
+            </form>
+        </div>
+    </div>
+</div>

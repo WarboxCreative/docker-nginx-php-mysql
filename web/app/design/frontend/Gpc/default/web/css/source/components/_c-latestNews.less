@@ -1,0 +1,180 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .c-latestNews {
+        padding: 64px 0;
+
+        &__wrapper {
+            background: @color-grey;
+            margin: 0 0 50px;
+        }
+
+        &__title {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            margin-bottom: 20px;
+
+            h2 {
+                margin-bottom: 0;
+                color: @color-secondary;
+            }
+            a {
+                font-size: 20px;
+                text-decoration: underline;
+                margin-left: 24px;
+                color: @color-primary;
+            }
+        }
+
+        &__item {
+            &> a {
+                text-decoration: underline;
+                color: @color-primary;
+            }
+        }
+
+        &__image {
+            position: relative;
+            margin-bottom: 16px;
+
+            img {
+                width: 100%;
+            }
+            span {
+                position: absolute;
+                bottom: 20px;
+                left: 24px;
+                font-family: @font-family__special;
+                font-size: 30px;
+                line-height: 1.1;
+                color: @color-white;
+                font-weight: @font-weight__bold;
+                width: 70%;
+            }
+        }
+
+        &__date {
+            font-size: @font-size__s;
+            color: @color-primary;
+        }
+
+        &__intro {
+            margin-bottom: 16px;
+            color: @color-black;
+        }
+
+        .owl-carousel {
+            position: relative;
+        }
+
+        .owl-nav {
+            display: flex!important;
+            position: absolute;
+            top: -70px;
+            right: 0;
+
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 48px;
+                height: 48px;
+                opacity: 1!important;
+                cursor: pointer;
+                pointer-events: auto;
+                background: @color-primary!important;
+
+                &:first-of-type {
+                    margin-right: 16px;
+
+                    &:before {
+                        content: '\f060';
+                    }
+                }
+
+                &:before {
+                    content: '\f061';
+                    font-family: 'Font Awesome 5 Pro', serif;
+                    color: @color-white;
+                    font-size: 32px;
+                }
+
+                span {
+                    display: none;
+                }
+
+                &:hover {
+                    background: @color-primary!important;
+
+                    &:before {
+                        color: @color-black;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//  Desktop > 1200px & < 1800px
+//  _____________________________________________
+@media screen and (min-width: 1200px) and (max-width: 1800px) {
+    .c-latestNews {
+        &__image {
+            span {
+                font-size: 30px;
+                width: 85%;
+            }
+        }
+    }
+}
+
+//
+//  Tablet
+//  _____________________________________________
+@media screen and (max-width: 992px) {
+    .c-latestNews {
+        &__image {
+            span {
+                font-size: 28px;
+            }
+        }
+
+        &__title {
+            h2 {
+                font-size: 32px;
+            }
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+@media screen and (max-width: 767px) {
+    .c-latestNews {
+        &__wrapper {
+            margin: 0;
+        }
+
+        &__title {
+            h2 {
+                width: 100%;
+                font-size: 32px;
+                margin-bottom: 35px;
+            }
+
+            a {
+                margin-left: 0;
+            }
+        }
+
+        &__image {
+            span {
+                font-size: 24px;
+            }
+        }
+    }
+}

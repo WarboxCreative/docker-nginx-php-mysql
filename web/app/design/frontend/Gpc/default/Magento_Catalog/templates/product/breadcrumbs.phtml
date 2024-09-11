@@ -1,0 +1,32 @@
+<?php
+/** @var \Warbox\Breadcrumbs\Block\Breadcrumbs $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$crumbs = $block->getCrumbs();
+?>
+
+<?php if(!empty($crumbs)): ?>
+    <div class="breadcrumbs">
+        <ul class="items">
+            <?php foreach($crumbs as $crumbName => $crumbInfo): ?>
+
+                <?php
+                $label = $escaper->escapeHtml($crumbInfo['label']);
+                $link  = $escaper->escapeUrl($crumbInfo['link']);
+                ?>
+
+                <li class="item <?= $escaper->escapeHtml($crumbName); ?>">
+                    <?php if($link): ?>
+                        <a href="<?= $link; ?>"
+                           title="<?= $escaper->escapeHtml($crumbInfo['title']); ?>">
+                            <?= $label; ?>
+                        </a>
+                    <?php elseif($crumbInfo['last']): ?>
+                        <strong><?= $label; ?></strong>
+                    <?php else: ?>
+                        <?= $label; ?>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>

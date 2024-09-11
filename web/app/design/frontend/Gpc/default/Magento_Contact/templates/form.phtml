@@ -1,0 +1,91 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var Magento\Contact\Block\ContactForm $block */
+/** @var Magento\Contact\ViewModel\UserDataProvider $viewModel */
+
+$viewModel = $block->getViewModel();
+?>
+<form class="form contact"
+      action="<?= $block->escapeUrl($block->getFormAction()) ?>"
+      id="contact-form"
+      method="post"
+      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <legend class="legend">
+            If you have any questions, comments or suggestions we would love to hear from you.
+        </legend>
+
+        <div class="field name required">
+            <label class="label" for="name"><?= $block->escapeHtml(__('Full Name')) ?></label>
+            <div class="control">
+                <input name="name"
+                       id="name"
+                       title="<?= $block->escapeHtmlAttr(__('Full Name')) ?>"
+                       value="<?= $block->escapeHtmlAttr($viewModel->getUserName()) ?>"
+                       class="input-text"
+                       type="text"
+                       placeholder="Enter your name"
+                       data-validate="{required:true}"/>
+            </div>
+        </div>
+        <div class="field email required">
+            <label class="label" for="email"><?= $block->escapeHtml(__('Email')) ?></label>
+            <div class="control">
+                <input name="email"
+                       id="email"
+                       title="<?= $block->escapeHtmlAttr(__('Email')) ?>"
+                       value="<?= $block->escapeHtmlAttr($viewModel->getUserEmail()) ?>"
+                       class="input-text"
+                       type="email"
+                       placeholder="Enter your email"
+                       data-validate="{required:true, 'validate-email':true}"
+                       data-mage-init='{"mage/trim-input":{}}'
+                />
+            </div>
+        </div>
+        <div class="field comment required">
+            <label class="label" for="comment">
+                <?= $block->escapeHtml(__('Message')) ?>
+            </label>
+            <div class="control">
+                <textarea name="comment"
+                          id="comment"
+                          title="<?= $block->escapeHtmlAttr(__('Enter your message')) ?>"
+                          class="input-text"
+                          cols="5"
+                          rows="5"
+                          placeholder="Enter your message"
+                          data-validate="{required:true}"
+                ><?= $block->escapeHtml($viewModel->getUserComment()) ?></textarea>
+            </div>
+        </div>
+        <div class="actions-toolbar">
+            <span>*Required Fields</span>
+            <?= $block->getChildHtml('form.additional.info') ?>
+
+            <div class="primary">
+                <input type="hidden" name="hideit" id="hideit" value="" />
+                <button type="submit" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>" class="action submit c-button c-button--primary">
+                    <?= $block->escapeHtml(__('Submit')) ?>
+                </button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Customer/js/block-submit-on-send": {
+                "formId": "contact-form"
+            }
+        }
+    }
+</script>

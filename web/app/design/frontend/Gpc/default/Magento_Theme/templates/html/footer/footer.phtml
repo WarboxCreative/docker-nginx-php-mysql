@@ -1,0 +1,29 @@
+<?php /** @var Magento\Framework\View\Element\Template $block */ ?>
+
+<div class="container c-footer__main" data-mage-init='{ "collapsibleOnMobile": { "targetElement": ".c-footer-column", "openElement": false } }'>
+    <div class="row">
+        <div class="col-12">
+            <?php echo $block->getChildHtml('footer.column'); ?>
+        </div>
+    </div>
+</div>
+
+<div class="c-footer__copy">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <?php echo $block->getChildHtml('footer.copyright'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        $(document).ready(function(){
+            const origContent = $('.copyright').html();
+            const currentYear = new Date().getFullYear();
+            $('.copyright').html(origContent.replace('2022', currentYear));
+        });
+    });
+</script>
